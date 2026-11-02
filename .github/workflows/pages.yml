@@ -1,0 +1,57 @@
+name: Publish reviewed static site
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Full reviewed site commit SHA on main
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  artifact:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out publication tooling
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate exact nominated commit
+        env:
+          SITE_COMMIT: ${{ inputs.commit }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SITE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git cat-file -t "$SITE_COMMIT")" = commit
+          git merge-base --is-ancestor "$SITE_COMMIT" origin/main
+          git checkout --detach "$SITE_COMMIT"
+          test "$(git rev-parse HEAD)" = "$SITE_COMMIT"
+      - name: Verify manifest and package existing static bytes
+        run: python3 scripts/package.py
+      - name: Upload reviewed static artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: _site
+  deploy:
+    needs: artifact
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy exact uploaded artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "canonical_origin": "https://writfold.dev",
+  "product_source_commit": "31b27f8b4577b6a3c692597a7da85eaa12387e5f",
+  "product_source_visibility": "private",
+  "architecture_revision": 4,
+  "files": {
+    ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "404.html": "8ee04daa331f82a9713b9b8ba48a7921d3e812a608fc747a6150dac30a54271a",
+    "CNAME": "a37115b9fc6562ae56cd88bcdfaede70587a01428a9caf1f807106cc13fde3c6",
+    "index.html": "bd9d55800afa4a692f4e71214861e8b0d8c6b4129a2743e29a489b820524f0ff",
+    "docs.html": "5dcd3edb5e4cb1a36ede9d7ee947ee7e12facf82968c2790ee85d41af2a8f010",
+    "assets/favicon.svg": "09df37a9c7184b1427d4cb3dbb79f1df483d24aa8d3de33c50509f5f79440c7c",
+    "assets/site.css": "cc8c044d4d04dfc5a77c2ee3c8d90817efbfe1dcfe49be767b0c7fc64bfd61f2",
+    "assets/writfold-icon-dark.svg": "3e3b3a02ec657022033886191173e3d952fd17a6688d1cc30f99e4ba67cb80f5",
+    "assets/writfold-icon.svg": "8fcfb53dbed16fc8239657eaa5577f5afefdba7388642d48107f2a7027553fee"
+  }
+}

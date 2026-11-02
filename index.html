@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Writfold — Knowledge with a record.</title>
+  <meta name="description" content="A local knowledge engine for agents, in development. Exact evidence, explicit approval and reproducible context — without confusing a citation with truth.">
+  <link rel="canonical" href="https://writfold.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="Writfold — Knowledge with a record.">
+  <meta property="og:description" content="Keep the context. Know what supports it. A local knowledge engine for agents, in development.">
+  <meta property="og:url" content="https://writfold.dev/">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
+    <nav aria-label="Main navigation"><a href="#start">Start</a><a href="#scribes">Scribes</a><a href="/docs.html">Guide</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">A local knowledge engine for agents</p>
+      <h1 id="hero-title">Keep the context.<br><span>Know what supports it.</span></h1>
+      <p class="lede">Your next session should inherit more than a summary. Writfold is being built to keep the evidence, history and approval behind your knowledge attached — and open to inspection.</p>
+      <div class="actions"><a class="button" href="#start">Explore the workflow <span aria-hidden="true">↓</span></a><a class="text-action" href="/docs.html">Read the project guide <span aria-hidden="true">→</span></a></div>
+      <p class="maturity"><span class="badge">In development</span> Local-first · Linux x86_64 / WSL2 target</p>
+      <p class="fine-print">No installable Rust product yet. This is the direction, not a release announcement.</p>
+    </section>
+
+    <section class="section" aria-labelledby="benefits-title">
+      <div class="section-heading"><p class="eyebrow">Knowledge with a record.</p><h2 id="benefits-title">More than an answer to remember.</h2><p>Three goals guide the implementation. The end-to-end workflows are still planned.</p></div>
+      <div class="three-up">
+        <article class="capability"><span class="number" aria-hidden="true">01 /</span><h3>Keep the evidence.</h3><p>Retain the source, exact revision and bytes behind a claim. A reference should lead back to what was actually read, not just where it once lived.</p><a href="#evidence">Evidence, not automatic truth <span aria-hidden="true">↓</span></a></article>
+        <article class="capability"><span class="number" aria-hidden="true">02 /</span><h3>Review what changes.</h3><p>Propose knowledge before admitting it. Keep approval and publication explicit, with an inspectable history of what changed and who authorized it.</p><a href="#start">Follow the intended workflow <span aria-hidden="true">↓</span></a></article>
+        <article class="capability"><span class="number" aria-hidden="true">03 /</span><h3>Carry context forward.</h3><p>Ask for a bounded view of a named context, with supporting evidence, contradictions and gaps. Keep work and personal authority separate.</p><a href="#context">Understand context boundaries <span aria-hidden="true">↓</span></a></article>
+      </div>
+    </section>
+
+    <section id="start" class="section" aria-labelledby="start-title">
+      <div class="section-heading"><p class="eyebrow">Start with one source</p><h2 id="start-title">From a useful note to inspectable context.</h2><p>This is the intended local workflow, not an executable quickstart. Production commands and a tested demo will accompany a qualified release.</p></div>
+      <div class="workflow-layout">
+        <ol class="workflow">
+          <li><div><h3>Choose a named context.</h3><p>Decide which project's knowledge and authorization policy you are working within.</p></div></li>
+          <li><div><h3>Capture the source.</h3><p>Retain exact evidence and its identity. Acquisition records what was obtained; it does not approve a claim.</p></div></li>
+          <li><div><h3>Propose, then approve.</h3><p>Connect a proposed claim to evidence. Assess support and contrary evidence separately, then obtain the approval required by that context.</p></div></li>
+          <li><div><h3>Publish and retrieve.</h3><p>Publish the authorized change with recoverable history. Retrieve a bounded context that keeps its evidence and unresolved gaps visible.</p></div></li>
+        </ol>
+        <aside id="evidence" class="principle" aria-labelledby="evidence-title"><p class="eyebrow">The important distinction</p><h3 id="evidence-title">A citation is not approval.</h3><p>Finding a document does not establish that every statement in it is true. Supporting evidence, contrary evidence, freshness, validation, authority and publication are independent questions.</p><div class="rule"></div><h3 id="context">A context is a boundary.</h3><p>Evidence or approval in one context must not silently authorize a claim in another. A shared source is not shared permission.</p><p class="fine-print">These are product contracts. Complete Rust workflow qualification remains open.</p></aside>
+      </div>
+    </section>
+
+    <section id="scribes" class="section" aria-labelledby="scribes-title">
+      <div class="section-heading"><p class="eyebrow">Scribes · planned integration model</p><h2 id="scribes-title">Connect a tool with a small script.</h2><p>A scribe is intended to help Writfold find and read a source: a repository, a document service or your team's tools. Writfold will manage acquisition and retain the returned evidence as an immutable record called a <em>writ</em>.</p></div>
+      <ol class="flow" aria-label="Planned evidence acquisition flow"><li><strong>Source</strong><span>Your tools &amp; documents</span></li><li><strong>Scribe</strong><span>Acquire evidence</span></li><li><strong>Writ</strong><span>Retain exact evidence</span></li><li><strong>Proposal</strong><span>Review under policy</span></li></ol>
+      <p class="boundary">Scribes acquire evidence; approval stays with your knowledge policy.</p>
+      <p class="fine-print">The production scribe host, SDK and catalog workflow are not released. Generated scripts are not automatically trusted. No storage-backend integration is claimed by this site.</p>
+      <a class="text-action" href="/docs.html#scribes">Read about scribes <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section id="status" class="section" aria-labelledby="status-title">
+      <div class="section-heading"><p class="eyebrow">Work in progress</p><h2 id="status-title">A real foundation. Not a finished product.</h2><p>Writfold is the Rust successor to <a href="https://github.com/tknawara/kctx">kctx</a>. The reference history is preserved; historical Python behavior is not a claim that the Rust product is complete.</p></div>
+      <div class="status-grid">
+        <article class="status-card"><p class="status-label">Implemented foundations</p><h3>Domain, wire &amp; runtime boundaries</h3><p>The workspace includes checked nominal identities, bounded typed JSON, canonical signed operations, protocol admission, filesystem primitives and byte-preserving source syntax.</p><p>The development <code>writfold-ref</code> host supports conformance work. It is not the production CLI.</p></article>
+        <article class="status-card"><p class="status-label pending">Still being qualified</p><h3>Semantics &amp; complete workflows</h3><p>Broader Rust semantic proofs, operational protocols, storage, publication and recovery, scribes, production CLI and release packaging remain open.</p><p>There is no production install command or downloadable release advertised here.</p></article>
+      </div>
+      <div class="assurance-note"><strong>Evidence has a scope.</strong><p>Selected foundations have source-bound development evidence. Those results do not qualify the new Omnigraph backend or complete Rust workflows. The implementation and detailed records are currently private; no public release assurance package is available yet.</p><a href="/docs.html#assurance">Read the status and assurance boundaries <span aria-hidden="true">→</span></a></div>
+    </section>
+
+    <section id="docs" class="section docs" aria-labelledby="docs-title">
+      <div class="section-heading"><p class="eyebrow">Go a little deeper</p><h2 id="docs-title">Understand the direction. Follow the progress.</h2><p>A public guide to the model and architecture taking shape. Installation, quickstart and recovery instructions will accompany a qualified release.</p></div>
+      <div class="doc-links">
+        <a href="/docs.html"><span><strong>Project guide</strong><small>The model, active platform and development direction</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html#evidence"><span><strong>Evidence &amp; context</strong><small>What a source supports, and what it cannot authorize</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html#scribes"><span><strong>Scribes &amp; writs</strong><small>The planned acquisition and immutable evidence model</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html#architecture"><span><strong>Architecture direction</strong><small>Rust, the Omnigraph companion and reading views</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html#assurance"><span><strong>Status &amp; assurance</strong><small>Implemented foundations, remaining work and claim boundaries</small></span><span aria-hidden="true">→</span></a>
+      </div>
+      <p class="fine-print">The updated architecture targets Omnigraph as the primary local storage companion, with Markdown and Obsidian reading views. These integrations are planned, not shipped.</p>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><div><a class="footer-name" href="/">writfold</a><p>Knowledge with a record.</p></div><nav aria-label="Footer navigation"><a href="/docs.html">Project guide</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a><a href="#status">Project status</a></nav><p class="footer-note">No accounts. No analytics. Just a static introduction to a local-first project.</p></footer>
+</body>
+</html>
