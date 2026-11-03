@@ -1,6 +1,6 @@
 # Writfold website
 
-A deliberately small, pre-release product introduction for **writfold.dev**. Plain HTML and CSS, no JavaScript, external fonts, analytics, dependency installation or product build. The rendered source files are the publication input. Folded-W assets are unchanged copies from Writfold's supplied brand handover.
+A deliberately small, pre-release product introduction for **writfold.dev**. Plain HTML and CSS with a small local theme script; no external fonts, analytics, dependency installation or product build. The rendered source files are the publication input. Folded-W assets are unchanged copies from Writfold's supplied brand handover.
 
 ## Serve locally
 
@@ -25,7 +25,7 @@ python3 -m http.server 8081 --bind 127.0.0.1 --directory _site
 
 `_site/` must not already exist: preserve or remove an earlier artifact explicitly. The packaging script only copies a fixed public allowlist and its SHA-256 manifest. It does not render docs, run Rust, fetch content, or copy repository/private files. Without `--refresh-manifest`, it refuses bytes that differ from the committed manifest. Review manifest changes with the source and commit both. The initial manifest is prepared, not a verification receipt.
 
-Check 360/768/1440px layouts, OS light/dark modes, text zoom, keyboard skip link and focus, all main/footer anchors, every external link, the favicon and `/404.html`. Check the packaged artifact, not only the working tree. The initial desktop/mobile light/dark browser smoke exercised overflow, images, anchor navigation and keyboard skip focus; it is not product qualification.
+Check 360/768/1440px layouts, OS light/dark modes, System/Light/Paper Dark choices and saved overrides across home, guide and missing pages, disabled JavaScript, text zoom, keyboard skip link and focus, all main/footer anchors, every external link, the favicon and `/404.html`. Check the packaged artifact, not only the working tree. The initial desktop/mobile light/dark browser smoke exercised overflow, images, anchor navigation and keyboard skip focus; it is not product qualification.
 
 ## Publish with GitHub Pages
 
@@ -39,6 +39,6 @@ Publication is a separate authorized operation. Inspect the GitHub Actions deplo
 
 ## Design and content
 
-Six compact content sections: introduction, product goals, intended workflow, scribes, implementation status, and documentation. The folded mark, navy/off-white surfaces and teal evidence accent are Writfold's. Omnigraph's public site informed the editorial spacing, crisp monospace metadata, hairline modular structure and explanation through a process sequence; no Omnigraph copy, logo, assets or interactive layout is reproduced. The site follows the reader's system theme and does not require a theme-control script.
+Six compact content sections: introduction, product goals, intended workflow, scribes, implementation status, and documentation. The folded mark, navy/off-white surfaces and teal evidence accent are Writfold's. Omnigraph's public site informed the editorial spacing, crisp monospace metadata, hairline modular structure and explanation through a process sequence; no Omnigraph copy, logo, assets or interactive layout is reproduced. System remains the default, preserving the original OS light/dark appearance. The native Theme control offers System, Light and the companion Paper Dark website palette. The allowlisted local `assets/theme.js` stores explicit choices in local storage; selecting System clears the override. With JavaScript disabled the control stays hidden and the original system theme and folded-W asset selection still work. If storage is unavailable, the control works for the current page without persistence. This website option does not imply a released native product theme.
 
 The product and website use the MIT license, selected by Tarek on 2 November 2026. `LICENSE.txt` is included in the published artifact. The footer adapts Gripsack's attribution and compact status layout, with a development label rather than an invented product release version. Product repository visibility remains private. Future installation and runnable quickstart content must come from actual qualified release artifacts.

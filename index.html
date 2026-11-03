@@ -16,12 +16,14 @@
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/theme.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
     <nav aria-label="Main navigation"><a href="#start">Start</a><a href="#scribes">Scribes</a><a href="/docs.html">Guide</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">GitHub <span aria-hidden="true">↗</span></a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">

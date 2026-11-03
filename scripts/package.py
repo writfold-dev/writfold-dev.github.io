@@ -9,7 +9,7 @@ import shutil
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
-    "assets/favicon.svg", "assets/site.css",
+    "assets/favicon.svg", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
 MANIFEST = ROOT / "content-manifest.json"
