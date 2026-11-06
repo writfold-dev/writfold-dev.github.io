@@ -25,15 +25,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--refresh-manifest", action="store_true",
                         help="Locally approve updated bytes before review and commit")
+    parser.add_argument("--output", type=Path, default=ROOT / "_site",
+                        help="New artifact directory; existing destinations are never replaced")
     args = parser.parse_args()
     actual = {name: digest(ROOT / name) for name in FILES}
     if args.refresh_manifest:
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_source_commit": "31b27f8b4577b6a3c692597a7da85eaa12387e5f",
+            "product_source_base_commit": "8d411f60f8b4ca3fa2ed69e9c28c0a95848170f1",
             "product_source_visibility": "private",
-            "architecture_revision": 4,
+            "architecture_revision": 5,
+            "component_evidence": {
+                "scope": "Control and local artifact regressions only; not owner data/effect services or alpha readiness",
+                "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
+                "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c",
+            },
             "files": actual,
         }
         MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -44,16 +51,16 @@ def main():
         raise SystemExit("Publication bytes differ from the approved content manifest")
     if (ROOT / "CNAME").read_text(encoding="utf-8") != "writfold.dev\n":
         raise SystemExit("Unexpected custom domain")
-    destination = ROOT / "_site"
-    if destination.exists():
-        raise SystemExit("_site already exists; preserve or remove it explicitly before packaging")
+    destination = args.output.absolute()
+    if destination.exists() or destination.is_symlink():
+        raise SystemExit("Artifact directory already exists; select a new --output")
     destination.mkdir()
     for name in FILES:
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / name, target)
     shutil.copyfile(MANIFEST, destination / MANIFEST.name)
-    print("Packaged manifest-matched static files into _site/")
+    print(f"Packaged manifest-matched static files into {destination}/")
 
 
 if __name__ == "__main__":

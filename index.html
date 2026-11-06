@@ -32,7 +32,7 @@
       <p class="lede">Your next session should inherit more than a summary. Writfold is being built to keep the evidence, history and approval behind your knowledge attached — and open to inspection.</p>
       <div class="actions"><a class="button" href="#start">Explore the workflow <span aria-hidden="true">↓</span></a><a class="text-action" href="/docs.html">Read the project guide <span aria-hidden="true">→</span></a></div>
       <p class="maturity"><span class="badge">In development</span> Local-first · Linux x86_64 / WSL2 target</p>
-      <p class="fine-print">No installable Rust product yet. This is the direction, not a release announcement.</p>
+      <p class="fine-print">An experimental alpha is under development. No production data support, automatic backend fallback or alpha-ready claim.</p>
     </section>
 
     <section class="section" aria-labelledby="benefits-title">
@@ -45,14 +45,20 @@
     </section>
 
     <section id="start" class="section" aria-labelledby="start-title">
-      <div class="section-heading"><p class="eyebrow">Start with one source</p><h2 id="start-title">From a useful note to inspectable context.</h2><p>This is the intended local workflow, not an executable quickstart. Production commands and a tested demo will accompany a qualified release.</p></div>
-      <div class="workflow-layout">
-        <ol class="workflow">
-          <li><div><h3>Choose a named context.</h3><p>Decide which project's knowledge and authorization policy you are working within.</p></div></li>
-          <li><div><h3>Capture the source.</h3><p>Retain exact evidence and its identity. Acquisition records what was obtained; it does not approve a claim.</p></div></li>
-          <li><div><h3>Propose, then approve.</h3><p>Connect a proposed claim to evidence. Assess support and contrary evidence separately, then obtain the approval required by that context.</p></div></li>
-          <li><div><h3>Publish and retrieve.</h3><p>Publish the authorized change with recoverable history. Retrieve a bounded context that keeps its evidence and unresolved gaps visible.</p></div></li>
+      <div class="section-heading"><p class="eyebrow">Start with one source</p><h2 id="start-title">From exact inputs to a recoverable change.</h2><p>This is the intended end-to-end flow, not an executable quickstart. Control and local artifact paths have been exercised; the owner data and effect services that complete this flow are not yet implemented.</p></div>
+      <figure class="record-flow" aria-labelledby="record-flow-caption">
+        <figcaption id="record-flow-caption">Intended flow · each handoff keeps its evidence and authority distinct</figcaption>
+        <ol class="record-steps">
+          <li><span class="eyebrow">01 / Writfold</span><h3>Retain exact inputs</h3><p>Keep source bytes, revision and identity within a named context.</p><svg class="step-arrow" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h28m-7-6 7 6-7 6"/></svg></li>
+          <li><span class="eyebrow">02 / Weft</span><h3>Assess the evidence</h3><p>Evaluate support, contradictions and gaps against those retained inputs.</p><svg class="step-arrow" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h28m-7-6 7 6-7 6"/></svg></li>
+          <li><span class="eyebrow">03 / Splicery</span><h3>Prepare an edit</h3><p>Turn the assessed proposal into a bounded, reviewable change—not permission to apply it.</p><svg class="step-arrow" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h28m-7-6 7 6-7 6"/></svg></li>
+          <li><span class="eyebrow">04 / Writfold</span><h3>Authorize the effect</h3><p>Bind the prepared change to the context's policy and required signed approval.</p><svg class="step-arrow" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h28m-7-6 7 6-7 6"/></svg></li>
+          <li><span class="eyebrow">05 / Native owner</span><h3>Materialize the change</h3><p>Apply the authorized edit to the exact run-owned worktree, under its reservation and current preconditions.</p><svg class="step-arrow" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h28m-7-6 7 6-7 6"/></svg></li>
+          <li><span class="eyebrow">06 / Receipt &amp; recovery</span><h3>Recover the same effect</h3><p>Retain a durable receipt. After a lost response, recover the existing result rather than apply a second change.</p></li>
         </ol>
+      </figure>
+      <div class="workflow-layout">
+        <div><h3>One source, one explicit decision.</h3><p>For example, retain a runbook exactly as read, assess the declared assumptions with Weft, and have Splicery prepare a source edit. Writfold must authorize that particular edit before its native adapter can apply it.</p><p>A successful assessment is not approval. A prepared edit is not a committed change. A process reply is not a durable receipt.</p><a class="text-action" href="/docs.html#workflow">Follow the handoffs in the guide <span aria-hidden="true">→</span></a></div>
         <aside id="evidence" class="principle" aria-labelledby="evidence-title"><p class="eyebrow">The important distinction</p><h3 id="evidence-title">A citation is not approval.</h3><p>Finding a document does not establish that every statement in it is true. Supporting evidence, contrary evidence, freshness, validation, authority and publication are independent questions.</p><div class="rule"></div><h3 id="context">A context is a boundary.</h3><p>Evidence or approval in one context must not silently authorize a claim in another. A shared source is not shared permission.</p><p class="fine-print">These are product contracts. Complete Rust workflow qualification remains open.</p></aside>
       </div>
     </section>
@@ -61,17 +67,17 @@
       <div class="section-heading"><p class="eyebrow">Scribes · planned integration model</p><h2 id="scribes-title">Connect a tool with a small script.</h2><p>A scribe is intended to help Writfold find and read a source: a repository, a document service or your team's tools. Writfold will manage acquisition and retain the returned evidence as an immutable record called a <em>writ</em>.</p></div>
       <ol class="flow" aria-label="Planned evidence acquisition flow"><li><strong>Source</strong><span>Your tools &amp; documents</span></li><li><strong>Scribe</strong><span>Acquire evidence</span></li><li><strong>Writ</strong><span>Retain exact evidence</span></li><li><strong>Proposal</strong><span>Review under policy</span></li></ol>
       <p class="boundary">Scribes acquire evidence; approval stays with your knowledge policy.</p>
-      <p class="fine-print">The production scribe host, SDK and catalog workflow are not released. Generated scripts are not automatically trusted. No storage-backend integration is claimed by this site.</p>
+      <p class="fine-print">The production scribe host, SDK and catalog workflow are not released. Generated scripts are not automatically trusted. The disposable alpha direction does not make these integrations available.</p>
       <a class="text-action" href="/docs.html#scribes">Read about scribes <span aria-hidden="true">→</span></a>
     </section>
 
     <section id="status" class="section" aria-labelledby="status-title">
       <div class="section-heading"><p class="eyebrow">Work in progress</p><h2 id="status-title">A real foundation. Not a finished product.</h2><p>Writfold is the Rust successor to <a href="https://github.com/tknawara/kctx">kctx</a>. The reference history is preserved; historical Python behavior is not a claim that the Rust product is complete.</p></div>
       <div class="status-grid">
-        <article class="status-card"><p class="status-label">Implemented foundations</p><h3>Domain, wire &amp; runtime boundaries</h3><p>The workspace includes checked nominal identities, bounded typed JSON, canonical signed operations, protocol admission, filesystem primitives and byte-preserving source syntax.</p><p>The development <code>writfold-ref</code> host supports conformance work. It is not the production CLI.</p></article>
-        <article class="status-card"><p class="status-label pending">Still being qualified</p><h3>Semantics &amp; complete workflows</h3><p>Broader Rust semantic proofs, operational protocols, storage, publication and recovery, scribes, production CLI and release packaging remain open.</p><p>There is no production install command or downloadable release advertised here.</p></article>
+        <article class="status-card"><p class="status-label">Exercised development paths</p><h3>Control &amp; local artifacts</h3><p>The current development record covers 12 real-process scenarios, 29 invocations and 8 coverage admission tests. These exercise control and local artifact paths, not the full owner-backed knowledge workflow.</p><p>Typed Dolt reads and supplied signed-approval components exist. The Rust Writfold runtime currently initializes and shuts down; these pieces do not yet form the complete flow above.</p></article>
+        <article class="status-card"><p class="status-label pending">Next integration boundary</p><h3>An exact-input-to-receipt alpha</h3><p>The target is a public experimental alpha using disposable data only. Owner data and effect services, native materialization, durable receipts and same-effect recovery still need end-to-end qualification.</p><p>Omnigraph remains the intended backend. A source-built upstream relocation fix is being evaluated as a development unblocker; a draft fix is not an admitted release. Fuzzy discovery is not yet available.</p></article>
       </div>
-      <div class="assurance-note"><strong>Evidence has a scope.</strong><p>Selected foundations have source-bound development evidence. Those results do not qualify the new Omnigraph backend or complete Rust workflows. The implementation and detailed records are currently private; no public release assurance package is available yet.</p><a href="/docs.html#assurance">Read the status and assurance boundaries <span aria-hidden="true">→</span></a></div>
+      <div class="assurance-note"><strong>Evidence has a scope.</strong><p>The exercised paths do not establish owner data or effect behavior, recovery durability, or installed-release readiness. Original qualification gates remain open. This site does not advertise an installable alpha or a public release assurance package.</p><a href="/docs.html#assurance">Read the status and assurance boundaries <span aria-hidden="true">→</span></a></div>
     </section>
 
     <section id="docs" class="section docs" aria-labelledby="docs-title">
@@ -80,10 +86,10 @@
         <a href="/docs.html"><span><strong>Project guide</strong><small>The model, active platform and development direction</small></span><span aria-hidden="true">→</span></a>
         <a href="/docs.html#evidence"><span><strong>Evidence &amp; context</strong><small>What a source supports, and what it cannot authorize</small></span><span aria-hidden="true">→</span></a>
         <a href="/docs.html#scribes"><span><strong>Scribes &amp; writs</strong><small>The planned acquisition and immutable evidence model</small></span><span aria-hidden="true">→</span></a>
-        <a href="/docs.html#architecture"><span><strong>Architecture direction</strong><small>Rust, the Omnigraph companion and reading views</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html#architecture"><span><strong>Architecture direction</strong><small>Writfold, Weft, Splicery and the native storage boundary</small></span><span aria-hidden="true">→</span></a>
         <a href="/docs.html#assurance"><span><strong>Status &amp; assurance</strong><small>Implemented foundations, remaining work and claim boundaries</small></span><span aria-hidden="true">→</span></a>
       </div>
-      <p class="fine-print">The updated architecture targets Omnigraph as the primary local storage companion, with Markdown and Obsidian reading views. These integrations are planned, not shipped.</p>
+      <p class="fine-print">The isolated Dolt development profile remains separate; it is not an automatic fallback. Backend qualification, fuzzy discovery, and integrated Markdown and Obsidian views remain open.</p>
     </section>
   </main>
   <footer class="site-footer wrap">
