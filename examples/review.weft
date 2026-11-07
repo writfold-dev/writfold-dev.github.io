@@ -1,0 +1,9 @@
+review recovery_plan {
+  context "unresolved-sandbox" at "unresolved-release";
+  profile "weft.symbolic/1";
+  target change = proposal "unresolved-plan";
+
+  assume documented: has_plan("payments");
+  check docs_only: has_plan("payments");
+  check restore_works: restores("payments");
+}

@@ -35,6 +35,12 @@ Check 360/768/1440px layouts, OS light/dark modes, System/Light/Paper Dark choic
 
 The six-step home-page diagram uses a semantic ordered list, visible role labels and decorative, non-focusable SVG arrows. It follows existing theme variables and becomes one column on small screens. The 6 November packaged-site browser run exercised home/guide/missing pages at 360/768/1440px in all three theme choices (27 combinations), OS light/dark switching, saved theme navigation, keyboard skip focus, JavaScript-disabled content and 200% text zoom. The zoom check exposed overflowing long headings; emergency word wrapping corrected it without clipping text. This is website evidence, not product qualification.
 
+The Weft and Splicery pages include downloadable, executed source examples and accessible inline SVG diagrams. The example changes only `docs_only` from entailed to refuted; `restore_works` remains undetermined and the original file remains unchanged. Both Weft reports are hypothetical, with no grounding or effect authority. The public manifest binds the exact executable/example receipt; it does not qualify owner services.
+
+Highlighting is static HTML, not a client-side parser. Token roles follow Strop's language handovers: Weft predicates are functions; declaration names and labels are variables. Splicery's `@` sigils and `:=` are operators, handle names are variables, and `keep` is a keyword. Code panels use Strop's exact Dark, Paper (light), and Paper Dark palettes. Paper is used instead of Strop Light to retain at least 4.5:1 code contrast. Website chrome keeps its existing colors.
+
+The packaged language-page browser run checked 45 page/width/theme combinations, exact displayed/downloadable source equality, rendered role colors, OS-dark switching, keyboard skip focus, 200% text zoom, disabled JavaScript, and an actual source download. The diagrams retain named titles/descriptions and fit the mobile viewport. These are website checks, not editor-grammar or product qualification.
+
 When an actual pinned installation artifact and exercised scope exist, add qualified installation instructions in `docs.html` immediately after `#assurance`, and link them from the home-page `#docs` section. Update the availability and runtime-status copy at that time against the actual implementation. Keep disposable-data restrictions adjacent to installation commands; do not substitute historical reference commands or speculative downloads.
 
 ## Publish with GitHub Pages

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Weft — Assess the declared theory · Writfold</title>
+  <meta name="description" content="An executed Weft example: explicit assumptions, finite assessment, and source-bound hypothetical results. No datastore grounding or edit authority implied.">
+  <link rel="canonical" href="https://writfold.dev/weft.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">Guide</a><a href="/weft.html" aria-current="page">Weft</a><a href="/splicery.html">Splicery</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select></label>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <section class="hero" aria-labelledby="weft-title">
+      <p class="eyebrow">Weft · executed development example</p>
+      <h1 id="weft-title">State the assumptions.<br><span>See what follows.</span></h1>
+      <p class="lede">Weft assesses a declared theory. It keeps what follows from your assumptions separate from what remains unknown — and from permission to change anything.</p>
+      <p class="maturity"><span class="badge">Development preview</span> Hypothetical assessment · no effect authority</p>
+      <nav class="actions" aria-label="Weft guide sections"><a href="#example">Read the source</a><a href="#results">Understand the result</a><a href="#pipeline">Inside the assessment</a></nav>
+    </section>
+
+    <section id="example" class="section" aria-labelledby="example-title">
+      <div class="section-heading"><p class="eyebrow">01 / A small, explicit theory</p><h2 id="example-title">A plan is not a successful restore.</h2><p>This example assumes that the payments service has a plan. It asks whether that same fact follows, and whether a successful restore follows too. No rule connects the two.</p></div>
+      <p><a href="/examples/review.weft" download="review.weft">Download review.weft</a> · exact source used for this assessment</p>
+      <pre class="code-panel" tabindex="0" aria-label="Weft source: review.weft"><code data-source="/examples/review.weft"><span class="syntax-keyword">review</span> <span class="syntax-variable">recovery_plan</span> <span class="syntax-punctuation">{</span>
+  <span class="syntax-keyword">context</span> <span class="syntax-string">"unresolved-sandbox"</span> <span class="syntax-keyword">at</span> <span class="syntax-string">"unresolved-release"</span><span class="syntax-punctuation">;</span>
+  <span class="syntax-keyword">profile</span> <span class="syntax-string">"weft.symbolic/1"</span><span class="syntax-punctuation">;</span>
+  <span class="syntax-keyword">target</span> <span class="syntax-variable">change</span> <span class="syntax-operator">=</span> <span class="syntax-keyword">proposal</span> <span class="syntax-string">"unresolved-plan"</span><span class="syntax-punctuation">;</span>
+
+  <span class="syntax-keyword">assume</span> <span class="syntax-variable">documented</span><span class="syntax-punctuation">:</span> <span class="syntax-function">has_plan</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
+  <span class="syntax-keyword">check</span> <span class="syntax-variable">docs_only</span><span class="syntax-punctuation">:</span> <span class="syntax-function">has_plan</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
+  <span class="syntax-keyword">check</span> <span class="syntax-variable">restore_works</span><span class="syntax-punctuation">:</span> <span class="syntax-function">restores</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
+<span class="syntax-punctuation">}</span>
+</code></pre>
+      <div class="workflow-layout">
+        <div><h3>An assumption is an input, not evidence.</h3><p><code>assume documented</code> puts <code>has_plan("payments")</code> into the theory. The label does not mean Weft read a runbook or verified a service. Each <code>check</code> asks what follows from that declared theory.</p></div>
+        <aside class="principle"><p class="eyebrow">Deliberately unresolved</p><h3>Names do not establish grounding.</h3><p>The context, release and proposal strings are intentionally unresolved. They do not identify a verified Writfold context, retained release or authorized change. This example is hypothetical, not a query against a live knowledge store.</p></aside>
+      </div>
+    </section>
+
+    <section id="results" class="section" aria-labelledby="results-title">
+      <div class="section-heading"><p class="eyebrow">02 / Actual assessment</p><h2 id="results-title">Complete does not mean all proved.</h2><p>The following command was exercised with the pinned development binary, using the downloaded file. It is not an installation quickstart or a promise that Weft is already available on your system.</p></div>
+      <pre class="code-panel" tabindex="0" aria-label="Executed Weft command"><code>weft prove review.weft --json
+</code></pre>
+      <div class="status-grid">
+        <article class="status-card"><p class="status-label">docs_only · entailed</p><h3>The assumption supports this check.</h3><p><code>has_plan("payments")</code> follows because it was explicitly assumed. The result is conditional on the declared theory, not independent confirmation that a plan exists.</p></article>
+        <article class="status-card"><p class="status-label pending">restore_works · undetermined</p><h3>The theory does not settle this check.</h3><p>Neither <code>restores("payments")</code> nor its negation follows. Undetermined is not refuted: the example establishes neither a successful restore nor a failed one.</p></article>
+      </div>
+      <p class="assurance-note">The report records <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code> and <code>effect_authority=false</code>. These are result fields, not an abbreviated JSON transcript.</p>
+      <p class="boundary">Complete hypothetical assessments exit <strong>1</strong>—even when every check is entailed. Here, one check remains undetermined. Read the result categories; neither completion nor entailment grants permission to edit anything.</p>
+    </section>
+
+    <section id="pipeline" class="section" aria-labelledby="pipeline-title">
+      <div class="section-heading"><p class="eyebrow">03 / The assessment boundary</p><h2 id="pipeline-title">Follow the source, not a fictional proof.</h2></div>
+      <div class="workflow-layout">
+        <figure class="record-flow">
+          <svg class="diagram-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" width="320" height="420" style="width:100%;max-width:360px;height:auto" role="img" aria-labelledby="weft-flow-title weft-flow-desc">
+            <title id="weft-flow-title">From exact Weft source to a source-bound report</title>
+            <desc id="weft-flow-desc">Four steps flow downward: exact review.weft bytes; parsed and typed finite theory with explicit assumptions and checks; finite assessment of those checks; and a source-bound hypothetical report. No datastore evidence or edit authority enters this pipeline.</desc>
+            <g fill="var(--surface)" stroke="var(--border)" stroke-width="1.5">
+              <rect x="8" y="8" width="304" height="76" rx="9"/>
+              <rect x="8" y="116" width="304" height="76" rx="9"/>
+              <rect x="8" y="224" width="304" height="76" rx="9"/>
+              <rect x="8" y="332" width="304" height="76" rx="9"/>
+            </g>
+            <g fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M160 84v25m-5-6 5 6 5-6"/>
+              <path d="M160 192v25m-5-6 5 6 5-6"/>
+              <path d="M160 300v25m-5-6 5 6 5-6"/>
+            </g>
+            <g fill="currentColor" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600">
+              <text x="160" y="38">Exact source</text>
+              <text x="160" y="146">Parsed / typed finite theory</text>
+              <text x="160" y="254">Finite assessment</text>
+              <text x="160" y="362">Source-bound report</text>
+            </g>
+            <g fill="var(--muted)" text-anchor="middle" font-family="sans-serif" font-size="14">
+              <text x="160" y="62">review.weft bytes</text>
+              <text x="160" y="170">Explicit assumptions + checks</text>
+              <text x="160" y="278">What follows? What stays open?</text>
+              <text x="160" y="386">Hypothetical · no edit authority</text>
+            </g>
+          </svg>
+          <figcaption>The report belongs to the source assessed. Changing the theory calls for a new assessment.</figcaption>
+        </figure>
+        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not automatically Writfold-grounded evidence. Owner-backed context resolution and authorization are separate boundaries; the complete Writfold owner data and effect services remain unavailable.</p><h3>Next: challenge one check.</h3><p>The <a href="/splicery.html">Splicery continuation</a> negates the first check while preserving its positive assumption. In that candidate, <code>docs_only</code> becomes refuted while <code>restore_works</code> stays undetermined. Preview does not change the original file or grant effect authority.</p></div>
+      </div>
+    </section>
+
+    <section id="availability" class="section" aria-labelledby="availability-title">
+      <div class="section-heading"><p class="eyebrow">Development, not a released installer</p><h2 id="availability-title">An executable example. Not an installable public alpha.</h2><p>The public experimental disposable alpha remains under development. This page demonstrates a local assessment path, not complete Writfold integration, production safety or installed-toolchain readiness. Use only disposable data.</p></div>
+      <p class="fine-print">Executed Weft binary SHA-256: <code>939e35badb2eea01b3723810b96563987332dde581ffd8960b0d353939537845</code>. This identifies the development binary used; it is not a release download.</p>
+      <div class="actions"><a class="button" href="/splicery.html">Continue with Splicery <span aria-hidden="true">→</span></a><a class="text-action" href="/docs.html">Read the project boundaries</a></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap">
+    <div class="footer-line">
+      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
+      <a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">writfold-dev</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a><a href="/">Home</a>
+      <span class="footer-state">In development</span>
+    </div>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics — a local-first product taking shape.</p>
+  </footer>
+</body>
+</html>

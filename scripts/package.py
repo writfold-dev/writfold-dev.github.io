@@ -9,6 +9,7 @@ import shutil
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
+    "weft.html", "splicery.html", "examples/review.weft", "examples/negate-check.spl",
     "assets/favicon.svg", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
@@ -40,6 +41,10 @@ def main():
                 "scope": "Control and local artifact regressions only; not owner data/effect services or alpha readiness",
                 "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
                 "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c",
+            },
+            "language_example_evidence": {
+                "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
+                "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b",
             },
             "files": actual,
         }

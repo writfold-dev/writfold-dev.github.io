@@ -9,15 +9,23 @@
     "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
     "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c"
   },
+  "language_example_evidence": {
+    "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
+    "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b"
+  },
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "404.html": "72f1d2009cc6bb4b195903b41b7a39fc8da1f45934f0d76e6985f662246935ff",
     "CNAME": "a37115b9fc6562ae56cd88bcdfaede70587a01428a9caf1f807106cc13fde3c6",
     "LICENSE.txt": "bb23cea06c1a4f205b5f6e2d4ecc5ff1c1ebf15829706f1fe366424d0919e9be",
-    "index.html": "4d918e316fd544773d3fa92ec7cbe541f5fc84f79342eb8a84fed6b35f776149",
-    "docs.html": "ec925e690efe9abe9ab6185eada5ec55a6bf7dba3b77a4dc2a3894645b7e7c6d",
+    "index.html": "f8cc460005de37c5e36540708cd4bfced879855126ba0242921d223816dec3ab",
+    "docs.html": "a3dbdbb78b8e1410726ce2586e4628d6a50405158d51bd471d0e5927c05b0e49",
+    "weft.html": "b30c09413abcf5f60a6d0111893be0285aaf608d199e6d7bc8281754855d5c80",
+    "splicery.html": "0a57661d1194f9079137fc47b4368ddf81cda824d9ac78010839c96153ff9d42",
+    "examples/review.weft": "38d0afe0be6f66b7f94dbc351ad3945989188b80a0dc7cba58be10526610a673",
+    "examples/negate-check.spl": "5b16ff5a4e240eca373449f68d9796cc4ab3479450ece9aaaafb210af877a7fd",
     "assets/favicon.svg": "09df37a9c7184b1427d4cb3dbb79f1df483d24aa8d3de33c50509f5f79440c7c",
-    "assets/site.css": "eefcef994d4a33b33a35de84c0963eca93bab8c3854d7188ec633e70c38c7824",
+    "assets/site.css": "5488a9a156b4efbe32d4b2d97e225f807b3cbebc9625c15312684bd57bc883f3",
     "assets/theme.js": "c5a9fa14ccdd4575b76b18ea3d35735134f11f7cdf39a580fa52d9e6f055f983",
     "assets/writfold-icon-dark.svg": "3e3b3a02ec657022033886191173e3d952fd17a6688d1cc30f99e4ba67cb80f5",
     "assets/writfold-icon.svg": "8fcfb53dbed16fc8239657eaa5577f5afefdba7388642d48107f2a7027553fee"
