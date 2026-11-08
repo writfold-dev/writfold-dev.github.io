@@ -67,10 +67,30 @@
     <section id="tools" class="section" aria-labelledby="tools-title">
       <div class="section-heading"><p class="eyebrow">Three tools</p><h2 id="tools-title">Three tools, one approval boundary</h2><p>Each tool has one job. Only Writfold can change anything.</p></div>
       <div class="three-up tools">
-        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: stdio session start and shutdown only.</small></article>
-        <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs.</small></article>
-        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs.</small></article>
+        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: stdio session start and shutdown only. <a href="https://github.com/writfold-dev/writfold">Source</a></small></article>
+        <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs. <a href="https://github.com/writfold-dev/weft">Source</a></small></article>
+        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs. <a href="https://github.com/writfold-dev/splicery">Source</a></small></article>
       </div>
+    </section>
+
+    <section id="try" class="section" aria-labelledby="try-title">
+      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Build and run from source</h2><p>Linux x86_64 with <a href="https://rustup.rs">rustup</a>. Each repository pins its Rust toolchain, which installs on first build.</p></div>
+      <pre class="code-panel" tabindex="0" aria-label="Build and try commands"><code># Splicery: preview a byte-exact edit to a Rust file
+git clone https://github.com/writfold-dev/splicery &amp;&amp; cd splicery
+cargo build --release --locked
+cd examples/try &amp;&amp; ../../target/release/splicery-cli preview --root . --file client.rs add-retry.spl
+
+# Weft: check what declared assumptions support
+git clone https://github.com/writfold-dev/weft &amp;&amp; cd weft
+cargo build --release --locked
+target/release/weft prove examples/sets.weft --human
+
+# Writfold: start and stop an agent session
+git clone https://github.com/writfold-dev/writfold &amp;&amp; cd writfold
+cargo build --release -p writfold
+printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocol_version":"2"}}' \
+  '{"jsonrpc":"2.0","id":2,"method":"shutdown"}' | target/release/writfold serve</code></pre>
+      <p>Found a problem or have an idea? Open an issue on <a href="https://github.com/writfold-dev/writfold/issues">Writfold</a>, <a href="https://github.com/writfold-dev/weft/issues">Weft</a> or <a href="https://github.com/writfold-dev/splicery/issues">Splicery</a>.</p>
     </section>
 
     <section id="status" class="section" aria-labelledby="status-title">
