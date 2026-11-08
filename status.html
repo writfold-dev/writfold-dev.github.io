@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Status — Writfold</title>
+  <meta name="description" content="What runs in Writfold today, what is blocked, how progress is verified, the roadmap, changelog and FAQ.">
+  <link rel="canonical" href="https://writfold.dev/status.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="Status — Writfold">
+  <meta property="og:description" content="What runs in Writfold today, what is blocked, how progress is verified, the roadmap, changelog and FAQ.">
+  <meta property="og:url" content="https://writfold.dev/status.html">
+  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">How it works</a><a href="/weft.html">Weft</a><a href="/splicery.html">Splicery</a><a href="/status.html" aria-current="page">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <section class="hero" aria-labelledby="status-title">
+      <p class="eyebrow">Status</p>
+      <h1 id="status-title">What runs today.<br><span>What comes next.</span></h1>
+      <p class="lede">Writfold is pre-release. Nothing is installable yet. This page is the single place that says what works, what is blocked and what changed.</p>
+      <p class="maturity"><span class="badge">Pre-release</span> Updated 8 November 2026</p>
+      <nav class="actions" aria-label="Page sections"><a href="#today">Today</a><a href="#blocked">Blocked</a><a href="#verification">Verification</a><a href="#next">Next</a><a href="#changelog">Changelog</a><a href="#faq">FAQ</a></nav>
+    </section>
+    <section id="today" class="section" aria-labelledby="today-title">
+      <div class="section-heading"><p class="eyebrow">01 / Today</p><h2 id="today-title">Parts and their state</h2><p>“Tested alone” means the part works in its own tests against real native tools, but nothing calls it yet.</p></div>
+      <div class="table-scroll"><table class="status-table"><thead><tr><th scope="col">Part</th><th scope="col">What it does</th><th scope="col">State</th></tr></thead><tbody><tr><th scope="row">Agent session</th><td><code>writfold serve</code> starts a stdio JSON-RPC session, answers <code>initialize</code> and <code>shutdown</code>, refuses other methods</td><td><span class="chip chip-today">Runs</span></td></tr><tr><th scope="row">Weft assessment</th><td>Local symbolic checks with entailed, refuted and undetermined outcomes</td><td><span class="chip chip-today">Runs</span></td></tr><tr><th scope="row">Splicery preview</th><td>Byte-exact edit preview with refusals for missing, ambiguous and overlapping matches</td><td><span class="chip chip-today">Runs</span></td></tr><tr><th scope="row">Exact object storage</th><td>Immutable, realm-bound storage of raw bytes</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Omnigraph data path</th><td>Conditional writes, exact snapshots and retained history against a pinned build</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Git worktree creation</th><td>Real Worktrunk worktrees for SHA-1 and SHA-256 repositories, refusing corrupt objects</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Staged file install</th><td>Recoverable single-file replacement with original-file reconciliation</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Ledger heads</th><td>Strict decoding of ledger-head records</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Procedure checking</th><td>Structural checks of a procedure graph against its typing rules</td><td><span class="chip chip-parts">Tested alone</span></td></tr><tr><th scope="row">Edit approval</th><td>Signed approval of one prepared edit</td><td><span class="chip chip-planned">Planned</span></td></tr><tr><th scope="row">Validated ledger</th><td>History checks and conditional head selection</td><td><span class="chip chip-planned">Planned</span></td></tr><tr><th scope="row">Receipts and recovery</th><td>Durable receipts and recovery after a lost response</td><td><span class="chip chip-planned">Planned</span></td></tr></tbody></table></div>
+    </section>
+    <section id="blocked" class="section" aria-labelledby="blocked-title">
+      <div class="section-heading"><p class="eyebrow">02 / Blocked</p><h2 id="blocked-title">What cannot run yet</h2><p>The combined test run passed 12 scenarios across 29 invocations, plus 8 coverage tests. Four scenarios need services that do not exist yet, so they are recorded as blocked rather than passed:</p></div>
+      <ul class="plain-list"><li>Persistent handoff of citations, assessments and artifacts between the tools</li><li>Approved worktree edits replayed through the pinned Splicery kernel</li><li>Recovery after a crash, when the outcome of an edit is unknown</li><li>Session benchmarks with retained evidence</li></ul>
+    </section>
+    <section id="verification" class="section" aria-labelledby="verification-title">
+      <div class="section-heading"><p class="eyebrow">03 / Verification</p><h2 id="verification-title">How progress is measured</h2><p>The design defines 32 gates that a full release must pass, and a smaller set of 14 requirements for the experimental alpha. None has passed yet. Each tested part keeps a record of the exact source, tools and inputs it ran against.</p></div>
+      <div class="three-up">
+        <article class="capability"><h3>Lean</h3><p>The engineering model and its twelve core theorems, proved under stated assumptions.</p></article>
+        <article class="capability"><h3>Verus</h3><p>Selected Rust function bodies, such as identity parsing and call-rank checks, checked against their contracts.</p></article>
+        <article class="capability"><h3>Tests and models</h3><p>Rust tests, deliberately broken variants that tests must catch, and TLA+ models of concurrent behaviour.</p></article>
+      </div>
+      <p class="boundary">These do not yet prove that the Rust code as a whole matches the Lean model. That link is part of the remaining work.</p>
+    </section>
+    <section id="next" class="section" aria-labelledby="next-title">
+      <div class="section-heading"><p class="eyebrow">04 / Next</p><h2 id="next-title">Road to the experimental alpha</h2></div>
+      <ol class="workflow"><li><div><h3>Signed edit approval</h3><p>An approval bound to one exact prepared change.</p></div></li><li><div><h3>Validated ledger</h3><p>History checks and conditional head selection that decide execution state.</p></div></li><li><div><h3>One connected command path</h3><p>Prepare, approve and apply a single-file edit through the CLI, then through the agent protocol.</p></div></li><li><div><h3>Clean install and recovery</h3><p>Install from a pinned artifact and test recovery end to end, with disposable data only.</p></div></li></ol>
+    </section>
+    <section id="changelog" class="section" aria-labelledby="changelog-title">
+      <div class="section-heading"><p class="eyebrow">05 / Changelog</p><h2 id="changelog-title">What changed</h2></div>
+      <ol class="changelog"><li><time>8 Nov 2026</time><p>Exact object storage, Git worktree creation, ledger-head decoding and structural procedure checking tested as separate parts. Weft accepts large prior reports for reuse.</p></li><li><time>7 Nov 2026</time><p>Rust Omnigraph data path tested. A source build of Omnigraph PR #1235 passed the scoped relocation and restore test. Scope of the experimental alpha agreed.</p></li><li><time>6 Nov 2026</time><p>Writfold, Weft and Splicery exercised together: 12 scenarios across 29 invocations.</p></li><li><time>5 Nov 2026</time><p><code>writfold serve</code> stdio session, citation components and dependency locks.</p></li><li><time>4 Nov 2026</time><p>The twelve engineering theorems proved in Lean under stated assumptions.</p></li><li><time>2 Nov 2026</time><p>Semantic core ported to Rust; static Linux builds.</p></li><li><time>1 Nov 2026</time><p>Writfold started as the Rust successor to kctx, with kctx's history preserved.</p></li></ol>
+      <p class="fine-print">Every published file on this site is listed with its SHA-256 in the <a href="/content-manifest.json">content manifest</a>.</p>
+    </section>
+    <section id="faq" class="section" aria-labelledby="faq-title">
+      <div class="section-heading"><p class="eyebrow">06 / FAQ</p><h2 id="faq-title">Common questions</h2></div>
+      <div class="faq"><details><summary>Can I use Writfold with my agent today?</summary><p>Not yet. The binary only starts and ends a session. The Weft and Splicery examples are the parts you can follow today.</p></details><details><summary>Is it an MCP server?</summary><p>Not today. Writfold speaks its own stdio JSON-RPC profile, <code>writfold.agent/1</code>. MCP is not implemented.</p></details><details><summary>Does it need a database?</summary><p>The intended backend is Omnigraph, run locally as a companion process. There is no hosted service and no account.</p></details><details><summary>What data can I use?</summary><p>The first release will be an experimental alpha for disposable data only: data you can delete and recreate.</p></details><details><summary>Is the source available?</summary><p>This website is public under the MIT license. The Writfold, Weft and Splicery repositories are private for now; an audited public release is planned after the alpha. The predecessor, <a href="https://github.com/tknawara/kctx">kctx</a>, is public.</p></details><details><summary>How does it relate to kctx?</summary><p>Writfold is kctx's Rust successor. kctx's Python and Lean history is preserved and used as the compatibility reference.</p></details><details><summary>Why Rust, Lean and Verus?</summary><p>Rust gives a single static binary. Lean states the model and proves its core properties. Verus checks selected Rust functions against their contracts.</p></details></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap">
+    <div class="footer-line">
+      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
+      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <span class="footer-state">Pre-release</span>
+    </div>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
+  </footer>
+</body>
+</html>

@@ -4,9 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Project guide — Writfold</title>
-  <meta name="description" content="Writfold's evidence, context and approval model, planned architecture, and honest development status. A project guide, not a released-product quickstart.">
+  <title>How it works — Writfold</title>
+  <meta name="description" content="How Writfold keeps evidence, approval and change apart: the six steps, contexts, scribes and architecture.">
   <link rel="canonical" href="https://writfold.dev/docs.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="How it works — Writfold">
+  <meta property="og:description" content="How Writfold keeps evidence, approval and change apart: the six steps, contexts, scribes and architecture.">
+  <meta property="og:url" content="https://writfold.dev/docs.html">
+  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
   <script src="/assets/theme.js"></script>
@@ -15,71 +27,63 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/weft.html">Weft</a><a href="/splicery.html">Splicery</a><a href="/docs.html" aria-current="page">Guide</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select></label>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html" aria-current="page">How it works</a><a href="/weft.html">Weft</a><a href="/splicery.html">Splicery</a><a href="/status.html">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="guide-title">
-      <p class="eyebrow">Project guide · development preview</p>
+      <p class="eyebrow">How it works</p>
       <h1 id="guide-title">The record behind<br><span>the context.</span></h1>
-      <p class="lede">A short guide to what Writfold is being built to do, where its boundaries belong, and what is available today.</p>
-      <p class="maturity"><span class="badge">Disposable alpha under development</span> Updated 6 November 2026</p>
-      <nav class="actions" aria-label="Guide sections"><a href="#workflow">Workflow</a><a href="#evidence">Evidence</a><a href="#contexts">Contexts</a><a href="#scribes">Scribes</a><a href="#architecture">Architecture</a><a href="#assurance">Status &amp; assurance</a></nav>
-      <p>Start with the executed <a href="/weft.html">Weft theory</a>, then preview a precise change in the <a href="/splicery.html">Splicery continuation</a>. Both pages include exact downloadable source and diagrams of their current boundaries.</p>
+      <p class="lede">How Writfold keeps evidence, approval and change apart, and how the pieces fit together.</p>
+      <p class="maturity"><span class="badge">Pre-release</span> Updated 8 November 2026</p>
+      <nav class="actions" aria-label="Page sections"><a href="#workflow">The six steps</a><a href="#evidence">Evidence</a><a href="#contexts">Contexts</a><a href="#scribes">Scribes</a><a href="#architecture">Architecture</a></nav>
+      <p>Two worked examples run today: a <a href="/weft.html">Weft assessment</a> of a small set of claims, and a <a href="/splicery.html">Splicery edit</a> of that same file. Unfamiliar terms are in the <a href="/glossary.html">glossary</a>.</p>
     </section>
     <section id="workflow" class="section" aria-labelledby="workflow-title">
-      <div class="section-heading"><p class="eyebrow">The intended vertical path</p><h2 id="workflow-title">Keep the handoffs inspectable.</h2><p>Take a runbook as an example. The goal is not simply to save a summary: it is to retain what was read, assess a specific claim, authorize a specific edit and recover its result reliably. This complete owner-backed path is not implemented yet.</p></div>
-      <ol class="workflow">
-        <li><div><h3>Writfold retains the inputs.</h3><p>Choose a named context and keep the exact runbook bytes, source identity and revision. An edited source must not replace the evidence used for an earlier decision.</p></div></li>
-        <li><div><h3>Weft assesses the declared theory.</h3><p>Evaluate the proposal's logical obligations under explicit assumptions. The current symbolic engine can distinguish entailment, refutation and unresolved outcomes; it does not infer arbitrary facts from prose or authorize a write.</p></div></li>
-        <li><div><h3>Splicery prepares the change.</h3><p>Prepare a bounded edit for review from the assessed proposal. Preparation describes the intended change; it neither grants approval nor silently applies the edit.</p></div></li>
-        <li><div><h3>Writfold authorizes the effect.</h3><p>Check the prepared edit against the named context's policy and required signed approval. Approval must bind the actual change, not merely the source or a previous proposal.</p></div></li>
-        <li><div><h3>Writfold's native adapter materializes it.</h3><p>Apply the authorized edit to the exact run-owned worktree while retaining its reservation and checking current preconditions. This filesystem effect is distinct from publishing a knowledge release in the structured store.</p></div></li>
-        <li><div><h3>A durable receipt makes recovery explicit.</h3><p>Retain the result so that losing the response does not mean losing knowledge of the effect. Recovery must identify and return the same completed effect, not apply it again. This behavior still needs implementation and end-to-end qualification.</p></div></li>
-      </ol>
-      <p class="boundary">For the experimental alpha, use only disposable data that you can discard and recreate. No production data support, automatic backend fallback or relaxed safety gates.</p>
+      <div class="section-heading"><p class="eyebrow">01 / The six steps</p><h2 id="workflow-title">One runbook, start to finish</h2><p>Suppose an agent finds that a service's runbook is out of date. The goal is not to save a summary: it is to keep what was read, check a specific claim, approve a specific edit, and know for certain whether it was applied.</p></div>
+      <ol class="workflow"><li><div><h3>Writfold retains the runbook.</h3><p>Pick a named context and keep the runbook's exact bytes, source and revision. Editing the runbook later creates new evidence; it never rewrites what an earlier decision relied on.</p><p class="today">Today: immutable object storage is tested on its own.</p></div></li><li><div><h3>Weft assesses a claim about it.</h3><p>State what you assume and what you want to check, for example that the service has a recovery plan. Weft reports each check as entailed, refuted or undetermined. It does not read prose or infer facts the theory does not state.</p><p class="today">Today: runs as a standalone tool.</p></div></li><li><div><h3>Splicery prepares a change.</h3><p>Describe a byte-exact edit, for example correcting one line of the runbook. Splicery computes a candidate file and leaves the original untouched.</p><p class="today">Today: offline preview runs.</p></div></li><li><div><h3>You approve that exact change.</h3><p>Writfold checks the prepared change against the context's policy, and you sign an approval bound to that change, not to the source or an earlier proposal.</p><p class="today">Today: planned.</p></div></li><li><div><h3>Writfold applies it in its own worktree.</h3><p>Writfold re-checks that the file still matches what was prepared, then writes the change into a Git worktree it created for this run. No other process holds that write permission.</p><p class="today">Today: worktree creation and staged single-file install are tested on their own.</p></div></li><li><div><h3>A receipt makes recovery exact.</h3><p>Writfold records a durable receipt. If the response is lost, it finds and returns the same completed change instead of applying it twice.</p><p class="today">Today: planned.</p></div></li></ol>
+      <p class="boundary">The first release will be an experimental alpha for disposable data you can discard and recreate.</p>
     </section>
     <section id="evidence" class="section" aria-labelledby="evidence-title">
-      <div class="section-heading"><p class="eyebrow">01 / Evidence</p><h2 id="evidence-title">Keep the source. Keep the distinction.</h2><p>A source may support a statement without making that statement universally true. Writfold's model keeps support, contrary evidence, freshness, validation, authority and publication separate.</p></div>
+      <div class="section-heading"><p class="eyebrow">02 / Evidence</p><h2 id="evidence-title">What a record keeps</h2><p>A source can support a statement without making it universally true. Writfold keeps support, contrary evidence, freshness, authority and publication as separate facts.</p></div>
       <div class="workflow-layout">
-        <div><h3>What a record needs</h3><p>Exact source identity, the revision and bytes observed, the claim it relates to, and the context in which it is assessed. A later edit at the same URL must not silently become the evidence for an earlier decision.</p><h3>What it cannot establish</h3><p>A citation alone does not approve a change. A successful retrieval does not demonstrate complete coverage. A database relationship is not an inference rule.</p></div>
-        <aside class="principle"><p class="eyebrow">Illustrative example</p><h3>“The service has a recovery plan.”</h3><p>A captured runbook can support that statement. It does not prove a restore was performed successfully. A restore result is separate evidence, with its own scope, time and identity.</p><p class="fine-print">This is an explanation of the model, not an observation about a real service.</p></aside>
+        <div><h3>What a record needs</h3><p>The exact source identity, the revision and bytes observed, the claim it relates to, and the context it is assessed in.</p><h3>What it cannot establish</h3><p>A citation does not approve a change. A successful search does not show that nothing else exists. A link between records is not an inference rule.</p></div>
+        <aside class="principle"><p class="eyebrow">Example</p><h3>“The service has a recovery plan.”</h3><p>A captured runbook can support that statement. It does not show that a restore ever succeeded; a restore result is separate evidence with its own time and scope.</p></aside>
       </div>
     </section>
     <section id="contexts" class="section" aria-labelledby="contexts-title">
-      <div class="section-heading"><p class="eyebrow">02 / Contexts</p><h2 id="contexts-title">Shared knowledge. Explicit boundaries.</h2><p>A named context specifies the scope and policy under which knowledge is assessed. It is not a folder that silently combines every source or permission available to an agent.</p></div>
-      <div class="three-up"><article class="capability"><h3>Select deliberately.</h3><p>A query names the context it needs. Work and personal knowledge do not pool evidence or approval just because the same person can access both.</p></article><article class="capability"><h3>Pin the view.</h3><p>The intended retrieval contract binds a release, context and assessment time. Later publication must not quietly change an in-progress historical read.</p></article><article class="capability"><h3>Show uncertainty.</h3><p>Missing, expired, contradictory and incomplete evidence remain visible. An empty result is not automatically proof that nothing exists.</p></article></div>
+      <div class="section-heading"><p class="eyebrow">03 / Contexts</p><h2 id="contexts-title">Shared knowledge, explicit boundaries</h2><p>A named context sets the scope and policy under which knowledge is assessed. It is not a folder that pools every source and permission an agent can reach.</p></div>
+      <div class="three-up"><article class="capability"><h3>Select deliberately.</h3><p>A query names the context it needs. Work and personal knowledge do not share evidence or approval just because one person can access both.</p></article><article class="capability"><h3>Pin the view.</h3><p>A read is bound to a release, context and time, so a later publication cannot quietly change a read already in progress.</p></article><article class="capability"><h3>Show uncertainty.</h3><p>Missing, expired, contradictory and incomplete evidence stays visible. An empty result is not proof that nothing exists.</p></article></div>
     </section>
     <section id="scribes" class="section" aria-labelledby="scribes-title">
-      <div class="section-heading"><p class="eyebrow">03 / Scribes · planned</p><h2 id="scribes-title">Acquisition without authority.</h2><p>Scribes are the planned integration boundary for small source-reading programs. Their job is to acquire evidence, not to sign approvals, mutate the knowledge store or choose an authorization context.</p></div>
-      <ol class="flow" aria-label="Planned acquisition sequence"><li><strong>Source</strong><span>Repository or document</span></li><li><strong>Scribe</strong><span>Bounded acquisition</span></li><li><strong>Writ</strong><span>Immutable evidence record</span></li><li><strong>Proposal</strong><span>Separate review &amp; approval</span></li></ol>
-      <p class="boundary">The scribe runtime, plugin SDK and catalog workflow are not released. There are no installation instructions for them yet.</p>
+      <div class="section-heading"><p class="eyebrow">04 / Scribes · planned</p><h2 id="scribes-title">Reading sources without authority</h2><p>A <a href="/glossary.html#scribe">scribe</a> will be a small program that fetches a source: a repository, a document service or a team tool. Writfold stores what it returns as an immutable record called a <a href="/glossary.html#writ">writ</a>. Scribes cannot approve, write to the store or choose a context.</p></div>
+      <ol class="flow" aria-label="Planned acquisition sequence"><li><strong>Source</strong><span>Repository or document</span></li><li><strong>Scribe</strong><span>Fetches it</span></li><li><strong>Writ</strong><span>Immutable copy</span></li><li><strong>Proposal</strong><span>Reviewed and approved separately</span></li></ol>
+      <p class="fine-print">The scribe runtime and SDK are not released.</p>
     </section>
     <section id="architecture" class="section" aria-labelledby="architecture-title">
-      <div class="section-heading"><p class="eyebrow">04 / Architecture direction</p><h2 id="architecture-title">Local state. One approval boundary.</h2><p>The active target is Linux x86_64 and WSL2. Writfold is a local tool in development, not a hosted knowledge service.</p></div>
-      <div class="status-grid">
-        <article class="status-card"><p class="status-label">Owner &amp; authority</p><h3>Writfold</h3><p>Writfold owns the knowledge workflow: retained inputs, context policy, authorization and the orchestration of owner effects and receipts. Its current Rust runtime initializes and shuts down; the complete owner data and effect services are not implemented.</p></article>
-        <article class="status-card"><p class="status-label">Assessment &amp; preparation</p><h3>Weft &amp; Splicery</h3><p>Weft provides assessment; Splicery prepares edits. Their control and local artifact paths provide development evidence, not permission to mutate Writfold data. Writfold's authorization boundary remains separate.</p></article>
-        <article class="status-card"><p class="status-label pending">Intended structured backend</p><h3>Omnigraph</h3><p>We are evaluating a pinned source build of the upstream <a href="https://github.com/ModernRelay/omnigraph/pull/1235">relocation fix</a> as a development unblocker. Its <a href="https://github.com/ModernRelay/omnigraph/pull/1234">storage contract RFC</a> and implementation are not yet merged; local admission must establish exact retained history and independent restore before integration relies on it.</p></article>
-        <article class="status-card"><p class="status-label pending">Separate development scope</p><h3>Dolt &amp; discovery</h3><p>Typed Dolt reads and signed-input components exist for isolated disposable integration realms. Further Dolt-specific alpha work is paused while the Omnigraph candidate is evaluated. There is no automatic fallback. Fuzzy discovery and integrated reading views remain unavailable.</p></article>
+      <div class="section-heading"><p class="eyebrow">05 / Architecture</p><h2 id="architecture-title">Local state, one approval boundary</h2><p>Writfold is a local tool for Linux x86_64 and WSL2, built as a static Rust binary. It is not a hosted service.</p></div>
+      <div class="workflow-layout">
+        <div>
+          <h3>Ownership</h3><p>Writfold owns the knowledge store, the approval policy and every write. Weft and Splicery run as separate tools; their outputs are inputs to Writfold, never permissions. Git and Worktrunk are pinned native dependencies; Writfold creates and owns the worktree an edit lands in.</p>
+          <h3>Agent protocol</h3><p>Agents talk to <code>writfold serve</code> over stdio with JSON-RPC frames of at most 64 KiB. Today it accepts only <code>initialize</code> and <code>shutdown</code> and refuses every other method with a typed error. The CLI and the protocol will share the same application decisions.</p>
+          <h3>Storage</h3><p><a href="https://github.com/ModernRelay/omnigraph">Omnigraph</a> is the intended storage backend. Its released 0.14.0 failed a branch-relocation test; a source build of upstream <a href="https://github.com/ModernRelay/omnigraph/pull/1235">PR #1235</a> now passes that scoped test and is used for development only. Knowledge releases are designed to publish through Git compare-and-swap. A separate Dolt profile exists for disposable integration testing and is never a fallback.</p>
+          <h3>Verification</h3><p>The engineering model is written in Lean, and its twelve core theorems are proved under stated assumptions. Selected Rust function bodies are checked with Verus, and concurrency is modelled in TLA+. Tests and agreement between these do not by themselves prove that the Rust code matches the Lean model; the <a href="/status.html#verification">status page</a> lists what each covers.</p>
+        </div>
+        <aside class="principle"><p class="eyebrow">Rust workspace</p><table class="crate-table"><caption class="visually-hidden">Rust crates and their roles</caption><tbody><tr><th scope="row"><code>writfold-domain</code></th><td>Typed identities, units and records; selected bodies checked with Verus</td></tr><tr><th scope="row"><code>writfold-kernel</code></th><td>Pure judgments: witnesses, assessments, portfolios, procedure checking</td></tr><tr><th scope="row"><code>writfold-wire</code></th><td>Bounded JSON/CBOR codecs, signatures and the agent protocol</td></tr><tr><th scope="row"><code>writfold-protocol</code></th><td>Session, instance and request identities</td></tr><tr><th scope="row"><code>writfold-runtime</code></th><td>Filesystem, Git, Omnigraph and Worktrunk boundaries; process cleanup</td></tr><tr><th scope="row"><code>writfold-store</code></th><td>Immutable realm-bound object storage</td></tr><tr><th scope="row"><code>writfold-app</code></th><td>Application decisions shared by the CLI and the agent protocol</td></tr><tr><th scope="row"><code>writfold</code></th><td>The binary: <code>serve</code>, <code>--version</code>, <code>--help</code></td></tr></tbody></table></aside>
       </div>
-      <p class="assurance-note">A backend commit does not itself authorize a Writfold change. Choosing a disposable alpha does not close the original safety or qualification gates, establish production durability, or provide a supported migration path for production data.</p>
     </section>
     <section id="assurance" class="section" aria-labelledby="assurance-title">
-      <div class="section-heading"><p class="eyebrow">05 / Status &amp; assurance</p><h2 id="assurance-title">Real exercises. A bounded claim.</h2><p>The current development record covers <strong>12 real-process scenarios, 29 invocations and 8 coverage admission tests</strong>. These counts describe exercised control and local artifact paths, not a released end-to-end knowledge engine.</p></div>
-      <div class="workflow-layout">
-        <div><h3>What exists today</h3><p>Rust domain and wire foundations, process control and local artifact paths, typed Dolt reads, and supplied signed-approval components. The Writfold runtime itself currently initializes and shuts down.</p><h3>What those exercises do not prove</h3><p>Owner data/effect services, native materialization, durable receipts and same-effect recovery after response loss remain unimplemented in the complete Writfold workflow. The reported counts do not establish these capabilities, installed-toolchain readiness or production safety.</p><h3>What comes next</h3><p>Qualify the exact native storage candidate, complete the shared input-to-receipt path, then exercise clean installation and recovery. Source-built development use is distinct from an approved public alpha dependency. Existing safety gates stay in force.</p></div>
-        <aside class="principle"><p class="eyebrow">Availability</p><h3>Under development, not alpha-ready.</h3><p>The approved direction is a public experimental disposable alpha. This guide does not advertise an installer or qualified release. Do not use production data; no production data support is offered.</p><p>The earlier <a href="https://github.com/tknawara/kctx">kctx reference</a> is public historical Python/Lean source, not the released Rust product.</p><p class="fine-print">Installation instructions must match an actual pinned artifact and its exercised limits. Website publication alone is not product qualification.</p></aside>
-      </div>
+      <div class="section-heading"><p class="eyebrow">06 / Status</p><h2 id="assurance-title">What runs today</h2><p>Status, the roadmap, the changelog and common questions have their own page.</p></div>
+      <a class="button" href="/status.html">Read the status page <span aria-hidden="true">→</span></a>
     </section>
   </main>
   <footer class="site-footer wrap">
     <div class="footer-line">
       <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">writfold-dev</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a><a href="/">Home</a>
-      <span class="footer-state">In development</span>
+      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <span class="footer-state">Pre-release</span>
     </div>
-    <p class="footer-note">Knowledge with a record. No accounts, no analytics — a local-first product taking shape.</p>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
   </footer>
 </body>
 </html>

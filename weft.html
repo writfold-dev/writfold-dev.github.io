@@ -4,9 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Weft — Assess the declared theory · Writfold</title>
-  <meta name="description" content="An executed Weft example: explicit assumptions, finite assessment, and source-bound hypothetical results. No datastore grounding or edit authority implied.">
+  <title>Weft by example — Writfold</title>
+  <meta name="description" content="Weft by example: state assumptions, run checks, and read entailed, refuted and undetermined outcomes. A worked, executed example.">
   <link rel="canonical" href="https://writfold.dev/weft.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="Weft by example — Writfold">
+  <meta property="og:description" content="Weft by example: state assumptions, run checks, and read entailed, refuted and undetermined outcomes. A worked, executed example.">
+  <meta property="og:url" content="https://writfold.dev/weft.html">
+  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
   <script src="/assets/theme.js"></script>
@@ -15,16 +27,16 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">Guide</a><a href="/weft.html" aria-current="page">Weft</a><a href="/splicery.html">Splicery</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select></label>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">How it works</a><a href="/weft.html" aria-current="page">Weft</a><a href="/splicery.html">Splicery</a><a href="/status.html">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="weft-title">
       <p class="eyebrow">Weft · executed development example</p>
       <h1 id="weft-title">State the assumptions.<br><span>See what follows.</span></h1>
       <p class="lede">Weft assesses a declared theory. It keeps what follows from your assumptions separate from what remains unknown — and from permission to change anything.</p>
-      <p class="maturity"><span class="badge">Development preview</span> Hypothetical assessment · no effect authority</p>
-      <nav class="actions" aria-label="Weft guide sections"><a href="#example">Read the source</a><a href="#results">Understand the result</a><a href="#pipeline">Inside the assessment</a></nav>
+      <p class="maturity"><span class="badge">Runs today</span> Local assessment · reports carry no write permission</p>
+      <nav class="actions" aria-label="Weft guide sections"><a href="#example">Read the source</a><a href="#results">Understand the result</a><a href="#pipeline">What it does not do</a></nav>
     </section>
 
     <section id="example" class="section" aria-labelledby="example-title">
@@ -47,67 +59,49 @@
     </section>
 
     <section id="results" class="section" aria-labelledby="results-title">
-      <div class="section-heading"><p class="eyebrow">02 / Actual assessment</p><h2 id="results-title">Complete does not mean all proved.</h2><p>The following command was exercised with the pinned development binary, using the downloaded file. It is not an installation quickstart or a promise that Weft is already available on your system.</p></div>
+      <div class="section-heading"><p class="eyebrow">02 / Actual assessment</p><h2 id="results-title">Reading the result</h2><p>This command was run with the development binary on the downloaded file. The binary is not published yet.</p></div>
       <pre class="code-panel" tabindex="0" aria-label="Executed Weft command"><code>weft prove review.weft --json
 </code></pre>
       <div class="status-grid">
         <article class="status-card"><p class="status-label">docs_only · entailed</p><h3>The assumption supports this check.</h3><p><code>has_plan("payments")</code> follows because it was explicitly assumed. The result is conditional on the declared theory, not independent confirmation that a plan exists.</p></article>
         <article class="status-card"><p class="status-label pending">restore_works · undetermined</p><h3>The theory does not settle this check.</h3><p>Neither <code>restores("payments")</code> nor its negation follows. Undetermined is not refuted: the example establishes neither a successful restore nor a failed one.</p></article>
       </div>
-      <p class="assurance-note">The report records <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code> and <code>effect_authority=false</code>. These are result fields, not an abbreviated JSON transcript.</p>
-      <p class="boundary">Complete hypothetical assessments exit <strong>1</strong>—even when every check is entailed. Here, one check remains undetermined. Read the result categories; neither completion nor entailment grants permission to edit anything.</p>
+      <p class="assurance-note">The report records <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code> and <code>effect_authority=false</code>.</p>
+      <p class="boundary"><code>weft prove</code> exits <strong>1</strong> for every hypothetical result, even when all checks are entailed: the local tool has no grounded-success exit. Read the per-check outcomes, not the exit code.</p>
     </section>
 
     <section id="pipeline" class="section" aria-labelledby="pipeline-title">
-      <div class="section-heading"><p class="eyebrow">03 / The assessment boundary</p><h2 id="pipeline-title">Follow the source, not a fictional proof.</h2></div>
+      <div class="section-heading"><p class="eyebrow">03 / The assessment boundary</p><h2 id="pipeline-title">What Weft does and does not do</h2></div>
       <div class="workflow-layout">
-        <figure class="record-flow">
-          <svg class="diagram-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" width="320" height="420" style="width:100%;max-width:360px;height:auto" role="img" aria-labelledby="weft-flow-title weft-flow-desc">
-            <title id="weft-flow-title">From exact Weft source to a source-bound report</title>
-            <desc id="weft-flow-desc">Four steps flow downward: exact review.weft bytes; parsed and typed finite theory with explicit assumptions and checks; finite assessment of those checks; and a source-bound hypothetical report. No datastore evidence or edit authority enters this pipeline.</desc>
-            <g fill="var(--surface)" stroke="var(--border)" stroke-width="1.5">
-              <rect x="8" y="8" width="304" height="76" rx="9"/>
-              <rect x="8" y="116" width="304" height="76" rx="9"/>
-              <rect x="8" y="224" width="304" height="76" rx="9"/>
-              <rect x="8" y="332" width="304" height="76" rx="9"/>
-            </g>
-            <g fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M160 84v25m-5-6 5 6 5-6"/>
-              <path d="M160 192v25m-5-6 5 6 5-6"/>
-              <path d="M160 300v25m-5-6 5 6 5-6"/>
-            </g>
-            <g fill="currentColor" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600">
-              <text x="160" y="38">Exact source</text>
-              <text x="160" y="146">Parsed / typed finite theory</text>
-              <text x="160" y="254">Finite assessment</text>
-              <text x="160" y="362">Source-bound report</text>
-            </g>
-            <g fill="var(--muted)" text-anchor="middle" font-family="sans-serif" font-size="14">
-              <text x="160" y="62">review.weft bytes</text>
-              <text x="160" y="170">Explicit assumptions + checks</text>
-              <text x="160" y="278">What follows? What stays open?</text>
-              <text x="160" y="386">Hypothetical · no edit authority</text>
-            </g>
-          </svg>
-          <figcaption>The report belongs to the source assessed. Changing the theory calls for a new assessment.</figcaption>
+        <figure class="truth">
+          <table class="status-table">
+            <caption>What follows from the theory in review.weft</caption>
+            <thead><tr><th scope="col">Statement</th><th scope="col">Role</th><th scope="col">Result</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>has_plan("payments")</code></th><td>assumed</td><td><span class="chip chip-parts">given</span></td></tr>
+              <tr><th scope="row"><code>docs_only</code></th><td>check</td><td><span class="chip chip-today">entailed</span></td></tr>
+              <tr><th scope="row"><code>restore_works</code></th><td>check</td><td><span class="chip chip-planned">undetermined</span></td></tr>
+            </tbody>
+          </table>
+          <figcaption>The report belongs to the exact source assessed. Change the theory and you need a new assessment.</figcaption>
         </figure>
-        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not automatically Writfold-grounded evidence. Owner-backed context resolution and authorization are separate boundaries; the complete Writfold owner data and effect services remain unavailable.</p><h3>Next: challenge one check.</h3><p>The <a href="/splicery.html">Splicery continuation</a> negates the first check while preserving its positive assumption. In that candidate, <code>docs_only</code> becomes refuted while <code>restore_works</code> stays undetermined. Preview does not change the original file or grant effect authority.</p></div>
+        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not automatically Writfold-grounded evidence. Resolving real contexts and authorizing changes belong to Writfold, and those services are not built yet.</p><h3>Next: challenge one check.</h3><p>The <a href="/splicery.html">Splicery continuation</a> negates the first check while preserving its positive assumption. In that candidate, <code>docs_only</code> becomes refuted while <code>restore_works</code> stays undetermined. Preview does not change the original file or grant effect authority.</p></div>
       </div>
     </section>
 
     <section id="availability" class="section" aria-labelledby="availability-title">
-      <div class="section-heading"><p class="eyebrow">Development, not a released installer</p><h2 id="availability-title">An executable example. Not an installable public alpha.</h2><p>The public experimental disposable alpha remains under development. This page demonstrates a local assessment path, not complete Writfold integration, production safety or installed-toolchain readiness. Use only disposable data.</p></div>
+      <div class="section-heading"><p class="eyebrow">Availability</p><h2 id="availability-title">Not installable yet</h2><p>This page shows a local assessment, not Writfold integration. See the <a href="/status.html">status page</a> for what runs today.</p></div>
       <p class="fine-print">Executed Weft binary SHA-256: <code>939e35badb2eea01b3723810b96563987332dde581ffd8960b0d353939537845</code>. This identifies the development binary used; it is not a release download.</p>
-      <div class="actions"><a class="button" href="/splicery.html">Continue with Splicery <span aria-hidden="true">→</span></a><a class="text-action" href="/docs.html">Read the project boundaries</a></div>
+      <div class="actions"><a class="button" href="/splicery.html">Continue with Splicery <span aria-hidden="true">→</span></a><a class="text-action" href="/docs.html">How Writfold works</a></div>
     </section>
   </main>
   <footer class="site-footer wrap">
     <div class="footer-line">
       <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">writfold-dev</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a><a href="/">Home</a>
-      <span class="footer-state">In development</span>
+      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <span class="footer-state">Pre-release</span>
     </div>
-    <p class="footer-note">Knowledge with a record. No accounts, no analytics — a local-first product taking shape.</p>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
   </footer>
 </body>
 </html>

@@ -9,8 +9,9 @@ import shutil
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
-    "weft.html", "splicery.html", "examples/review.weft", "examples/negate-check.spl",
-    "assets/favicon.svg", "assets/site.css", "assets/theme.js",
+    "weft.html", "splicery.html", "status.html", "glossary.html",
+    "examples/review.weft", "examples/negate-check.spl",
+    "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
 MANIFEST = ROOT / "content-manifest.json"
@@ -34,7 +35,7 @@ def main():
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_source_base_commit": "8d411f60f8b4ca3fa2ed69e9c28c0a95848170f1",
+            "product_source_base_commit": "af55f9807786ff8bd518808f92435f574aa3f260",
             "product_source_visibility": "private",
             "architecture_revision": 5,
             "component_evidence": {

@@ -4,9 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Splicery — an edit you can inspect · Writfold</title>
-  <meta name="description" content="An executed Splicery preview: select original bytes, compute a separate candidate, and inspect the changed Weft check without authorizing an installation.">
+  <title>Splicery by example — Writfold</title>
+  <meta name="description" content="Splicery by example: select exact source bytes, preview a candidate edit without touching the original, and see how ambiguous edits are refused.">
   <link rel="canonical" href="https://writfold.dev/splicery.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="Splicery by example — Writfold">
+  <meta property="og:description" content="Splicery by example: select exact source bytes, preview a candidate edit without touching the original, and see how ambiguous edits are refused.">
+  <meta property="og:url" content="https://writfold.dev/splicery.html">
+  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
   <script src="/assets/theme.js"></script>
@@ -15,16 +27,16 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">Guide</a><a href="/weft.html">Weft</a><a href="/splicery.html" aria-current="page">Splicery</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select></label>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">How it works</a><a href="/weft.html">Weft</a><a href="/splicery.html" aria-current="page">Splicery</a><a href="/status.html">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="splicery-title">
       <p class="eyebrow">Splicery · executed development example</p>
       <h1 id="splicery-title">Prepare the edit.<br><span>Preserve the original.</span></h1>
-      <p class="lede">Select exact source bytes, describe a bounded replacement, and inspect a separate candidate. Computing a change is not permission to install it.</p>
-      <p class="maturity"><span class="badge">Development preview · not an installable public alpha</span></p>
-      <nav class="actions" aria-label="Splicery sections"><a href="#recipe">The recipe</a><a href="#pipeline">The boundary</a><a href="#preview">Executed result</a><a href="#refusals">Refusals</a></nav>
+      <p class="lede">Select exact source bytes, describe a bounded replacement, and inspect a separate candidate. Computing a change is not permission to apply it.</p>
+      <p class="maturity"><span class="badge">Runs today</span> Offline preview · never writes the original</p>
+      <nav class="actions" aria-label="Splicery sections"><a href="#recipe">The recipe</a><a href="#pipeline">Before and after</a><a href="#preview">Executed result</a><a href="#refusals">Refusals</a></nav>
     </section>
     <section id="recipe" class="section" aria-labelledby="recipe-title">
       <div class="section-heading"><p class="eyebrow">01 / A precise replacement</p><h2 id="recipe-title">Negate one check, not its assumption.</h2><p>The prerequisite <a href="/weft.html">Weft example</a> assumes a recovery plan exists, checks that claim, and independently asks whether restores work. This recipe changes only the first check.</p></div>
@@ -40,41 +52,22 @@
         <article class="capability"><h3>Narrow the search.</h3><p><code>@expr</code> selects the expression <code>within @goal</code>. The same expression also occurs in the assumption; the bounded search leaves that occurrence alone.</p></article>
         <article class="capability"><h3>Keep exact bytes.</h3><p><code>keep(@expr)</code> copies the captured original bytes into the replacement after <code>"not "</code>. It does not reformat or regenerate the expression.</p></article>
       </div>
-      <p class="boundary">Coordinates are zero-based byte offsets into the frozen original, not editor columns or UTF-16 positions. Selectors and retained spans refer to that original image, not a progressively edited candidate.</p>
+      <p class="boundary">Every selector is resolved against the original bytes, never against a half-edited copy, so edits cannot drift.</p>
     </section>
     <section id="pipeline" class="section" aria-labelledby="pipeline-title">
-      <div class="section-heading"><p class="eyebrow">02 / Computation, not installation</p><h2 id="pipeline-title">One candidate. One unchanged source.</h2><p>The preview reads the source and lowers the recipe to checked byte edits. Candidate bytes go to stdout; the original file stays untouched.</p></div>
-      <figure class="diagram-figure">
-        <svg class="diagram-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 510" width="360" role="img" aria-labelledby="pipeline-svg-title pipeline-svg-desc" style="max-width:100%;height:auto">
-          <title id="pipeline-svg-title">Splicery preview and its installation boundary</title>
-          <desc id="pipeline-svg-desc">Frozen original bytes branch into an unchanged source and a computation path. Selectors and lowering feed the checked kernel, which emits a candidate on stdout. A dashed boundary separates this computation from future Writfold-authorized installation, which is not implemented in the complete owner workflow.</desc>
-          <g fill="var(--surface)" stroke="var(--border)" stroke-width="1.5">
-            <rect x="10" y="10" width="340" height="64" rx="12"/>
-            <rect x="10" y="114" width="188" height="74" rx="12"/>
-            <rect x="218" y="114" width="132" height="74" rx="12"/>
-            <rect x="10" y="228" width="188" height="64" rx="12"/>
-            <rect x="10" y="332" width="188" height="64" rx="12"/>
-            <rect x="10" y="444" width="340" height="56" rx="12" stroke-dasharray="5 5"/>
-          </g>
-          <g fill="none" stroke="var(--accent)" stroke-width="2">
-            <path d="M104 74V110m-5-6 5 6 5-6M284 74V110m-5-6 5 6 5-6M104 188V224m-5-6 5 6 5-6M104 292V328m-5-6 5 6 5-6"/>
-          </g>
-          <path d="M10 423H350" stroke="var(--muted)" stroke-dasharray="5 5"/>
-          <g fill="currentColor" font-family="inherit" font-size="16" text-anchor="middle">
-            <text x="180" y="37">Frozen original capture</text>
-            <text x="180" y="59" fill="var(--muted)" font-size="14">review.weft · original-byte coordinates</text>
-            <text x="104" y="145">Selectors</text><text x="104" y="168">+ lowering</text>
-            <text x="284" y="145">Original</text><text x="284" y="168">preserved</text>
-            <text x="104" y="255">Checked kernel</text><text x="104" y="278" fill="var(--muted)" font-size="14">bounded byte edits</text>
-            <text x="104" y="359">Candidate stdout</text><text x="104" y="382" fill="var(--muted)" font-size="14">saved separately by shell</text>
-            <text x="180" y="467">Future: Writfold-authorized install</text><text x="180" y="489" fill="var(--muted)" font-size="14">Separate owner effect · not available</text>
-          </g>
-        </svg>
-        <figcaption class="fine-print">No apply step crosses the dashed boundary. Full owner effect services and the installable public alpha remain unavailable.</figcaption>
+      <div class="section-heading"><p class="eyebrow">02 / Computation, not application</p><h2 id="pipeline-title">Before and after</h2><p>The preview resolves the selectors, turns the recipe into checked byte edits, and prints the candidate. The original file stays untouched.</p></div>
+      <figure class="diff-figure" aria-labelledby="diff-caption">
+        <div class="diff-panes">
+          <div class="diff-pane"><p class="diff-label">review.weft · original, unchanged</p><pre class="code-panel"><code>assume documented: has_plan("payments");
+<mark class="sel-goal">check docs_only: <mark class="sel-expr">has_plan("payments")</mark>;</mark></code></pre></div>
+          <div class="diff-pane"><p class="diff-label">candidate.weft · preview on stdout</p><pre class="code-panel"><code>assume documented: has_plan("payments");
+check docs_only: <ins class="ins-new">not </ins><span class="kept">has_plan("payments")</span>;</code></pre></div>
+        </div>
+        <figcaption id="diff-caption" class="fine-print"><span class="key key-goal">@goal</span> the whole check · <span class="key key-expr">@expr</span> the expression inside it · <span class="key key-new">inserted</span> new bytes. The same expression on the assumption line lies outside <code>@goal</code>, so it is left alone. Nothing is written back to <code>review.weft</code>; applying an edit is Writfold's job and is not built yet.</figcaption>
       </figure>
     </section>
     <section id="preview" class="section" aria-labelledby="preview-title">
-      <div class="section-heading"><p class="eyebrow">03 / What the executed example showed</p><h2 id="preview-title">A different check. The same uncertainty.</h2><p>These commands were exercised with pinned development binaries. They are not installer instructions. With both downloaded files in the current directory:</p></div>
+      <div class="section-heading"><p class="eyebrow">03 / What the executed example showed</p><h2 id="preview-title">What the preview produced</h2><p>These commands were run with development binaries, which are not published yet. With both downloaded files in the current directory:</p></div>
       <pre class="code-panel" tabindex="0" aria-label="Executed preview and assessment commands"><code>splicery preview --root . negate-check.spl &gt; candidate.weft
 weft prove candidate.weft --json
 </code></pre>
@@ -83,25 +76,25 @@ weft prove candidate.weft --json
         <article class="principle"><p class="eyebrow">Changed check</p><h3><code>docs_only: refuted</code></h3><p>The candidate asks <code>not has_plan("payments")</code> while the original positive assumption remains. The original check was <code>entailed</code>; its negation is <code>refuted</code> under that same theory.</p></article>
         <article class="principle"><p class="eyebrow">Independent check</p><h3><code>restore_works: undetermined</code></h3><p>Nothing in the recipe adds restore evidence. This check remains <code>undetermined</code>, exactly as it was in the original.</p></article>
       </div>
-      <p>Both the original and candidate <code>weft prove</code> commands exited <code>1</code>. In both assessments: <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code>, and <code>effect_authority=false</code>. Complete execution is not successful proof of every check, real-world grounding, or approval to write.</p>
+      <p>Both the original and candidate <code>weft prove</code> commands exited <code>1</code>. In both assessments: <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code>, and <code>effect_authority=false</code>. A complete run is neither proof of every check nor approval to write.</p><p class="fine-print">Development binaries used: Splicery SHA-256 <code>db79d50147cc51d7183b18474d1ea9f3f6eb935e14f7c7f8719e7fdea3965081</code>, Weft SHA-256 <code>939e35badb2eea01b3723810b96563987332dde581ffd8960b0d353939537845</code>.</p>
     </section>
     <section id="refusals" class="section" aria-labelledby="refusals-title">
-      <div class="section-heading"><p class="eyebrow">04 / Refuse rather than guess</p><h2 id="refusals-title">Exact selection is a constraint.</h2></div>
+      <div class="section-heading"><p class="eyebrow">04 / Refuse rather than guess</p><h2 id="refusals-title">When Splicery refuses</h2></div>
       <div class="three-up">
         <article class="capability"><h3>No match</h3><p>If the complete check text is absent or has different spacing, <code>one text</code> cannot bind <code>@goal</code>. The recipe refuses instead of choosing similar text.</p></article>
         <article class="capability"><h3>Ambiguity</h3><p>Removing <code>within @goal</code> makes this expression match both the assumption and the check. A selector requiring <code>one</code> refuses multiple matches rather than picking the first.</p></article>
         <article class="capability"><h3>Overlapping edits</h3><p>A second replacement covering the same original span conflicts with the first. Overlapping edit targets are refused, not silently ordered into a different change.</p></article>
       </div>
-      <p class="boundary">This is a bounded offline preview, not a claim that every Splicery language feature is available. Unsupported productions refuse rather than falling back. For the broader authority model, read the <a href="/docs.html#workflow">project workflow guide</a>.</p>
+      <p class="boundary">This preview covers part of the language; unsupported constructs are refused rather than approximated. See <a href="/docs.html#workflow">how an approved edit will be applied</a>.</p>
     </section>
   </main>
   <footer class="site-footer wrap">
     <div class="footer-line">
       <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/LICENSE.txt">MIT license</a><a href="/docs.html">Project guide</a><a href="/weft.html">Weft</a><a href="/">Home</a>
-      <span class="footer-state">In development</span>
+      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <span class="footer-state">Pre-release</span>
     </div>
-    <p class="footer-note">Knowledge with a record. No accounts, no analytics — a local-first product taking shape.</p>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
   </footer>
 </body>
 </html>
