@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
     "weft.html", "splicery.html", "status.html", "glossary.html",
-    "examples/review.weft", "examples/negate-check.spl",
+    "examples/review.weft", "examples/client.rs", "examples/add-retry.spl",
     "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
@@ -46,6 +46,10 @@ def main():
             "language_example_evidence": {
                 "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
                 "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b",
+            },
+            "splicery_rust_example_evidence": {
+                "scope": "Offline Splicery preview and three refusal runs on the Rust example; no Writfold effect",
+                "receipt_sha256": "ddf716c5716559671f1a321125fa1684e5b58e8cf11a4cb9bde78de1c6924b98",
             },
             "files": actual,
         }

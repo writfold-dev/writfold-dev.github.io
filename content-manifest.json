@@ -13,22 +13,27 @@
     "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
     "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b"
   },
+  "splicery_rust_example_evidence": {
+    "scope": "Offline Splicery preview and three refusal runs on the Rust example; no Writfold effect",
+    "receipt_sha256": "ddf716c5716559671f1a321125fa1684e5b58e8cf11a4cb9bde78de1c6924b98"
+  },
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "404.html": "306f44a157b44c005fa06e759c4089f1e1cdeb78c6e94ec19e2b3a43ec64be8f",
     "CNAME": "a37115b9fc6562ae56cd88bcdfaede70587a01428a9caf1f807106cc13fde3c6",
     "LICENSE.txt": "bb23cea06c1a4f205b5f6e2d4ecc5ff1c1ebf15829706f1fe366424d0919e9be",
-    "index.html": "5505c9cbd13130a8f48e32720b2e0d4206ec604c6ac78cea34094c08afb6dce6",
-    "docs.html": "eeb89fe2a3b871138dbab632707c7642394ab60dd8e9966218c6ae4c771cbb89",
-    "weft.html": "f9ce18b334fee2bad7cbd423526cc0476def406e81ea0773039ecb80e0fad4f7",
-    "splicery.html": "31e982fe6d0c954435df06050da865f29d38a34e8f19b603b9837e3573c836d6",
+    "index.html": "31bb87ce162a95d995dcadbc36c90a8d37405cb7fe04d64d7c032f283c5181f0",
+    "docs.html": "87ddd62f40438cb0176dc63df7c9e0925e7280a69b55552ba8cc75976b02000a",
+    "weft.html": "5c309e54340e970d92126f788660eafca782eeb44f34c84de5ec96aad68a2153",
+    "splicery.html": "339f2b451d1e320f3e0a01d384a8f4f2e830931a63fb433b23a19dc617f4c252",
     "status.html": "acee68a6429921b21ab0f0637effcb70886c461bfaaed4689642a4afd7d4bdd0",
     "glossary.html": "90a9d9c603f3b6ccc4e27df0bdf625bad29aed734411df0ed3b56453df78fd44",
     "examples/review.weft": "38d0afe0be6f66b7f94dbc351ad3945989188b80a0dc7cba58be10526610a673",
-    "examples/negate-check.spl": "5b16ff5a4e240eca373449f68d9796cc4ab3479450ece9aaaafb210af877a7fd",
+    "examples/client.rs": "eb3464bc97cd428e4be0a96cb571937f335b88444f980f866d2328316da67101",
+    "examples/add-retry.spl": "27685dfb29a173e5705b46ff36d2551d757039d71a1a0de9cf22f1876339020f",
     "assets/favicon.svg": "09df37a9c7184b1427d4cb3dbb79f1df483d24aa8d3de33c50509f5f79440c7c",
     "assets/og-image.png": "fd8f609f798a05b4ef369bd9a8ed91d05aec20776438cbb50c5487ef1672f9ba",
-    "assets/site.css": "64e747337c1e3b05d3c3ef107330c29d5eea4c2e553fdd5f6ed441bb2fd44b12",
+    "assets/site.css": "eb6b3bfda06f87d3c7001834b8f01ac924500f9c36795bd2cedfdbd583849f17",
     "assets/theme.js": "c5a9fa14ccdd4575b76b18ea3d35735134f11f7cdf39a580fa52d9e6f055f983",
     "assets/writfold-icon-dark.svg": "3e3b3a02ec657022033886191173e3d952fd17a6688d1cc30f99e4ba67cb80f5",
     "assets/writfold-icon.svg": "8fcfb53dbed16fc8239657eaa5577f5afefdba7388642d48107f2a7027553fee"

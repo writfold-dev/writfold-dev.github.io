@@ -1,5 +1,0 @@
-edit "review.weft" {
-  @goal := one text "check docs_only: has_plan(\"payments\");"
-  @expr := one text "has_plan(\"payments\")" within @goal
-  replace @expr with ["not ", keep(@expr)]
-}

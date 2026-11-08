@@ -199,7 +199,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .thesis { margin-top: 36px; max-width: 760px; }
 .context-note { margin-top: .6rem; }
 .today { margin-top: .45rem !important; font-size: .84rem !important; color: var(--accent) !important; }
-.tools code { display: block; margin: .4rem 0 .6rem; padding: 8px 10px; border: 1px solid var(--code-border); border-radius: 5px; background: var(--code-bg); color: var(--code-text); font-size: .78rem; overflow-x: auto; white-space: pre; }
+.tools code { display: block; margin: .4rem 0 .6rem; padding: 8px 10px; border: 1px solid var(--code-border); border-radius: 5px; background: var(--code-bg); color: var(--code-text); font-size: .78rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tools .capability { min-width: 0; }
 .tools small { display: block; color: var(--muted); font-size: .8rem; }
 .plain-list { margin: 0; padding-left: 1.2rem; color: var(--muted); }
 .plain-list li { margin-bottom: .5rem; }

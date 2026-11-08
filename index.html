@@ -69,7 +69,7 @@
       <div class="three-up tools">
         <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: stdio session start and shutdown only.</small></article>
         <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs.</small></article>
-        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @expr with ["not ", keep(@expr)]</code><small>Today: offline preview runs.</small></article>
+        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs.</small></article>
       </div>
     </section>
 
