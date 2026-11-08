@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Writfold — Knowledge with a record.</title>
-  <meta name="description" content="A local knowledge engine for coding agents: keep exact copies of what was read, check what it supports, and apply only approved edits. Rust, pre-release.">
+  <title>Writfold — An evidence-and-approval harness for coding agents</title>
+  <meta name="description" content="An evidence-and-approval harness that sits underneath a coding agent: what it may know, conclude and change, with a record of each step. Rust, pre-release.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
-  <meta property="og:title" content="Writfold — Knowledge with a record.">
-  <meta property="og:description" content="A local knowledge engine for coding agents: keep exact copies of what was read, check what it supports, and apply only approved edits. Rust, pre-release.">
+  <meta property="og:title" content="Writfold — An evidence-and-approval harness for coding agents">
+  <meta property="og:description" content="An evidence-and-approval harness that sits underneath a coding agent: what it may know, conclude and change, with a record of each step. Rust, pre-release.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -32,25 +32,50 @@
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">A local knowledge engine for coding agents</p>
-      <h1 id="hero-title">Keep the context.<br><span>Know what supports it.</span></h1>
-      <p class="lede">Writfold lets a coding agent keep exact copies of what it read, check what those sources actually support, and change files only through edits you have approved, with a receipt it can recover from.</p>
-      <div class="actions"><a class="button" href="#start">See the six steps <span aria-hidden="true">↓</span></a><a class="text-action" href="#try">Try the examples <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge">Pre-release</span> Rust · local-only · Linux x86_64 and WSL2 · nothing is installable yet · <a href="/status.html">what runs today</a></p>
+      <p class="eyebrow">An evidence-and-approval harness for coding agents</p>
+      <h1 id="hero-title">Another take on<br><span>the agent harness.</span></h1>
+      <p class="lede">Writfold is for people running coding agents on real repositories. Your agent, such as Claude Code or Codex, stays the loop. Writfold is designed to sit underneath it and govern what the agent may know, conclude and change, keeping evidence of every step.</p>
+      <p class="problem">The problem: agents act on context nobody verified, and leave edits nobody can review or replay. Writfold keeps knowledge for reasoning, <a href="/weft.html">Weft</a> checks the plan, <a href="/splicery.html">Splicery</a> expresses the edit, and only Writfold applies it, in a Git worktree it owns.</p>
+      <div class="actions"><a class="button" href="#harness">How the pieces fit <span aria-hidden="true">↓</span></a><a class="text-action" href="#try">Try what runs today <span aria-hidden="true">→</span></a></div>
+      <p class="maturity"><span class="badge">Pre-release</span> Rust · local-only · Linux x86_64 and WSL2 · direction and design; most of it is not connected yet · <a href="/status.html">what runs today</a></p>
+      <figure class="harness-fig" aria-hidden="true">
+        <svg viewBox="0 0 960 250" focusable="false">
+          <rect class="fa-box" x="8" y="64" width="172" height="122" rx="10"/>
+          <text class="fa-name" x="94" y="112">Coding agent</text><text class="fa-owner" x="94" y="136">Claude Code,</text><text class="fa-owner" x="94" y="154">Codex …</text>
+          <path class="fa-arrow" d="M184 108h44m-5-5 5 5-5 5"/><text class="hz-label" x="206" y="98">ask</text>
+          <path class="fa-arrow" d="M228 146h-44m5-5-5 5 5 5"/><text class="hz-label" x="206" y="166">result</text>
+          <rect class="hz-frame" x="234" y="8" width="494" height="234" rx="12"/>
+          <text class="hz-title" x="250" y="32">THE HARNESS</text>
+          <rect class="fa-box" x="250" y="44" width="148" height="112" rx="8"/>
+          <text class="fa-name" x="324" y="80">Know</text><text class="fa-owner" x="324" y="104">Writfold</text><text class="hz-role" x="324" y="128">cited evidence</text>
+          <rect class="fa-box fa-today" x="407" y="44" width="148" height="112" rx="8"/>
+          <text class="fa-name" x="481" y="80">Conclude</text><text class="fa-owner" x="481" y="104">Weft</text><text class="hz-role" x="481" y="128">checks the plan</text>
+          <rect class="fa-box" x="564" y="44" width="148" height="112" rx="8"/>
+          <text class="fa-name" x="638" y="80">Change</text><text class="fa-owner" x="638" y="104">Splicery</text><text class="hz-role" x="638" y="128">Writfold applies</text>
+          <rect class="fa-box fa-planned" x="250" y="168" width="462" height="58" rx="8"/>
+          <text class="hz-record" x="481" y="203">Record · a receipt for every step</text>
+          <path class="fa-arrow" d="M732 100h44m-5-5 5 5-5 5"/><text class="hz-label" x="754" y="90">edit</text>
+          <path class="fa-arrow" d="M776 150h-44m5-5-5 5 5 5"/><text class="hz-label" x="754" y="170">read</text>
+          <rect class="fa-box" x="780" y="64" width="172" height="122" rx="10"/>
+          <text class="fa-name" x="866" y="112">Repository</text><text class="fa-owner" x="866" y="136">Git worktree</text><text class="fa-owner" x="866" y="154">Writfold owns</text>
+        </svg>
+      </figure>
+      <p class="legend harness-legend"><span><span class="chip chip-today">Runs today</span> standalone tool</span><span><span class="chip chip-parts">Parts tested</span> components exist, not yet connected</span><span><span class="chip chip-planned">Planned</span> designed, not built</span></p>
     </section>
 
-    <section class="section" aria-labelledby="benefits-title">
-      <div class="section-heading"><p class="eyebrow">Why</p><h2 id="benefits-title">What Writfold is for</h2><p>Agents forget between sessions, and a summary loses where a fact came from. Writfold is designed around three goals.</p></div>
-      <div class="three-up">
-        <article class="capability"><span class="number" aria-hidden="true">01 /</span><h3>Keep the evidence.</h3><p>Store the exact bytes and revision behind a claim, so a reference leads back to what was actually read, not to whatever the URL holds today.</p></article>
-        <article class="capability"><span class="number" aria-hidden="true">02 /</span><h3>Approve what changes.</h3><p>Knowledge and file edits are proposed first and applied only with an explicit, recorded approval.</p></article>
-        <article class="capability"><span class="number" aria-hidden="true">03 /</span><h3>Carry context forward.</h3><p>Ask for a bounded view of a named context, with its evidence, contradictions and gaps, without mixing work and personal authority.</p></article>
-      </div>
+    <section id="harness" class="section" aria-labelledby="harness-title">
+      <div class="section-heading"><p class="eyebrow">How the pieces fit</p><h2 id="harness-title">Know, conclude, change, record</h2><p>Writfold does not replace the agent loop or the model. It is the layer the agent goes through for knowledge it relies on and for every change it makes to your files.</p></div>
+      <ol class="record-steps four-steps">
+        <li class="step-parts"><span class="eyebrow">Know / Writfold</span><h3>Exact, cited evidence</h3><p>Writfold retains the exact bytes and revision behind what the agent read, in a named <a href="/glossary.html#context">context</a>. A finding is not a proof, and a citation is not an approval.</p><span class="chip chip-parts">Parts tested</span></li>
+        <li class="step-today"><span class="eyebrow">Conclude / Weft</span><h3>Check the plan</h3><p>Weft checks a plan's claims against declared assumptions and evidence: each is entailed, refuted or still open. Its reports carry no permission to change anything.</p><span class="chip chip-today">Runs today</span></li>
+        <li class="step-parts"><span class="eyebrow">Change / Splicery + Writfold</span><h3>Edit only where owned</h3><p>Splicery expresses a byte-exact edit recipe and previews the candidate. Writfold applies it only in a Git worktree it created, under your signed approval and a current operator grant.</p><span class="chip chip-parts">Preview runs · apply tested alone</span></li>
+        <li class="step-planned"><span class="eyebrow">Record / Writfold</span><h3>Evidence at every step</h3><p>Each step leaves a <a href="/glossary.html#receipt">receipt</a>, so a run can be reviewed afterwards, recovered after a crash, or reused by the next session.</p><span class="chip chip-planned">Planned</span></li>
+      </ol>
       <aside id="evidence" class="principle thesis" aria-labelledby="evidence-title"><p class="eyebrow">The core idea</p><h3 id="evidence-title">Found, supported, approved: three different things.</h3><p>Finding a document does not make it right, and a document being right is not permission to act on it. Writfold records each of those as a separate step.</p><p id="context" class="context-note">The same holds across <a href="/glossary.html#context">contexts</a>: evidence or approval in one context never silently authorizes anything in another.</p></aside>
     </section>
 
     <section id="start" class="section" aria-labelledby="start-title">
-      <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="start-title">The six steps</h2><p>Writfold is the <a href="/glossary.html#owner">owner</a>: it alone holds the knowledge store and alone changes files. Weft and Splicery only read and propose. Steps 2 and 3 run today as standalone tools; the rest are being built.</p></div>
+      <div class="section-heading"><p class="eyebrow">One edit, end to end</p><h2 id="start-title">The six steps</h2><p>Writfold is the <a href="/glossary.html#owner">owner</a>: it alone holds the knowledge store and alone changes files. Weft and Splicery only read and propose. Steps 2 and 3 run today as standalone tools; the rest are being built.</p></div>
       <figure class="flow-anim" aria-hidden="true">
         <svg viewBox="0 0 960 170" focusable="false">
           <rect class="fa-box fa-parts" x="8" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M152 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="166" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M310 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="324" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M468 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-parts" x="482" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M626 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-parts" x="640" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M784 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-planned" x="798" y="34" width="142" height="92" rx="10"/>
@@ -60,7 +85,7 @@
         </svg>
       </figure>
       <p class="legend"><span><span class="chip chip-today">Runs today</span> standalone tool</span><span><span class="chip chip-parts">Parts tested</span> components exist, not yet connected</span><span><span class="chip chip-planned">Planned</span> designed, not built</span></p>
-      <ol class="record-steps"><li class="step-parts"><span class="eyebrow">01 / Writfold</span><h3>Retain exact inputs</h3><p>Keep the source bytes, revision and identity inside a named context, so later edits cannot rewrite the evidence.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-today"><span class="eyebrow">02 / Weft</span><h3>Assess the claims</h3><p>Check what the declared assumptions actually support: entailed, refuted or still open.</p><span class="chip chip-today">Runs today</span></li><li class="step-today"><span class="eyebrow">03 / Splicery</span><h3>Prepare an edit</h3><p>Describe a byte-exact change and compute a candidate file. The original stays untouched.</p><span class="chip chip-today">Runs today</span></li><li class="step-parts"><span class="eyebrow">04 / Writfold</span><h3>Approve that edit</h3><p>You sign an approval bound to this exact prepared change, under the context's policy.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-parts"><span class="eyebrow">05 / Writfold</span><h3>Apply it</h3><p>Writfold writes the approved change into its own Git worktree, after re-checking the file has not changed.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-planned"><span class="eyebrow">06 / Writfold</span><h3>Record a receipt</h3><p>Keep a durable receipt. If a response is lost, recover the same result instead of applying the edit twice.</p><span class="chip chip-planned">Planned</span></li></ol>
+      <ol class="record-steps"><li class="step-parts"><span class="eyebrow">01 / Writfold</span><h3>Retain exact inputs</h3><p>Keep the source bytes, revision and identity inside a named context, so later edits cannot rewrite the evidence.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-today"><span class="eyebrow">02 / Weft</span><h3>Assess the claims</h3><p>Check what the declared assumptions actually support: entailed, refuted or still open.</p><span class="chip chip-today">Runs today</span></li><li class="step-today"><span class="eyebrow">03 / Splicery</span><h3>Prepare an edit</h3><p>Describe a byte-exact change and compute a candidate file. The original stays untouched.</p><span class="chip chip-today">Runs today</span></li><li class="step-parts"><span class="eyebrow">04 / Writfold</span><h3>Approve that edit</h3><p>You sign an approval bound to this exact prepared change, checked against a current operator grant and the context's policy.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-parts"><span class="eyebrow">05 / Writfold</span><h3>Apply it</h3><p>Writfold writes the approved change into its own Git worktree, after re-checking the file has not changed.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-planned"><span class="eyebrow">06 / Writfold</span><h3>Record a receipt</h3><p>Keep a durable receipt. If a response is lost, recover the same result instead of applying the edit twice.</p><span class="chip chip-planned">Planned</span></li></ol>
       <a class="text-action" href="/docs.html#workflow">Walk through the steps with a runbook example <span aria-hidden="true">→</span></a>
     </section>
 
@@ -102,12 +127,12 @@ printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocol
       <a class="text-action" href="/status.html">Full status, roadmap and changelog <span aria-hidden="true">→</span></a>
     </section>
 
-    <section id="try" class="section" aria-labelledby="try-title">
-      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Follow along today</h2><p>There is no Writfold installer yet. The <a href="/weft.html">Weft</a> and <a href="/splicery.html">Splicery</a> pages show two worked examples with their exact source files, the commands that were run, and the results. The development binaries are not published yet; each page records the SHA-256 of the binary used.</p></div>
+    <section id="guides" class="section" aria-labelledby="guides-title">
+      <div class="section-heading"><p class="eyebrow">Read on</p><h2 id="guides-title">Worked examples and guides</h2><p>There is no Writfold installer or release binary yet. The <a href="/weft.html">Weft</a> and <a href="/splicery.html">Splicery</a> pages show two worked examples with their exact source files, the commands that were run, and the results; each records the SHA-256 of the development binary used.</p></div>
       <div class="doc-links" id="docs">
         <a href="/weft.html"><span><strong>Weft by example</strong><small>State assumptions, run checks, read the outcomes</small></span><span aria-hidden="true">→</span></a>
         <a href="/splicery.html"><span><strong>Splicery by example</strong><small>Select exact bytes, preview a candidate, see refusals</small></span><span aria-hidden="true">→</span></a>
-        <a href="/docs.html"><span><strong>How it works</strong><small>The six steps in depth, evidence, contexts and architecture</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html"><span><strong>How it works</strong><small>Where the harness sits, the six steps, evidence, contexts and architecture</small></span><span aria-hidden="true">→</span></a>
         <a href="/status.html"><span><strong>Status &amp; FAQ</strong><small>What runs, what is blocked, what changed and when</small></span><span aria-hidden="true">→</span></a>
         <a href="/glossary.html"><span><strong>Glossary</strong><small>Owner, retained input, receipt, grounding and other terms</small></span><span aria-hidden="true">→</span></a>
       </div>

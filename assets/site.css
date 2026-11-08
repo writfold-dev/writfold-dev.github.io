@@ -243,6 +243,17 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 @keyframes fa-token { 0% { transform: translateX(79px); opacity: 1; } 75% { transform: translateX(869px); opacity: 1; } 88% { transform: translateX(869px); opacity: 1; } 100% { transform: translateX(869px); opacity: 0; } }
 @keyframes fa-stamp { 0% { opacity: 0; } 3% { opacity: 1; } 80% { opacity: 1; } 90%, 100% { opacity: 0; } }
 .flow-anim:hover .fa-token, .flow-anim:hover .fa-stamp { animation-play-state: paused; }
+/* Overview harness diagram: decorative; the hero copy and the four step cards carry the content. */
+.problem { max-width: 650px; color: var(--muted); }
+.harness-fig { margin: 8px 0 14px; }
+.harness-fig svg { display: block; width: 100%; height: auto; }
+.hz-frame { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.hz-title { fill: var(--accent); font: 650 12px ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .12em; }
+.hz-label { fill: var(--muted); font: 12px ui-monospace, "SFMono-Regular", Consolas, monospace; text-anchor: middle; }
+.hz-role { fill: var(--text); font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+.hz-record { fill: var(--text); font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+.record-steps.four-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.four-steps .chip { white-space: normal; max-width: 100%; }
 /* Splicery before/after panes */
 .diff-figure { margin: 0; }
 .diff-figure figcaption { margin-top: 14px; }
@@ -265,8 +276,12 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
   .ins-new { animation: draw-in .6s ease-out 1.5s both; }
 }
 @keyframes draw-in { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 900px) {
+  .record-steps.four-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 700px) {
-  .flow-anim { display: none; }
+  .flow-anim, .harness-fig, .harness-legend { display: none; }
+  .record-steps.four-steps { grid-template-columns: 1fr; }
   .diff-panes, .glossary { grid-template-columns: 1fr; }
   h1 { letter-spacing: -.03em; }
   .status-table tbody th { white-space: normal; }

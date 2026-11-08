@@ -36,7 +36,7 @@ def main():
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
             "product_source_base_commit": "26780a715cf7a4a1e15719d58a2c4b3f4774b200",
-            "product_source_visibility": "private",
+            "product_source_visibility": "public",
             "architecture_revision": 5,
             "component_evidence": {
                 "scope": "Control and local artifact regressions only; not owner data/effect services or alpha readiness",
