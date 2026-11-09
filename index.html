@@ -68,7 +68,7 @@
       <ol class="record-steps four-steps">
         <li class="step-parts"><span class="eyebrow">Know / Writfold</span><h3>Exact, cited evidence</h3><p>Writfold retains the exact bytes and revision behind what the agent read, in a named <a href="/glossary.html#context">context</a>. A finding is not a proof, and a citation is not an approval.</p><span class="chip chip-parts">Parts tested</span></li>
         <li class="step-today"><span class="eyebrow">Conclude / Weft</span><h3>Check the plan</h3><p>Weft checks a plan's claims against declared assumptions and evidence: each is entailed, refuted or still open. Its reports carry no permission to change anything.</p><span class="chip chip-today">Runs today</span></li>
-        <li class="step-parts"><span class="eyebrow">Change / Splicery + Writfold</span><h3>Edit only where owned</h3><p>Splicery expresses a byte-exact edit recipe and previews the candidate. Writfold applies it only in a Git worktree it created, under your signed approval and a current operator grant.</p><span class="chip chip-parts">Preview runs · apply tested alone</span></li>
+        <li class="step-parts"><span class="eyebrow">Change / Splicery + Writfold</span><h3>Edit only where owned</h3><p>Splicery expresses a byte-exact edit recipe and previews the candidate. Writfold applies it only in a Git worktree it created, under your signed approval and a current operator grant.</p><span class="chip chip-today">Runs (trial profile)</span></li>
         <li class="step-planned"><span class="eyebrow">Record / Writfold</span><h3>Evidence at every step</h3><p>Each step leaves a <a href="/glossary.html#receipt">receipt</a>, so a run can be reviewed afterwards, recovered after a crash, or reused by the next session.</p><span class="chip chip-planned">Planned</span></li>
       </ol>
       <aside id="evidence" class="principle thesis" aria-labelledby="evidence-title"><p class="eyebrow">The core idea</p><h3 id="evidence-title">Found, supported, approved: three different things.</h3><p>Finding a document does not make it right, and a document being right is not permission to act on it. Writfold records each of those as a separate step.</p><p id="context" class="context-note">The same holds across <a href="/glossary.html#context">contexts</a>: evidence or approval in one context never silently authorizes anything in another.</p></aside>
@@ -85,14 +85,14 @@
         </svg>
       </figure>
       <p class="legend"><span><span class="chip chip-today">Runs today</span> standalone tool</span><span><span class="chip chip-parts">Parts tested</span> components exist, not yet connected</span><span><span class="chip chip-planned">Planned</span> designed, not built</span></p>
-      <ol class="record-steps"><li class="step-parts"><span class="eyebrow">01 / Writfold</span><h3>Retain exact inputs</h3><p>Keep the source bytes, revision and identity inside a named context, so later edits cannot rewrite the evidence.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-today"><span class="eyebrow">02 / Weft</span><h3>Assess the claims</h3><p>Check what the declared assumptions actually support: entailed, refuted or still open.</p><span class="chip chip-today">Runs today</span></li><li class="step-today"><span class="eyebrow">03 / Splicery</span><h3>Prepare an edit</h3><p>Describe a byte-exact change and compute a candidate file. The original stays untouched.</p><span class="chip chip-today">Runs today</span></li><li class="step-parts"><span class="eyebrow">04 / Writfold</span><h3>Approve that edit</h3><p>You sign an approval bound to this exact prepared change, checked against a current operator grant and the context's policy.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-parts"><span class="eyebrow">05 / Writfold</span><h3>Apply it</h3><p>Writfold writes the approved change into its own Git worktree, after re-checking the file has not changed.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-planned"><span class="eyebrow">06 / Writfold</span><h3>Record a receipt</h3><p>Keep a durable receipt. If a response is lost, recover the same result instead of applying the edit twice.</p><span class="chip chip-planned">Planned</span></li></ol>
+      <ol class="record-steps"><li class="step-parts"><span class="eyebrow">01 / Writfold</span><h3>Retain exact inputs</h3><p>Keep the source bytes, revision and identity inside a named context, so later edits cannot rewrite the evidence.</p><span class="chip chip-parts">Parts tested</span></li><li class="step-today"><span class="eyebrow">02 / Weft</span><h3>Assess the claims</h3><p>Check what the declared assumptions actually support: entailed, refuted or still open.</p><span class="chip chip-today">Runs today</span></li><li class="step-today"><span class="eyebrow">03 / Splicery</span><h3>Prepare an edit</h3><p>Describe a byte-exact change and compute a candidate file. The original stays untouched.</p><span class="chip chip-today">Runs today</span></li><li class="step-today"><span class="eyebrow">04 / Writfold</span><h3>Approve that edit</h3><p>You sign an approval bound to this exact prepared change, checked against a current operator grant and the context's policy.</p><span class="chip chip-today">Runs (trial)</span></li><li class="step-today"><span class="eyebrow">05 / Writfold</span><h3>Apply it</h3><p>Writfold writes the approved change into its own Git worktree, after re-checking the file has not changed.</p><span class="chip chip-today">Runs (trial)</span></li><li class="step-planned"><span class="eyebrow">06 / Writfold</span><h3>Record a receipt</h3><p>Keep a durable receipt. If a response is lost, recover the same result instead of applying the edit twice.</p><span class="chip chip-planned">Planned</span></li></ol>
       <a class="text-action" href="/docs.html#workflow">Walk through the steps with a runbook example <span aria-hidden="true">→</span></a>
     </section>
 
     <section id="tools" class="section" aria-labelledby="tools-title">
       <div class="section-heading"><p class="eyebrow">Three tools</p><h2 id="tools-title">Three tools, one approval boundary</h2><p>Each tool has one job. Only Writfold can change anything.</p></div>
       <div class="three-up tools">
-        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: stdio session start and shutdown only. <a href="https://github.com/writfold-dev/writfold">Source</a></small></article>
+        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: the trial prepare &rarr; approve &rarr; apply flow, and a stdio session. <a href="https://github.com/writfold-dev/writfold">Source</a></small></article>
         <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs. <a href="https://github.com/writfold-dev/weft">Source</a></small></article>
         <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs. <a href="https://github.com/writfold-dev/splicery">Source</a></small></article>
       </div>
@@ -101,20 +101,24 @@
     <section id="try" class="section" aria-labelledby="try-title">
       <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Build and run from source</h2><p>Linux x86_64 with <a href="https://rustup.rs">rustup</a>. Each repository pins its Rust toolchain, which installs on first build.</p></div>
       <pre class="code-panel" tabindex="0" aria-label="Build and try commands"><code># Splicery: preview a byte-exact edit to a Rust file
-git clone https://github.com/writfold-dev/splicery &amp;&amp; cd splicery
-cargo build --release --locked
-cd examples/try &amp;&amp; ../../target/release/splicery-cli preview --root . --file client.rs add-retry.spl
+git clone https://github.com/writfold-dev/splicery
+(cd splicery &amp;&amp; cargo build --release --locked)
+(cd splicery/examples/try &amp;&amp; ../../target/release/splicery-cli preview --root . --file client.rs add-retry.spl)
 
 # Weft: check what declared assumptions support
-git clone https://github.com/writfold-dev/weft &amp;&amp; cd weft
-cargo build --release --locked
-target/release/weft prove examples/sets.weft --human
+git clone https://github.com/writfold-dev/weft
+(cd weft &amp;&amp; cargo build --release --locked &amp;&amp; target/release/weft prove examples/sets.weft --human)
 
-# Writfold: start and stop an agent session
-git clone https://github.com/writfold-dev/writfold &amp;&amp; cd writfold
-cargo build --release -p writfold
-printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocol_version":"2"}}' \
-  '{"jsonrpc":"2.0","id":2,"method":"shutdown"}' | target/release/writfold serve</code></pre>
+# Writfold: prepare, approve and apply that edit in Writfold&rsquo;s own worktree of splicery
+git clone https://github.com/writfold-dev/writfold
+(cd writfold &amp;&amp; cargo build --release -p writfold)
+export WRITFOLD_STATE=/tmp/writfold-trial
+writfold/target/release/writfold trial init
+writfold/target/release/writfold trial prepare --repo splicery \
+  --file examples/try/client.rs --recipe writfold/examples/trial/add-retry.spl
+writfold/target/release/writfold trial approve &lt;run&gt;
+writfold/target/release/writfold trial apply &lt;run&gt;
+git -C "$WRITFOLD_STATE/worktrees/&lt;run&gt;" diff</code></pre>
       <p>Found a problem or have an idea? Open an issue on <a href="https://github.com/writfold-dev/writfold/issues">Writfold</a>, <a href="https://github.com/writfold-dev/weft/issues">Weft</a> or <a href="https://github.com/writfold-dev/splicery/issues">Splicery</a>.</p>
     </section>
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "canonical_origin": "https://writfold.dev",
-  "product_source_base_commit": "197ac3e9b4b3520616e68c5e50cb08e5f6e425dc",
+  "product_source_base_commit": "80eee639e9b1874cf7bdf223787f8817db92d492",
   "product_source_visibility": "public",
   "architecture_revision": 5,
   "component_evidence": {
@@ -22,11 +22,11 @@
     "404.html": "306f44a157b44c005fa06e759c4089f1e1cdeb78c6e94ec19e2b3a43ec64be8f",
     "CNAME": "a37115b9fc6562ae56cd88bcdfaede70587a01428a9caf1f807106cc13fde3c6",
     "LICENSE.txt": "bb23cea06c1a4f205b5f6e2d4ecc5ff1c1ebf15829706f1fe366424d0919e9be",
-    "index.html": "c73e130f25d6e89f1e3c987aeb1ff68d217eac305bab70f3b20b9b31250f03d5",
+    "index.html": "672e46b500ff9ac84ca3f378725bd3191b897f8ed8ac2045e24f49ef895018fb",
     "docs.html": "0a5896c7b68cfc7f69928ab142599ce0059137ef4516e0c103faafab9d5cbcd4",
     "weft.html": "8886619cde69586e89ae0d27a3491f2db6a6d70c869b84529cab3505319b2b47",
     "splicery.html": "a656ce0307d450d031066a75b86c8f5f0d43ecc7b4762347677ab0a03103158e",
-    "status.html": "15abe9547d690b1498c204a9e7d7b65f1fb45bba93bdd84b381b5f687223f125",
+    "status.html": "bed9da291b0d8bda7353f65650885e70bb5c50bb2c1f41f183ea056432aad3bf",
     "glossary.html": "73c29695b5a51b33abbf222223b0045d82540692fa02c1df9c5bff28f56741f5",
     "examples/review.weft": "38d0afe0be6f66b7f94dbc351ad3945989188b80a0dc7cba58be10526610a673",
     "examples/client.rs": "eb3464bc97cd428e4be0a96cb571937f335b88444f980f866d2328316da67101",
