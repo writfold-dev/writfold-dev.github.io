@@ -87,7 +87,7 @@ pub fn probe(url: &amp;str) -&gt; bool {
     open(url).is_ok()
 }</code></pre></div>
         </div>
-        <figcaption id="diff-caption" class="fine-print"><span class="key key-goal">@bind</span> the anchored line · <span class="key key-expr">@call</span> the call inside it, kept byte for byte · <span class="key key-new">inserted</span> new bytes. Nothing is written back to <code>client.rs</code>; applying an edit is Writfold's job and is not built yet.</figcaption>
+        <figcaption id="diff-caption" class="fine-print"><span class="key key-goal">@bind</span> the anchored line · <span class="key key-expr">@call</span> the call inside it, kept byte for byte · <span class="key key-new">inserted</span> new bytes. Nothing is written back to <code>client.rs</code>; applying an edit is Writfold's job, which today runs only in its <a href="/status.html#today">trial profile</a>.</figcaption>
       </figure>
     </section>
     <section id="preview" class="section" aria-labelledby="preview-title">
@@ -95,6 +95,7 @@ pub fn probe(url: &amp;str) -&gt; bool {
       <pre class="code-panel" tabindex="0" aria-label="Executed preview command"><code>splicery preview --root . add-retry.spl &gt; candidate.rs
 </code></pre>
       <p>The preview exited <code>0</code> and printed the candidate shown above; the shell saved it as <code>candidate.rs</code>. The bytes of <code>client.rs</code> were unchanged afterwards. Splicery works on bytes, so the same recipe style applies to TypeScript, Python, Markdown or any other text file.</p>
+      <p class="boundary">Proved over the shipped Rust: batch validation, ordering and rendering. The candidate is the original with each target replaced in canonical order, the result does not depend on the order edits are listed, lengths add up exactly, and an empty batch changes nothing. The UTF-8 check of text candidates is tested, not proved. <a href="/docs.html#assurance">How we know</a></p>
       <p class="fine-print">Development binary used: Splicery SHA-256 <code>db79d50147cc51d7183b18474d1ea9f3f6eb935e14f7c7f8719e7fdea3965081</code>.</p>
     </section>
     <section id="refusals" class="section" aria-labelledby="refusals-title">
