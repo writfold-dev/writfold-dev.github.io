@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "canonical_origin": "https://writfold.dev",
-  "product_source_base_commit": "fcf7fcd1471821712e16e5cb2b569bc9b3a597e9",
+  "product_source_base_commit": "54d4b6bd0c0bc06ac93ee12e2ceefa6e34732428",
   "product_source_visibility": "public",
   "architecture_revision": 5,
   "component_evidence": {
-    "scope": "Control and local artifact regressions only; not owner data/effect services or alpha readiness",
+    "scope": "Control and local artifact regressions only; not owner data/effect services or release readiness",
     "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
     "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c"
   },
   "language_example_evidence": {
-    "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
-    "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b"
+    "scope": "Actual local symbolic assessment of the renamed-context review.weft; hypothetical, no effect authority",
+    "receipt_sha256": "ed624c6a136e139613fd908006365e449cb72c10b5ed19d718d2db2cf3ad1f32"
   },
   "splicery_rust_example_evidence": {
     "scope": "Offline Splicery preview and three refusal runs on the Rust example; no Writfold effect",
@@ -22,18 +22,18 @@
     "404.html": "306f44a157b44c005fa06e759c4089f1e1cdeb78c6e94ec19e2b3a43ec64be8f",
     "CNAME": "a37115b9fc6562ae56cd88bcdfaede70587a01428a9caf1f807106cc13fde3c6",
     "LICENSE.txt": "bb23cea06c1a4f205b5f6e2d4ecc5ff1c1ebf15829706f1fe366424d0919e9be",
-    "index.html": "fce0c568ec12f8aeaa21794d7241984e4e2d9bb16c5986e07cf504f4fb038bbb",
-    "docs.html": "9a04bc1e740432b7540d76b6b64d99dd3a6bcb35fe11be9f96426e2cb60e33cc",
-    "weft.html": "866a330c52c65e37c49edc7c29e05c7643f0925cbb1a14af3b46b31f00744ed8",
+    "index.html": "8f307bcfea939b68212f79accb0d68fb1e7253f0174713aa2df2d249c6e4b878",
+    "docs.html": "5938e4ba80d5f3105b0ec772dcb27d212982e5d296b4063863330686602a7ad4",
+    "weft.html": "cc1d2641636cf9d934638869cd159de4aa96a3c0b2ed28a6f3e111d0cee03920",
     "splicery.html": "42eb99650e51dd53298b95f6c041d4387b353eba344026c4b944db01a2af560e",
-    "status.html": "7f8481455434dfc36e6f41cf6e6fd96d038fba7cc3d5029d5e402cffd7fe5706",
-    "glossary.html": "8c020ce4f453bc6f6311e81969881218db5dacf8cda8a0e1899b8c4e25ae8295",
-    "examples/review.weft": "38d0afe0be6f66b7f94dbc351ad3945989188b80a0dc7cba58be10526610a673",
+    "status.html": "6133959e48ceedce47d38d397c96e40bc2e262397dba2816c1e50bf19483da9a",
+    "glossary.html": "3e8ce07a2618c8a3350b45368c81748814bcbf67305464474679ef9a223527cb",
+    "examples/review.weft": "e6b2eee14abdd3f69240e8bd87c911d85d710fc37510674e766503736ec40af4",
     "examples/client.rs": "eb3464bc97cd428e4be0a96cb571937f335b88444f980f866d2328316da67101",
     "examples/add-retry.spl": "27685dfb29a173e5705b46ff36d2551d757039d71a1a0de9cf22f1876339020f",
     "assets/favicon.svg": "09df37a9c7184b1427d4cb3dbb79f1df483d24aa8d3de33c50509f5f79440c7c",
     "assets/og-image.png": "fd8f609f798a05b4ef369bd9a8ed91d05aec20776438cbb50c5487ef1672f9ba",
-    "assets/site.css": "12a25191fa85247ed0d5ec1b59026efbb388cb10d63fbdd3d97f03fbe8e21e26",
+    "assets/site.css": "2ba8d00fc62b486c656eb5e19e90b288f7f4137a47ed71b531da34a91372a856",
     "assets/theme.js": "c5a9fa14ccdd4575b76b18ea3d35735134f11f7cdf39a580fa52d9e6f055f983",
     "assets/writfold-icon-dark.svg": "3e3b3a02ec657022033886191173e3d952fd17a6688d1cc30f99e4ba67cb80f5",
     "assets/writfold-icon.svg": "8fcfb53dbed16fc8239657eaa5577f5afefdba7388642d48107f2a7027553fee"

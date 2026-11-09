@@ -43,7 +43,7 @@
       <div class="section-heading"><p class="eyebrow">01 / A small, explicit theory</p><h2 id="example-title">A plan is not a successful restore.</h2><p>This example assumes that the payments service has a plan. It asks whether that same fact follows, and whether a successful restore follows too. No rule connects the two.</p></div>
       <p><a href="/examples/review.weft" download="review.weft">Download review.weft</a> · exact source used for this assessment</p>
       <pre class="code-panel" tabindex="0" aria-label="Weft source: review.weft"><code data-source="/examples/review.weft"><span class="syntax-keyword">review</span> <span class="syntax-variable">recovery_plan</span> <span class="syntax-punctuation">{</span>
-  <span class="syntax-keyword">context</span> <span class="syntax-string">"unresolved-sandbox"</span> <span class="syntax-keyword">at</span> <span class="syntax-string">"unresolved-release"</span><span class="syntax-punctuation">;</span>
+  <span class="syntax-keyword">context</span> <span class="syntax-string">"unresolved-context"</span> <span class="syntax-keyword">at</span> <span class="syntax-string">"unresolved-release"</span><span class="syntax-punctuation">;</span>
   <span class="syntax-keyword">profile</span> <span class="syntax-string">"weft.symbolic/1"</span><span class="syntax-punctuation">;</span>
   <span class="syntax-keyword">target</span> <span class="syntax-variable">change</span> <span class="syntax-operator">=</span> <span class="syntax-keyword">proposal</span> <span class="syntax-string">"unresolved-plan"</span><span class="syntax-punctuation">;</span>
 
@@ -54,7 +54,7 @@
 </code></pre>
       <div class="workflow-layout">
         <div><h3>An assumption is an input, not evidence.</h3><p><code>assume documented</code> puts <code>has_plan("payments")</code> into the theory. The label does not mean Weft read a runbook or verified a service. Each <code>check</code> asks what follows from that declared theory.</p></div>
-        <aside class="principle"><p class="eyebrow">Deliberately unresolved</p><h3>Names do not establish grounding.</h3><p>The context, release and proposal strings are intentionally unresolved. They do not identify a verified Writfold context, retained release or authorized change. This example is hypothetical, not a query against a live knowledge store.</p></aside>
+        <aside class="principle"><p class="eyebrow">Deliberately unresolved</p><h3>Names do not establish evidence.</h3><p>The context, release and proposal strings are intentionally unresolved. They do not identify a verified Writfold context, retained release or authorized change. This example is hypothetical, not a query against a live knowledge store.</p></aside>
       </div>
     </section>
 
@@ -66,8 +66,8 @@
         <article class="status-card"><p class="status-label">docs_only · entailed</p><h3>The assumption supports this check.</h3><p><code>has_plan("payments")</code> follows because it was explicitly assumed. The result is conditional on the declared theory, not independent confirmation that a plan exists.</p></article>
         <article class="status-card"><p class="status-label pending">restore_works · undetermined</p><h3>The theory does not settle this check.</h3><p>Neither <code>restores("payments")</code> nor its negation follows. Undetermined is not refuted: the example establishes neither a successful restore nor a failed one.</p></article>
       </div>
-      <p class="assurance-note">The report records <code>basis=hypothetical</code>, <code>execution=complete</code>, <code>writfold_grounded=false</code> and <code>effect_authority=false</code>.</p>
-      <p class="boundary"><code>weft prove</code> exits <strong>1</strong> for every hypothetical result, even when all checks are entailed: the local tool has no grounded-success exit. Read the per-check outcomes, not the exit code.</p>
+      <p class="assurance-note">The report records each check with <code>basis=hypothetical</code>, the run as <code>execution=complete</code>, <code>effect_authority=false</code>, and that no Writfold evidence backs it.</p>
+      <p class="boundary"><code>weft prove</code> exits <strong>1</strong> for every hypothetical result, even when all checks are entailed: the local tool has no success exit for a hypothetical report. Read the per-check outcomes, not the exit code.</p>
     </section>
 
     <section id="pipeline" class="section" aria-labelledby="pipeline-title">
@@ -85,12 +85,12 @@
           </table>
           <figcaption>The report belongs to the exact source assessed. Change the theory and you need a new assessment.</figcaption>
         </figure>
-        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not automatically Writfold-grounded evidence. Resolving real contexts and authorizing changes belong to Writfold. Edit authorization runs only in Writfold's trial profile, and context resolution is not built yet.</p><h3>Next: preparing a change.</h3><p>Weft only assesses; it never edits. When a change is needed, <a href="/splicery.html">Splicery</a> prepares it as a byte-exact edit, and Writfold applies it only after approval.</p></div>
+        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not evidence Writfold has established. Resolving real contexts and authorizing changes belong to Writfold. In Writfold's trial profile, a report can cite retained evidence by digest, is bound to a prepared edit, and can be required at approval (<code>approve --require CHECK</code> refuses unless that check is entailed); Writfold still records its results as hypothetical. Context resolution is not built yet.</p><h3>Next: preparing a change.</h3><p>Weft only assesses; it never edits. When a change is needed, <a href="/splicery.html">Splicery</a> prepares it as a byte-exact edit, and Writfold applies it only after approval.</p></div>
       </div>
     </section>
 
     <section id="availability" class="section" aria-labelledby="availability-title">
-      <div class="section-heading"><p class="eyebrow">Availability</p><h2 id="availability-title">Not installable yet</h2><p>This page shows a local assessment, not Writfold integration. See the <a href="/status.html">status page</a> for what runs today.</p></div>
+      <div class="section-heading"><p class="eyebrow">Availability</p><h2 id="availability-title">Source only</h2><p>Weft is built from source; there is no release binary. This page shows a local assessment, not Writfold integration. See the <a href="/status.html">status page</a> for what runs today.</p></div>
       <p class="boundary">Proved over the shipped Rust: Weft's set algebra (union, intersection, difference, membership, subset, normalisation), its verdict classification (entailed, refuted, undetermined, inconsistent) and its reuse comparison, which refuses any difference. Typing, provenance, budgets, quantifiers, lowering and reports are modelled and tested, not proved. <a href="/docs.html#assurance">How we know</a></p>
       <p class="fine-print">Executed Weft binary SHA-256: <code>939e35badb2eea01b3723810b96563987332dde581ffd8960b0d353939537845</code>. This identifies the development binary used; it is not a release download.</p>
       <div class="actions"><a class="button" href="/splicery.html">Continue with Splicery <span aria-hidden="true">→</span></a><a class="text-action" href="/docs.html">How Writfold works</a></div>

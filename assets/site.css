@@ -96,6 +96,9 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .section-heading { max-width: 660px; margin-bottom: 32px; }
 .section-heading > p:not(.eyebrow) { color: var(--muted); }
 .three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.three-up.four-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.subhead { margin-top: 48px; }
+.table-scroll + .table-scroll { margin-top: 32px; }
 .number { display: block; color: var(--accent); font-family: ui-monospace, monospace; font-size: .8rem; margin: 8px 0 20px; }
 .capability p { color: var(--muted); font-size: .94rem; }
 .capability a { font-size: .84rem; }
@@ -156,7 +159,7 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 @media (max-width: 700px) {
   .hero { padding-block: 65px 52px; }
   .section { padding-block: 44px; }
-  .three-up, .workflow-layout, .status-grid { grid-template-columns: 1fr; }
+  .three-up, .three-up.four-tools, .workflow-layout, .status-grid { grid-template-columns: 1fr; }
   .three-up { gap: 24px; }
   .capability { padding-bottom: 12px; }
   .number { margin-bottom: 12px; }

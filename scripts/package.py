@@ -35,17 +35,17 @@ def main():
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_source_base_commit": "fcf7fcd1471821712e16e5cb2b569bc9b3a597e9",
+            "product_source_base_commit": "54d4b6bd0c0bc06ac93ee12e2ceefa6e34732428",
             "product_source_visibility": "public",
             "architecture_revision": 5,
             "component_evidence": {
-                "scope": "Control and local artifact regressions only; not owner data/effect services or alpha readiness",
+                "scope": "Control and local artifact regressions only; not owner data/effect services or release readiness",
                 "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
                 "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c",
             },
             "language_example_evidence": {
-                "scope": "Actual local symbolic assessment and read-only preview; no grounding or effect authority",
-                "receipt_sha256": "285fd6059365b01958da732a08e7606e041bab8b3c3c7d33ed5aba44f3ba355b",
+                "scope": "Actual local symbolic assessment of the renamed-context review.weft; hypothetical, no effect authority",
+                "receipt_sha256": "ed624c6a136e139613fd908006365e449cb72c10b5ed19d718d2db2cf3ad1f32",
             },
             "splicery_rust_example_evidence": {
                 "scope": "Offline Splicery preview and three refusal runs on the Rust example; no Writfold effect",

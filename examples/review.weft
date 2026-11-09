@@ -1,5 +1,5 @@
 review recovery_plan {
-  context "unresolved-sandbox" at "unresolved-release";
+  context "unresolved-context" at "unresolved-release";
   profile "weft.symbolic/1";
   target change = proposal "unresolved-plan";
 
