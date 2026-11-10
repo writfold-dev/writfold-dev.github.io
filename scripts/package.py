@@ -9,8 +9,8 @@ import shutil
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
-    "weft.html", "splicery.html", "status.html", "glossary.html",
-    "examples/review.weft", "examples/client.rs", "examples/add-retry.spl",
+    "tuft.html", "weft.html", "splicery.html", "status.html", "glossary.html",
+    "examples/review.weft", "examples/client.rs", "examples/add-retry.spl", "examples/worker.rs", "examples/find-open.tuft",
     "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )

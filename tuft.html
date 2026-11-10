@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Tuft by example — Writfold</title>
+  <meta name="description" content="Tuft by example: find exact text in one pinned commit, keep each hit as a citation, and print a compact view under a token budget with explicit omissions.">
+  <link rel="canonical" href="https://writfold.dev/tuft.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Writfold">
+  <meta property="og:title" content="Tuft by example — Writfold">
+  <meta property="og:description" content="Tuft by example: find exact text in one pinned commit, keep each hit as a citation, and print a compact view under a token budget with explicit omissions.">
+  <meta property="og:url" content="https://writfold.dev/tuft.html">
+  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">How it works</a><a href="/tuft.html" aria-current="page">Tuft</a><a href="/weft.html">Weft</a><a href="/splicery.html">Splicery</a><a href="/status.html">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <section class="hero" aria-labelledby="tuft-title">
+      <p class="eyebrow">Tuft · executed example</p>
+      <h1 id="tuft-title">Find it exactly.<br><span>Keep what you found.</span></h1>
+      <p class="lede">In the Writfold harness, Tuft is how evidence is gathered: a small language that searches one pinned commit for exact text, keeps each hit as a citation bound by digest, and prints a compact view under a token budget. Nothing is ranked, guessed or summarised.</p>
+      <p class="maturity"><span class="badge">Runs today</span> Exact text and regex over a pinned commit · source-only preview</p>
+      <nav class="actions" aria-label="Tuft sections"><a href="#program">The program</a><a href="#run">Run it</a><a href="#budget">Budgets and cursors</a><a href="#refusals">Refusals</a></nav>
+    </section>
+    <section id="program" class="section" aria-labelledby="program-title">
+      <div class="section-heading"><p class="eyebrow">01 / Four steps</p><h2 id="program-title">Every call to <code>open(url)</code>, cited</h2><p>The same <code>client.rs</code> as the <a href="/splicery.html">Splicery example</a>, plus a <code>worker.rs</code> that calls <code>open(url)</code> three more times, committed to a small repository. The program asks for every call, at that exact commit.</p></div>
+      <p><a href="/examples/client.rs" download>Download client.rs</a> · <a href="/examples/worker.rs" download>Download worker.rs</a> · <a href="/examples/find-open.tuft" download>Download find-open.tuft</a>. Put the two Rust files in <code>src/</code> of a Git repository, commit, and replace the commit id with yours.</p>
+      <pre class="code-panel" tabindex="0" aria-label="Rust source: worker.rs"><code data-source="/examples/worker.rs"><span class="syntax-keyword">pub</span> <span class="syntax-keyword">fn</span> <span class="syntax-function">fetch_all</span><span class="syntax-punctuation">(</span><span class="syntax-variable">urls</span><span class="syntax-punctuation">:</span> <span class="syntax-operator">&amp;</span><span class="syntax-punctuation">[</span><span class="syntax-operator">&amp;</span>str<span class="syntax-punctuation">]</span><span class="syntax-punctuation">)</span> <span class="syntax-operator">-&gt;</span> Vec<span class="syntax-operator">&lt;</span>Conn<span class="syntax-operator">&gt;</span> <span class="syntax-punctuation">{</span>
+    <span class="syntax-keyword">let</span> <span class="syntax-keyword">mut</span> <span class="syntax-variable">out</span> <span class="syntax-operator">=</span> Vec<span class="syntax-punctuation">:</span><span class="syntax-punctuation">:</span><span class="syntax-function">new</span><span class="syntax-punctuation">(</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">;</span>
+    <span class="syntax-keyword">for</span> <span class="syntax-variable">url</span> <span class="syntax-keyword">in</span> <span class="syntax-variable">urls</span> <span class="syntax-punctuation">{</span>
+        <span class="syntax-keyword">if</span> <span class="syntax-keyword">let</span> <span class="syntax-keyword">Ok</span><span class="syntax-punctuation">(</span><span class="syntax-variable">conn</span><span class="syntax-punctuation">)</span> <span class="syntax-operator">=</span> <span class="syntax-function">open</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">)</span> <span class="syntax-punctuation">{</span>
+            <span class="syntax-variable">out</span><span class="syntax-punctuation">.</span><span class="syntax-function">push</span><span class="syntax-punctuation">(</span><span class="syntax-variable">conn</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">;</span>
+        <span class="syntax-punctuation">}</span>
+    <span class="syntax-punctuation">}</span>
+    <span class="syntax-variable">out</span>
+<span class="syntax-punctuation">}</span>
+
+<span class="syntax-keyword">pub</span> <span class="syntax-keyword">fn</span> <span class="syntax-function">warm</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">:</span> <span class="syntax-operator">&amp;</span>str<span class="syntax-punctuation">)</span> <span class="syntax-punctuation">{</span>
+    <span class="syntax-keyword">let</span> <span class="syntax-variable">_</span> <span class="syntax-operator">=</span> <span class="syntax-function">open</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">;</span>
+    <span class="syntax-keyword">let</span> <span class="syntax-variable">_</span> <span class="syntax-operator">=</span> <span class="syntax-function">open</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">;</span>
+<span class="syntax-punctuation">}</span>
+</code></pre>
+      <pre class="code-panel" tabindex="0" aria-label="Tuft program: find-open.tuft"><code data-source="/examples/find-open.tuft"><span class="syntax-operator">@</span><span class="syntax-variable">hits</span> <span class="syntax-operator">:=</span> <span class="syntax-keyword">find</span> <span class="syntax-keyword">text</span> <span class="syntax-string">&quot;open(url)&quot;</span> <span class="syntax-keyword">in</span> <span class="syntax-string">&quot;src/&quot;</span> <span class="syntax-keyword">at</span> <span class="syntax-string">&quot;67fefbdd2a2964581fe777fc07d9714e62a3eb91&quot;</span><span class="syntax-punctuation">;</span>
+<span class="syntax-operator">@</span><span class="syntax-variable">ev</span>   <span class="syntax-operator">:=</span> <span class="syntax-keyword">retain</span> <span class="syntax-operator">@</span><span class="syntax-variable">hits</span> <span class="syntax-keyword">around</span> <span class="syntax-keyword">lines</span> <span class="syntax-number">0</span><span class="syntax-punctuation">;</span>
+<span class="syntax-operator">@</span><span class="syntax-variable">view</span> <span class="syntax-operator">:=</span> <span class="syntax-keyword">project</span> <span class="syntax-operator">@</span><span class="syntax-variable">ev</span> <span class="syntax-punctuation">[</span><span class="syntax-variable">path</span><span class="syntax-punctuation">,</span> <span class="syntax-variable">line</span><span class="syntax-punctuation">,</span> <span class="syntax-function">excerpt</span><span class="syntax-punctuation">(</span><span class="syntax-variable">max_chars</span><span class="syntax-punctuation">:</span> <span class="syntax-number">60</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">]</span>
+           <span class="syntax-keyword">sort</span> <span class="syntax-punctuation">[</span><span class="syntax-variable">path</span> <span class="syntax-keyword">asc</span><span class="syntax-punctuation">,</span> <span class="syntax-variable">line</span> <span class="syntax-keyword">asc</span><span class="syntax-punctuation">]</span><span class="syntax-punctuation">;</span>
+<span class="syntax-keyword">emit</span> <span class="syntax-operator">@</span><span class="syntax-variable">view</span> <span class="syntax-keyword">budget_tokens</span> <span class="syntax-number">400</span><span class="syntax-punctuation">;</span>
+</code></pre>
+      <div class="three-up">
+        <article class="capability"><h3>Pin the commit.</h3><p><code>find</code> searches the tree of one full commit id, never your working copy. Ask again tomorrow and the answer is the same.</p></article>
+        <article class="capability"><h3>Keep the bytes.</h3><p><code>retain</code> keeps each matching line's exact bytes as a <a href="/glossary.html#citation">citation</a>, bound by digest, that a <a href="/weft.html">Weft</a> report and an approval can cite.</p></article>
+        <article class="capability"><h3>Say what is missing.</h3><p><code>emit</code> prints rows within the token budget and ends with a trailer that always states coverage, how many rows were shown and omitted, and a cursor for the rest.</p></article>
+      </div>
+      <p class="boundary">Search is exact text or a bounded regex. Over a pinned tree that makes it complete: when the trailer says <code>coverage=complete</code> and <code>hits=0</code>, there really is nothing there.</p>
+    </section>
+    <section id="run" class="section" aria-labelledby="run-title">
+      <div class="section-heading"><p class="eyebrow">02 / Run it</p><h2 id="run-title">What Tuft printed</h2><p>Built from source (<a href="/#try">Try it</a>), in the directory holding the repository and the program:</p></div>
+      <pre class="code-panel" tabindex="0" aria-label="Executed Tuft command"><code>writfold trial init
+writfold tuft run find-open.tuft --repo repo
+</code></pre>
+      <pre class="code-panel" tabindex="0" aria-label="Tuft output"><code><span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">2</span><span class="syntax-punctuation">:</span>     let conn = open(url)?;
+<span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">8</span><span class="syntax-punctuation">:</span>     open(url).is_ok()
+<span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">4</span><span class="syntax-punctuation">:</span>         if let Ok(conn) = open(url) {
+<span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">12</span><span class="syntax-punctuation">:</span>     let _ = open(url);
+<span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">13</span><span class="syntax-punctuation">:</span>     let _ = open(url);
+<span class="syntax-comment"># coverage=complete files=2/2 hits=5 shown=5 omitted=0 cursor=none program=f38b6c3460c8</span></code></pre>
+      <p>One row per hit, as <code>path:line: text</code>, then the trailer. Five calls in two files, every file searched, nothing omitted. Ask for the <code>binding</code> field instead of the excerpt and each row carries its citation digest:</p>
+      <pre class="code-panel" tabindex="0" aria-label="Rows with binding digests"><code><span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">2</span><span class="syntax-punctuation">:</span>ac53d1ca0b442b46de1563d90fd42b990a9904aac528446b397d761ef9ce14ac
+<span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">8</span><span class="syntax-punctuation">:</span>1ddad0e3c4bc7307ccfa49ba0b841dd1bf7c57736a8729d0b484073b6114817e</code></pre>
+      <p>A Weft review cites one with <code><span class="syntax-keyword">asset</span> <span class="syntax-variable">call</span> <span class="syntax-operator">=</span> <span class="syntax-keyword">citation</span> <span class="syntax-string">"ac53d1ca…"</span></code>, and Writfold refuses to prepare an edit from a report that cites anything it did not retain. <code>--out rows.txt</code> writes the rows to a new file and prints only the trailer.</p>
+      <p class="fine-print">Development binary used: Writfold SHA-256 <code>8813db29b305bd18728776747f612860ab5459b44cd3a60b1bfdcc34e31a345b</code>; example commit <code>67fefbdd2a2964581fe777fc07d9714e62a3eb91</code>.</p>
+    </section>
+    <section id="budget" class="section" aria-labelledby="budget-title">
+      <div class="section-heading"><p class="eyebrow">03 / Never silently truncated</p><h2 id="budget-title">Budgets and cursors</h2><p>With <code>budget_tokens 40</code> instead of 400, the view stops at a whole row and says so.</p></div>
+      <pre class="code-panel" tabindex="0" aria-label="Output under a small budget"><code><span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">2</span><span class="syntax-punctuation">:</span>     let conn = open(url)?;
+<span class="syntax-string">src/client.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">8</span><span class="syntax-punctuation">:</span>     open(url).is_ok()
+<span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">4</span><span class="syntax-punctuation">:</span>         if let Ok(conn) = open(url) {
+<span class="syntax-comment"># coverage=complete files=2/2 hits=5 shown=3 omitted=2 cursor=19a4d23622840784.3 program=64a3a3aba4a6</span></code></pre>
+      <p>Three rows shown, two omitted, and a cursor. Running again with <code>--cursor 19a4d23622840784.3</code> prints exactly the rest:</p>
+      <pre class="code-panel" tabindex="0" aria-label="Resumed output"><code><span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">12</span><span class="syntax-punctuation">:</span>     let _ = open(url);
+<span class="syntax-string">src/worker.rs</span><span class="syntax-punctuation">:</span><span class="syntax-number">13</span><span class="syntax-punctuation">:</span>     let _ = open(url);
+<span class="syntax-comment"># coverage=complete files=2/2 hits=5 shown=2 omitted=0 cursor=none program=64a3a3aba4a6</span></code></pre>
+      <p>A search for <code>retry(</code> finds nothing, and says it looked everywhere:</p>
+      <pre class="code-panel" tabindex="0" aria-label="Empty result"><code><span class="syntax-comment"># coverage=complete files=2/2 hits=0 shown=0 omitted=0 cursor=none program=39eb1506261a</span></code></pre>
+      <p class="boundary">The token count is a documented estimate (about four bytes per token), named in the verbose envelope. In two pilots against grep-and-read, Tuft's typed, pinned and citable output cost within about 3% of grep's tokens at equal correctness; it does not save tokens on lookups a shell pipeline can reduce. <a href="/status.html">Pilot results</a></p>
+    </section>
+    <section id="refusals" class="section" aria-labelledby="refusals-title">
+      <div class="section-heading"><p class="eyebrow">04 / Refuse rather than guess</p><h2 id="refusals-title">When Tuft refuses</h2><p>Each of these was run against the same repository and exited <code>1</code> without printing rows.</p></div>
+      <div class="three-up">
+        <article class="capability"><h3>Similarity</h3><p><code><span class="syntax-keyword">find similar</span> <span class="syntax-string">"open a connection"</span></code> is parsed and refused with <code>T301</code>: semantic search needs the Omnigraph backend, and it is never emulated with something fuzzier.</p></article>
+        <article class="capability"><h3>A moving target</h3><p><code><span class="syntax-keyword">at</span> <span class="syntax-string">"HEAD"</span></code> is refused with <code>T206</code>. Refs, abbreviations and <code>HEAD</code> change under you; only a full commit id is accepted.</p></article>
+        <article class="capability"><h3>Overwriting</h3><p><code>--out rows.txt</code> when <code>rows.txt</code> already exists refuses before the search runs. A view is written to a new file or not at all.</p></article>
+      </div>
+      <p class="boundary">Tuft v0 has no ranking, no graph <code>follow</code> and no live corpus; those wait for Omnigraph behind the same grammar. Tuft lives in the <a href="https://github.com/writfold-dev/writfold/tree/main/crates/tuft">Writfold repository</a>; its <a href="https://github.com/writfold-dev/writfold/blob/main/docs/tuft/language.md">language reference</a> has the grammar. In the full flow, Tuft finds the evidence, <a href="/weft.html">Weft</a> checks the plan against it, <a href="/splicery.html">Splicery</a> prepares the edit, and Writfold applies it after approval.</p>
+    </section>
+  </main>
+  <footer class="site-footer wrap">
+    <div class="footer-line">
+      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
+      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <span class="footer-state">Pre-release</span>
+    </div>
+    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
+  </footer>
+</body>
+</html>
