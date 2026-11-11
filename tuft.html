@@ -36,6 +36,7 @@
       <h1 id="tuft-title">Find it exactly.<br><span>Keep what you found.</span></h1>
       <p class="lede">In the Writfold harness, Tuft is how evidence is gathered: a small language that searches one pinned commit for exact text, keeps each hit as a citation bound by digest, and prints a compact view under a token budget. Nothing is ranked, guessed or summarised.</p>
       <p class="maturity"><span class="badge">Runs today</span> Exact text and regex over a pinned commit · source-only preview</p>
+      <p class="boundary">Since 11 November 2026, Tuft&rsquo;s query language is frozen at v0. Its output contract, results pinned to one commit and kept as citations bound by digest, with explicit omissions, carries into the read verbs planned for Writfold&rsquo;s new direction, <a href="/#continuity">project continuity</a>. Everything on this page still runs as shown.</p>
       <nav class="actions" aria-label="Tuft sections"><a href="#program">The program</a><a href="#run">Run it</a><a href="#budget">Budgets and cursors</a><a href="#refusals">Refusals</a></nav>
     </section>
     <section id="program" class="section" aria-labelledby="program-title">
@@ -103,11 +104,11 @@ writfold tuft run find-open.tuft --repo repo
     <section id="refusals" class="section" aria-labelledby="refusals-title">
       <div class="section-heading"><p class="eyebrow">04 / Refuse rather than guess</p><h2 id="refusals-title">When Tuft refuses</h2><p>Each of these was run against the same repository and exited <code>1</code> without printing rows.</p></div>
       <div class="three-up">
-        <article class="capability"><h3>Similarity</h3><p><code><span class="syntax-keyword">find similar</span> <span class="syntax-string">"open a connection"</span></code> is parsed and refused with <code>T301</code>: semantic search needs the Omnigraph backend, and it is never emulated with something fuzzier.</p></article>
+        <article class="capability"><h3>Similarity</h3><p><code><span class="syntax-keyword">find similar</span> <span class="syntax-string">"open a connection"</span></code> is parsed and refused with <code>T301</code>. Tuft v0 never emulates it with something fuzzier.</p></article>
         <article class="capability"><h3>A moving target</h3><p><code><span class="syntax-keyword">at</span> <span class="syntax-string">"HEAD"</span></code> is refused with <code>T206</code>. Refs, abbreviations and <code>HEAD</code> change under you; only a full commit id is accepted.</p></article>
         <article class="capability"><h3>Overwriting</h3><p><code>--out rows.txt</code> when <code>rows.txt</code> already exists refuses before the search runs. A view is written to a new file or not at all.</p></article>
       </div>
-      <p class="boundary">Tuft v0 has no ranking, no graph <code>follow</code> and no live corpus; those wait for Omnigraph behind the same grammar. Tuft lives in the <a href="https://github.com/writfold-dev/writfold/tree/main/crates/tuft">Writfold repository</a>; its <a href="https://github.com/writfold-dev/writfold/blob/main/docs/tuft/language.md">language reference</a> has the grammar. In the full flow, Tuft finds the evidence, <a href="/weft.html">Weft</a> checks the plan against it, <a href="/splicery.html">Splicery</a> prepares the edit, and Writfold applies it after approval.</p>
+      <p class="boundary">Tuft v0 has no relevance ordering, no graph <code>follow</code> and no live index, and with the language frozen at v0 none is planned for it. Tuft lives in the <a href="https://github.com/writfold-dev/writfold/tree/main/crates/tuft">Writfold repository</a>; its <a href="https://github.com/writfold-dev/writfold/blob/main/docs/tuft/language.md">language reference</a> has the grammar. In the full flow, Tuft finds the evidence, <a href="/weft.html">Weft</a> checks the plan against it, <a href="/splicery.html">Splicery</a> prepares the edit, and Writfold applies it after approval.</p>
     </section>
   </main>
   <footer class="site-footer wrap">

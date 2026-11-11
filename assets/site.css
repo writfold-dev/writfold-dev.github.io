@@ -252,6 +252,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .harness-fig svg { display: block; width: 100%; height: auto; }
 .hz-frame { fill: none; stroke: var(--accent); stroke-width: 1.5; }
 .hz-title { fill: var(--accent); font: 650 12px ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .12em; }
+.hz-frame.hz-planned { stroke: var(--amber); stroke-dasharray: 8 6; }
+.hz-title.hz-planned { fill: var(--amber); }
 .hz-label { fill: var(--muted); font: 12px ui-monospace, "SFMono-Regular", Consolas, monospace; text-anchor: middle; }
 .hz-role { fill: var(--text); font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
 .hz-record { fill: var(--text); font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }

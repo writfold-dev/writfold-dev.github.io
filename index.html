@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Writfold — An evidence-and-approval harness for coding agents</title>
-  <meta name="description" content="An evidence-and-approval harness underneath a coding agent: exact retained evidence, a signed approval for each edit, and a ledger of every step. Source-only preview, Rust.">
+  <title>Writfold — Git-native project continuity for coding agents</title>
+  <meta name="description" content="Direction: Git-native project continuity for coding agents, with every answer pinned to a source and flagged when that source moves. Not built yet; an edit trial and Tuft run today as frozen working demos. Source-only preview, Rust.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
-  <meta property="og:title" content="Writfold — An evidence-and-approval harness for coding agents">
-  <meta property="og:description" content="An evidence-and-approval harness underneath a coding agent: exact retained evidence, a signed approval for each edit, and a ledger of every step. Source-only preview, Rust.">
+  <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
+  <meta property="og:description" content="Direction: Git-native project continuity for coding agents, with every answer pinned to a source and flagged when that source moves. Not built yet; an edit trial and Tuft run today as frozen working demos. Source-only preview, Rust.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -32,50 +32,49 @@
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">An evidence-and-approval harness for coding agents</p>
-      <h1 id="hero-title">Another take on<br><span>the agent harness.</span></h1>
-      <p class="lede">Writfold is for people running coding agents on real repositories. Your agent, such as Claude Code or Codex, stays the loop. Writfold sits underneath it: it keeps exact evidence, applies an edit only after a signed approval, in a worktree it owns, and records every step in a ledger.</p>
-      <p class="problem">The problem: agents act on context nobody verified, and leave edits nobody can review or replay. <a href="/tuft.html">Tuft</a> finds and retains exact evidence, <a href="/weft.html">Weft</a> checks the plan, <a href="/splicery.html">Splicery</a> expresses the edit, and only Writfold applies it, in a Git worktree it owns.</p>
-      <div class="actions"><a class="button" href="#harness">How the pieces fit <span aria-hidden="true">↓</span></a><a class="text-action" href="#try">Try what runs today <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge">Source-only preview</span> <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a> · Rust · local-only · Linux x86_64 and WSL2 · a cooperating single-user trial runs end to end · <a href="/status.html">what runs today</a></p>
+      <p class="eyebrow">Git-native project continuity for coding agents</p>
+      <h1 id="hero-title">Project memory<br><span>that travels with Git.</span></h1>
+      <p class="lede">Writfold's direction is project continuity for coding agents. A fresh agent session, on any machine, should be able to answer &ldquo;why did we decide X&rdquo;, &ldquo;where do we stand on Y&rdquo;, &ldquo;what is the tracker item for Z&rdquo; and &ldquo;what does changing X touch&rdquo;. Every answer is pinned to a source, a path at a commit with a digest, and flagged when that source has moved.</p>
+      <p class="problem">The problem: every new agent session starts from nothing, and what it reads about past decisions may already be out of date. Writfold keeps project memory as plain records in Git, so moving to another machine is <code>git clone</code> or <code>git pull</code>. One static binary, no server. <strong>None of this is built yet</strong>: it is the plan, and the first slice is next.</p>
+      <div class="actions"><a class="button" href="#continuity">How the pieces fit <span aria-hidden="true">↓</span></a><a class="text-action" href="#try">Try what runs today <span aria-hidden="true">→</span></a></div>
+      <p class="maturity"><span class="badge">Source-only preview</span> <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a> · Rust · local-only · Linux x86_64 and WSL2 · continuity is planned; an edit trial and Tuft run today as frozen working demos · <a href="/status.html">what runs today</a></p>
       <figure class="harness-fig" aria-hidden="true">
         <svg viewBox="0 0 960 250" focusable="false">
           <rect class="fa-box" x="8" y="64" width="172" height="122" rx="10"/>
-          <text class="fa-name" x="94" y="112">Coding agent</text><text class="fa-owner" x="94" y="136">Claude Code,</text><text class="fa-owner" x="94" y="154">Codex …</text>
+          <text class="fa-name" x="94" y="112">Agent session</text><text class="fa-owner" x="94" y="136">fresh start,</text><text class="fa-owner" x="94" y="154">any machine</text>
           <path class="fa-arrow" d="M184 108h44m-5-5 5 5-5 5"/><text class="hz-label" x="206" y="98">ask</text>
-          <path class="fa-arrow" d="M228 146h-44m5-5-5 5 5 5"/><text class="hz-label" x="206" y="166">result</text>
-          <rect class="hz-frame" x="234" y="8" width="494" height="234" rx="12"/>
-          <text class="hz-title" x="250" y="32">THE HARNESS</text>
-          <rect class="fa-box fa-today" x="250" y="44" width="148" height="112" rx="8"/>
-          <text class="fa-name" x="324" y="80">Know</text><text class="fa-owner" x="324" y="104">Tuft · Writfold</text><text class="hz-role" x="324" y="128">cited evidence</text>
-          <rect class="fa-box fa-today" x="407" y="44" width="148" height="112" rx="8"/>
-          <text class="fa-name" x="481" y="80">Conclude</text><text class="fa-owner" x="481" y="104">Weft</text><text class="hz-role" x="481" y="128">checks the plan</text>
-          <rect class="fa-box fa-today" x="564" y="44" width="148" height="112" rx="8"/>
-          <text class="fa-name" x="638" y="80">Change</text><text class="fa-owner" x="638" y="104">Splicery</text><text class="hz-role" x="638" y="128">Writfold applies</text>
-          <rect class="fa-box fa-today" x="250" y="168" width="462" height="58" rx="8"/>
-          <text class="hz-record" x="481" y="203">Record · a ledger entry for every step</text>
-          <path class="fa-arrow" d="M732 100h44m-5-5 5 5-5 5"/><text class="hz-label" x="754" y="90">edit</text>
-          <path class="fa-arrow" d="M776 150h-44m5-5-5 5 5 5"/><text class="hz-label" x="754" y="170">read</text>
+          <path class="fa-arrow" d="M228 146h-44m5-5-5 5 5 5"/><text class="hz-label" x="206" y="166">answer</text>
+          <rect class="hz-frame hz-planned" x="234" y="8" width="494" height="234" rx="12"/>
+          <text class="hz-title hz-planned" x="250" y="32">WRITFOLD · PLANNED</text>
+          <rect class="fa-box fa-planned" x="250" y="44" width="108" height="76" rx="8"/><text class="fa-name" x="304" y="89">brief</text>
+          <rect class="fa-box fa-planned" x="368" y="44" width="108" height="76" rx="8"/><text class="fa-name" x="422" y="89">context</text>
+          <rect class="fa-box fa-planned" x="486" y="44" width="108" height="76" rx="8"/><text class="fa-name" x="540" y="89">why</text>
+          <rect class="fa-box fa-planned" x="604" y="44" width="108" height="76" rx="8"/><text class="fa-name" x="658" y="89">stale</text>
+          <text class="hz-role" x="481" y="148">each answer: a path at a commit, with a digest</text>
+          <rect class="fa-box fa-planned" x="250" y="168" width="462" height="58" rx="8"/>
+          <text class="hz-record" x="481" y="203">Flagged when the source has moved</text>
+          <path class="fa-arrow" d="M776 125h-44m5-5-5 5 5 5"/><text class="hz-label" x="754" y="115">read</text>
           <rect class="fa-box" x="780" y="64" width="172" height="122" rx="10"/>
-          <text class="fa-name" x="866" y="112">Repository</text><text class="fa-owner" x="866" y="136">Git worktree</text><text class="fa-owner" x="866" y="154">Writfold owns</text>
+          <text class="fa-name" x="866" y="112">Git repository</text><text class="fa-owner" x="866" y="136">plain records,</text><text class="fa-owner" x="866" y="154">rebuildable index</text>
         </svg>
       </figure>
-      <p class="legend harness-legend"><span><span class="chip chip-today">Runs today</span> standalone or in the trial</span><span><span class="chip chip-parts">Parts tested</span> components exist, not yet connected</span><span><span class="chip chip-planned">Planned</span> designed, not built</span></p>
+      <p class="legend harness-legend"><span><span class="chip chip-planned">Planned</span> the direction, not built yet</span><span><span class="chip chip-today">Runs today</span> the frozen working demos below</span></p>
     </section>
 
-    <section id="harness" class="section" aria-labelledby="harness-title">
-      <div class="section-heading"><p class="eyebrow">How the pieces fit</p><h2 id="harness-title">Know, conclude, change, record</h2><p>Writfold does not replace the agent loop or the model. It is the layer the agent goes through for evidence it relies on and for every change it makes to your files. Today all four run together in a cooperating single-user trial.</p></div>
+    <section id="continuity" class="section" aria-labelledby="continuity-title">
+      <div class="section-heading"><p class="eyebrow">How the pieces fit · planned</p><h2 id="continuity-title">Four questions, every answer pinned</h2><p>Writfold is planned to work beside the agent, not instead of it: the agent keeps its own loop and model, and asks Writfold about the project. Project memory lives as plain records in Git, with a local index that can always be rebuilt from them. Nothing here is built yet.</p></div>
       <ol class="record-steps four-steps">
-        <li class="step-today"><span class="eyebrow">Know / Tuft + Writfold</span><h3>Exact, cited evidence</h3><p>Tuft finds exact text in one pinned commit, and Writfold retains the matched bytes as <a href="/glossary.html#citation">citations</a> bound by digest. A finding is not a proof, and a citation is not an approval.</p><span class="chip chip-today">Runs (trial)</span></li>
-        <li class="step-today"><span class="eyebrow">Conclude / Weft</span><h3>Check the plan</h3><p>Weft checks a plan's claims against declared assumptions: each is entailed, refuted or still open. Approval can require named checks to be entailed. Weft's results are recorded as hypothetical and carry no permission to change anything.</p><span class="chip chip-today">Runs today</span></li>
-        <li class="step-today"><span class="eyebrow">Change / Splicery + Writfold</span><h3>Edit only where owned</h3><p>Splicery expresses a byte-exact edit recipe and previews the candidate. Writfold applies it only in a Git worktree it created, under your signed approval and a current operator grant.</p><span class="chip chip-today">Runs (trial profile)</span></li>
-        <li class="step-today"><span class="eyebrow">Record / Writfold</span><h3>Evidence at every step</h3><p>Each step is a record in a validated <a href="/glossary.html#ledger">ledger</a>, so a run can be reviewed afterwards and an interrupted apply recovered. Reuse by the next session is planned.</p><span class="chip chip-today">Runs (trial)</span></li>
+        <li class="step-planned"><span class="eyebrow">Decisions</span><h3>Why did we decide X?</h3><p>The answer points to the record of the decision, at a path and a commit, with a digest of the bytes it was read from.</p><span class="chip chip-planned">Planned</span></li>
+        <li class="step-planned"><span class="eyebrow">Progress</span><h3>Where do we stand on Y?</h3><p>The current state comes from the project's own records in Git, not from what an earlier session happened to remember.</p><span class="chip chip-planned">Planned</span></li>
+        <li class="step-planned"><span class="eyebrow">Tracking</span><h3>What is the tracker item for Z?</h3><p>The answer names the item and the source it was read from, the same way on every machine that has the repository.</p><span class="chip chip-planned">Planned</span></li>
+        <li class="step-planned"><span class="eyebrow">Impact</span><h3>What does changing X touch?</h3><p>Each thing found carries its own source, and is flagged when that source has moved since it was recorded.</p><span class="chip chip-planned">Planned</span></li>
       </ol>
-      <aside id="evidence" class="principle thesis" aria-labelledby="evidence-title"><p class="eyebrow">The core idea</p><h3 id="evidence-title">Found, supported, approved: three different things.</h3><p>Finding a document does not make it right, and a document being right is not permission to act on it. Writfold records each of those as a separate step.</p><p id="context" class="context-note">The same holds across <a href="/glossary.html#context">contexts</a>: evidence or approval in one context never silently authorizes anything in another.</p></aside>
+      <p>The first planned slice reads an existing project knowledge base through four verbs: <code>brief</code>, <code>context</code>, <code>why</code> and <code>stale</code>. It carries forward the output contract of <a href="/tuft.html">Tuft</a>, which runs today: results pinned to one commit, kept as citations bound by digest, with explicit omissions. Fuzzy (typo-tolerant) text search is planned in the local rebuildable index.</p>
+      <aside id="evidence" class="principle thesis" aria-labelledby="evidence-title"><p class="eyebrow">The core idea</p><h3 id="evidence-title">Found, supported, approved: three different things.</h3><p>Finding a record does not make it right, and a record is not a decision until it is accepted. Writfold keeps those as separate facts, and says when a source has moved since an answer relied on it.</p></aside>
     </section>
 
     <section id="start" class="section" aria-labelledby="start-title">
-      <div class="section-heading"><p class="eyebrow">One edit, end to end</p><h2 id="start-title">The six steps</h2><p>Writfold is the <a href="/glossary.html#owner">owner</a>: it alone holds the knowledge store and alone changes files. Weft and Splicery only read and propose. Weft and Splicery also run as standalone tools. All six steps run together in the cooperating single-user trial, on any Git repository.</p></div>
+      <div class="section-heading"><p class="eyebrow">What runs today · frozen working demo</p><h2 id="start-title">The edit trial, six steps</h2><p>Before the change of direction, Writfold was built as an evidence-and-approval layer for agent edits. That cooperating single-user trial still builds and runs end to end on any Git repository, as a working demo; it gets no new development. In it, Writfold is the <a href="/glossary.html#owner">owner</a>: it alone holds the store and alone changes files. Weft and Splicery only read and propose, and also run as standalone tools.</p></div>
       <figure class="flow-anim" aria-hidden="true">
         <svg viewBox="0 0 960 170" focusable="false">
           <rect class="fa-box fa-today" x="8" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M152 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="166" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M310 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="324" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M468 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="482" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M626 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="640" y="34" width="142" height="92" rx="10"/><path class="fa-arrow" d="M784 80h12m-5-5 5 5-5 5"/><rect class="fa-box fa-today" x="798" y="34" width="142" height="92" rx="10"/>
@@ -90,17 +89,17 @@
     </section>
 
     <section id="tools" class="section" aria-labelledby="tools-title">
-      <div class="section-heading"><p class="eyebrow">The family</p><h2 id="tools-title">Four tools, one approval boundary</h2><p>Each tool has one job. Only Writfold can change anything.</p></div>
+      <div class="section-heading"><p class="eyebrow">The family</p><h2 id="tools-title">Four tools that run today</h2><p>Each tool has one job, and only Writfold changes anything. The edit trial, Weft and Splicery are frozen working demos. Tuft&rsquo;s language is frozen at v0, and its output contract carries into the planned continuity verbs.</p></div>
       <div class="three-up tools four-tools">
-        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files or publishes knowledge.</p><code>writfold serve</code><small>Today: the trial retain &rarr; prepare &rarr; approve &rarr; apply &rarr; recover flow. serve exposes show, retain, prepare, the one-command run and evidence reads; approve, apply and recover stay CLI-only. <a href="https://github.com/writfold-dev/writfold">Source</a></small></article>
-        <article class="capability"><h3><a href="/tuft.html">Tuft</a></h3><p>A small query language for exact evidence: find text or a bounded regex in one pinned commit, retain the hits as citations, and project a compact view under a token budget, with explicit omissions.</p><code>@h := find text "trial_blob(" in "crates/" at "&lt;sha&gt;";</code><small>Today: writfold tuft run. Lives in the Writfold repository. <a href="https://github.com/writfold-dev/writfold/blob/main/docs/tuft/language.md">Language</a></small></article>
-        <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs. <a href="https://github.com/writfold-dev/weft">Source</a></small></article>
-        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs. <a href="https://github.com/writfold-dev/splicery">Source</a></small></article>
+        <article class="capability"><h3>Writfold</h3><p>Stores exact evidence, holds the approval policy, and is the only component that writes files.</p><code>writfold serve</code><small>Today: the trial retain &rarr; prepare &rarr; approve &rarr; apply &rarr; recover flow, a frozen working demo. serve exposes show, retain, prepare, the one-command run and evidence reads; approve, apply and recover stay CLI-only. Planned: the continuity read verbs. <a href="https://github.com/writfold-dev/writfold">Source</a></small></article>
+        <article class="capability"><h3><a href="/tuft.html">Tuft</a></h3><p>A small query language for exact evidence: find text or a bounded regex in one pinned commit, retain the hits as citations, and project a compact view under a token budget, with explicit omissions.</p><code>@h := find text "trial_blob(" in "crates/" at "&lt;sha&gt;";</code><small>Today: writfold tuft run. Language frozen at v0. Lives in the Writfold repository. <a href="https://github.com/writfold-dev/writfold/blob/main/docs/tuft/language.md">Language</a></small></article>
+        <article class="capability"><h3><a href="/weft.html">Weft</a></h3><p>A small language for stating assumptions and checks, then reporting which checks follow. Its reports carry no write permission.</p><code>check docs_only: has_plan("payments");</code><small>Today: local assessment runs. Frozen working demo. <a href="https://github.com/writfold-dev/weft">Source</a></small></article>
+        <article class="capability"><h3><a href="/splicery.html">Splicery</a></h3><p>A small language for byte-exact edits. It computes a candidate file and never touches the original.</p><code>replace @call with ["with_retry(3, || ", keep(@call), ")"]</code><small>Today: offline preview runs. Frozen working demo. <a href="https://github.com/writfold-dev/splicery">Source</a></small></article>
       </div>
     </section>
 
     <section id="try" class="section" aria-labelledby="try-title">
-      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Build and run from source</h2><p>A source-only preview: there is no installer or release binary. Linux x86_64 with <a href="https://rustup.rs">rustup</a>; the pinned toolchain installs on first build. These are the commands from the <a href="https://github.com/writfold-dev/writfold#try-it">Writfold README</a>, at tag <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a>.</p></div>
+      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Build and run from source</h2><p>A source-only preview: there is no installer or release binary. Linux x86_64 with <a href="https://rustup.rs">rustup</a>; the pinned toolchain installs on first build. These are the commands from the <a href="https://github.com/writfold-dev/writfold#try-it">Writfold README</a>, at tag <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a>. They run the frozen working demos; nothing of the continuity direction is built yet.</p></div>
       <pre class="code-panel" tabindex="0" aria-label="Build and try commands"><code># In a clone of https://github.com/writfold-dev/writfold
 cargo build --release -p writfold
 
@@ -116,15 +115,15 @@ git -C "$WRITFOLD_STATE/worktrees/&lt;run&gt;" diff
 printf '@h := find text "trial_blob(" in "crates/" at "%s";\n@e := retain @h around lines 0;\n@v := project @e [path, line, binding, excerpt(max_chars: 72)] limit 6;\nemit @v budget_tokens 300;\n' "$(git rev-parse HEAD)" &gt; q.tuft
 target/release/writfold tuft run q.tuft --repo .</code></pre>
       <p>Your own checkout is never written: Writfold makes its own sparse worktree of the repository's HEAD, replays a <a href="https://github.com/writfold-dev/splicery">Splicery</a> recipe through the pinned kernel, and installs the result only after a signed approval and a current grant are verified. <code>apply</code> records a durable claim before it touches the file, and <code>writfold trial recover &lt;run&gt;</code> settles an interrupted apply. Splicery's <code>examples/try/</code> has a recipe for a small Rust file; <code>trial retain</code> and <code>approve --require CHECK</code> are described in the <a href="https://github.com/writfold-dev/writfold/blob/main/docs/writfold/trial-profile.md">trial profile</a>. Weft and Splicery each have their own Try it: <a href="https://github.com/writfold-dev/weft#try-it">Weft</a>, <a href="https://github.com/writfold-dev/splicery#try-it">Splicery</a>.</p>
-      <p class="boundary">This is a cooperating single-user trial. It never writes your checkout, but nothing stops an agent's own shell from doing so, and it assumes nobody races it on its worktree. Search is exact text or a bounded regex; semantic and fuzzy search are deferred until the Omnigraph backend exists.</p>
+      <p class="boundary">This is a cooperating single-user trial. It never writes your checkout, but nothing stops an agent's own shell from doing so, and it assumes nobody races it on its worktree. Search is exact text or a bounded regex. Fuzzy (typo-tolerant) text search is planned in the local rebuildable index.</p>
       <p>Found a problem or have an idea? Open an issue on <a href="https://github.com/writfold-dev/writfold/issues">Writfold</a>, <a href="https://github.com/writfold-dev/weft/issues">Weft</a> or <a href="https://github.com/writfold-dev/splicery/issues">Splicery</a>.</p>
     </section>
 
     <section id="status" class="section" aria-labelledby="status-title">
       <div class="section-heading"><p class="eyebrow">Status</p><h2 id="status-title">What runs today</h2></div>
       <div class="status-grid">
-        <article class="status-card"><p class="status-label">Runs</p><h3>A cooperating single-user trial, end to end</h3><p>On any Git repository: retain exact evidence (or find it with Tuft), bind a Weft report, prepare a Splicery edit in Writfold's own sparse worktree, approve, apply and recover, every step in a durable, validated ledger. <code>serve</code> exposes show, retain, prepare, the one-command run and evidence reads; approval stays CLI-only. Every trial operation's p95 is under 0.5 s on a 100,000-file repository.</p><p>Proved over the shipped Rust: the ledger, grant, revocation, recovery-outcome, required-check and edit-flow decisions, plus Weft's set and verdict decisions and Splicery's edit rendering. <a href="/docs.html#assurance">How we know</a></p></article>
-        <article class="status-card"><p class="status-label pending">Not yet</p><h3>The hardened harness</h3><p>No semantic or fuzzy search and no live knowledge service: Omnigraph is the target backend and Dolt the interim one, which now has a conditional single writer and a first publication path, but not the full integration milestone. Not built either: named contexts, the hardened Worktrunk edit path, and a profile that stops an agent writing your checkout itself. No measured token win yet: in five pilots the Writfold or Tuft arm used between 1.7% and 16% more tokens than ordinary tools at equal correctness. A first reliability pilot with a smaller model could not separate the arms either: ordinary tools were already right 23 times in 24.</p><p>Next: harder reliability tasks, a signed candidate binding for Dolt publication, and trial state found without an environment variable.</p></article>
+        <article class="status-card"><p class="status-label">Runs · frozen</p><h3>Working demos: the edit trial and Tuft</h3><p>A cooperating single-user trial, end to end on any Git repository: retain exact evidence (or find it with Tuft), bind a Weft report, prepare a Splicery edit in Writfold's own sparse worktree, approve, apply and recover, every step in a durable, validated ledger. <code>serve</code> exposes show, retain, prepare, the one-command run and evidence reads; approval stays CLI-only. Every trial operation's p95 is under 0.5 s on a 100,000-file repository. These still build and run, and get no new development.</p><p>Proved over the shipped Rust: the ledger, grant, revocation, recovery-outcome, required-check and edit-flow decisions, plus Weft's set and verdict decisions and Splicery's edit rendering. <a href="/docs.html#assurance">How we know</a></p></article>
+        <article class="status-card"><p class="status-label pending">Planned</p><h3>Project continuity</h3><p>Nothing of the new direction is built yet. Project memory is planned as plain records in Git plus a local index that can always be rebuilt, with fuzzy text search in that index. Paused: the Dolt and Omnigraph backends, and benchmarking. No measured token win: in five pilots the Writfold or Tuft arm used between 1.7% and 16% more tokens than ordinary tools at equal correctness, and in two reliability rounds ordinary tools on a smaller model were already right 23 times in 24.</p><p>Next: the first continuity slice, reading an existing project knowledge base with <code>brief</code>, <code>context</code>, <code>why</code> and <code>stale</code>.</p></article>
       </div>
       <a class="text-action" href="/status.html">Full status, roadmap and changelog <span aria-hidden="true">→</span></a>
     </section>
@@ -135,7 +134,7 @@ target/release/writfold tuft run q.tuft --repo .</code></pre>
         <a href="/tuft.html"><span><strong>Tuft by example</strong><small>Find exact text in a pinned commit, cite it, see budgets and refusals</small></span><span aria-hidden="true">→</span></a>
         <a href="/weft.html"><span><strong>Weft by example</strong><small>State assumptions, run checks, read the outcomes</small></span><span aria-hidden="true">→</span></a>
         <a href="/splicery.html"><span><strong>Splicery by example</strong><small>Select exact bytes, preview a candidate, see refusals</small></span><span aria-hidden="true">→</span></a>
-        <a href="/docs.html"><span><strong>How it works</strong><small>Where the harness sits, the six steps, evidence, contexts and architecture</small></span><span aria-hidden="true">→</span></a>
+        <a href="/docs.html"><span><strong>How it works</strong><small>The edit trial&rsquo;s design: the six steps, evidence, contexts and architecture</small></span><span aria-hidden="true">→</span></a>
         <a href="/status.html"><span><strong>Status &amp; FAQ</strong><small>What runs, what is blocked, what changed and when</small></span><span aria-hidden="true">→</span></a>
         <a href="/glossary.html"><span><strong>Glossary</strong><small>Owner, retained input, citation, hypothetical and other terms</small></span><span aria-hidden="true">→</span></a>
       </div>
