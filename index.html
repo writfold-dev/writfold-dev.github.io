@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Writfold — Git-native project continuity for coding agents</title>
-  <meta name="description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer pinned to a source and flagged when it moves. Planned; the first slice is in progress.">
+  <meta name="description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. Planned, not built yet.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
-  <meta property="og:description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer pinned to a source and flagged when it moves. Planned; the first slice is in progress.">
+  <meta property="og:description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. Planned, not built yet.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the line: Keep the context. Know what supports it.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents, planned.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -33,46 +33,47 @@
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
-      <h1 id="hero-title">Project memory<br><span>that travels with Git.</span></h1>
-      <p class="lede">A fresh agent session, on any machine, should be able to answer four questions:</p>
+      <h1 id="hero-title">Project memory in Git<br><span>that says when it is stale.</span></h1>
+      <p class="lede">Every new agent session starts without the project&rsquo;s history. Writfold is being built so that a fresh session, on any machine, can answer four questions, and each answer names the file and commit it came from.</p>
       <ul class="questions">
         <li>Why did we decide X?</li>
         <li>Where do we stand on Y?</li>
         <li>What is the tracker item for Z?</li>
         <li>What does changing X touch?</li>
       </ul>
-      <p class="lede">Every answer is pinned to its source, a path at a commit with a digest, and flagged when that source has moved.</p>
       <div class="actions"><a class="button" href="#continuity">How it works <span aria-hidden="true">↓</span></a><a class="text-action" href="/status.html">Status and roadmap <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge">Planned</span> Not built yet · the first slice is in progress · Rust · Linux x86_64 and WSL2</p>
-      <figure class="harness-fig" aria-hidden="true">
-        <svg viewBox="0 0 960 200" focusable="false">
-          <rect class="hz-frame hz-planned" x="4" y="6" width="952" height="188" rx="12"/>
-          <text class="hz-title hz-planned" x="24" y="32">WRITFOLD · PLANNED</text>
-          <rect class="fa-box fa-planned" x="24" y="52" width="264" height="120" rx="10"/>
-          <text class="fa-name" x="156" y="98">Git repository</text><text class="fa-owner" x="156" y="124">plain records,</text><text class="fa-owner" x="156" y="144">the only store</text>
-          <path class="fa-arrow" d="M294 112h40m-5-5 5 5-5 5"/><text class="hz-label" x="314" y="100">sync</text>
-          <rect class="fa-box fa-planned" x="340" y="52" width="280" height="120" rx="10"/>
-          <text class="fa-name" x="480" y="98">Local index</text><text class="fa-owner" x="480" y="124">derived, rebuildable,</text><text class="fa-owner" x="480" y="144">fuzzy text search</text>
-          <path class="fa-arrow" d="M626 112h40m-5-5 5 5-5 5"/><text class="hz-label" x="646" y="100">read</text>
-          <rect class="fa-box fa-planned" x="672" y="52" width="264" height="120" rx="10"/>
-          <text class="fa-name" x="804" y="98">Pinned answer</text><text class="fa-owner" x="804" y="124">path @ commit, digest,</text><text class="fa-owner" x="804" y="144">flagged when stale</text>
-        </svg>
+      <p class="maturity"><span class="badge">Planned</span> Not built yet. Implementation of the first slice started on 11 November 2026.</p>
+      <figure id="example" class="example">
+        <figcaption><span class="chip chip-planned">Illustrative</span> The planned shape of an answer, not real output.</figcaption>
+        <pre class="code-panel" tabindex="0" aria-label="Illustrative example of a planned answer"><code>$ writfold kb why "sqlite index"
+decision  git-as-store  accepted  Git is the only store; the SQLite index is derived
+  why:   one record per file, so concurrent writers merge in Git
+  why:   the index can always be rebuilt from a commit
+  cite:  src/index/rebuild.rs:40-72 @ 3f9c2ab  sha256:9d41…  !moved→44-76
+# coverage=complete  shown=1  stale=1  kb=2c8cf78</code></pre>
+        <p class="fine-print">The last <code>cite</code> line is the point: the decision cites code at a commit, with a digest of the bytes read, and the answer says those lines have since moved.</p>
       </figure>
     </section>
 
     <section id="continuity" class="section" aria-labelledby="continuity-title">
-      <div class="section-heading"><p class="eyebrow">How it works · planned</p><h2 id="continuity-title">Records in Git, an index you can rebuild, answers you can check</h2><p>The agent keeps its own loop and model, and asks Writfold about the project.</p></div>
+      <div class="section-heading"><p class="eyebrow">How it works · planned</p><h2 id="continuity-title">Records in Git, an index you can rebuild, answers you can check</h2><p>Agent memory features live with one tool, on one machine or account. Notes in Markdown travel, but nothing tells you when the code they describe has changed. Writfold is planned to do both: records that live in Git and are reviewed, merged and cloned like code, and answers that say when their source has moved. The agent keeps its own loop and model, and asks Writfold about the project.</p></div>
       <div class="three-up">
-        <article class="capability"><span class="number">01</span><h3>Records in Git</h3><p>Project memory will be plain records in Git. Git is the only repository you need, so a new machine needs <code>git clone</code> plus the binary.</p></article>
+        <article class="capability"><span class="number">01</span><h3>Records in Git</h3><p>The knowledge base will be plain Markdown and JSON records in a Git repository. Git is the only store, so a new machine needs <code>git clone</code> plus the binary.</p></article>
         <article class="capability"><span class="number">02</span><h3>A rebuildable index</h3><p>A local SQLite index will be derived from those records and kept in sync by Writfold itself, so it can always be rebuilt. It will include fuzzy (typo-tolerant) text search.</p></article>
-        <article class="capability"><span class="number">03</span><h3>Pinned, flagged when stale</h3><p>Each answer will name its source: a path at a commit, with a digest of the bytes read. When that source has moved since, the answer says so.</p></article>
+        <article class="capability"><span class="number">03</span><h3>Pinned, flagged when stale</h3><p>Each answer will name its source: a path at a commit, with a digest of the bytes read. When that source has moved since, the answer will say so.</p></article>
       </div>
-      <p class="boundary">One static binary. No server, and no database to run.</p>
+      <p class="boundary">Planned as one static binary, with no server and no database to run.</p>
     </section>
 
     <section id="first" class="section" aria-labelledby="first-title">
-      <div class="section-heading"><p class="eyebrow">Planned first · in progress</p><h2 id="first-title">The first slice</h2><p>Four read verbs over an existing project knowledge base: <code>brief</code>, <code>context</code>, <code>why</code> and <code>stale</code>. After that: the index and fuzzy search, impact across records, writes and checkpoints, then a Claude Code plugin and MCP.</p></div>
-      <p class="status-line"><span class="chip chip-progress">Status</span> Nothing of this is built yet; the first slice is in progress. <a href="/status.html">Status and roadmap</a></p>
+      <div class="section-heading"><p class="eyebrow">Planned first</p><h2 id="first-title">The first slice</h2><p>Four read-only commands over a knowledge base of plain Markdown and JSON records in a Git repository. Each answers one question:</p></div>
+      <dl class="verbs">
+        <div><dt><code>brief</code></dt><dd>Where do we stand?</dd></div>
+        <div><dt><code>why</code></dt><dd>Why did we decide X?</dd></div>
+        <div><dt><code>context</code></dt><dd>What is around this one thing?</dd></div>
+        <div><dt><code>stale</code></dt><dd>Which sources have moved?</dd></div>
+      </dl>
+      <p class="fine-print">The tracker and impact questions come after, with the index and fuzzy search, then writes and checkpoints, then a Claude Code plugin and MCP. <a href="/status.html#next">Status and roadmap</a>.</p>
       <p class="fine-print">Earlier work still builds and runs from source as frozen demos: the edit trial, Weft, Splicery and Tuft. <a href="/earlier.html">See earlier work</a>.</p>
     </section>
   </main>
@@ -82,7 +83,7 @@
       <a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
       <span class="footer-state">Pre-release</span>
     </div>
-    <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
+    <p class="footer-note">No accounts, no analytics.</p>
   </footer>
 </body>
 </html>
