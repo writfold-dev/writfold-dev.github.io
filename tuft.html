@@ -27,14 +27,14 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/docs.html">How it works</a><a href="/tuft.html" aria-current="page">Tuft</a><a href="/weft.html">Weft</a><a href="/splicery.html">Splicery</a><a href="/status.html">Status</a><a href="/glossary.html">Glossary</a></nav>
+    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="https://github.com/writfold-dev">GitHub</a></nav>
     <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="tuft-title">
       <p class="eyebrow">Tuft · executed example</p>
       <h1 id="tuft-title">Find it exactly.<br><span>Keep what you found.</span></h1>
-      <p class="lede">In the Writfold harness, Tuft is how evidence is gathered: a small language that searches one pinned commit for exact text, keeps each hit as a citation bound by digest, and prints a compact view under a token budget. Nothing is ranked, guessed or summarised.</p>
+      <p class="lede">In the Writfold harness, Tuft is how evidence is gathered: a small language that searches one pinned commit for exact text, keeps each hit as a citation bound by digest, and prints a compact view under a token budget. Nothing is guessed or summarised.</p>
       <p class="maturity"><span class="badge">Runs today</span> Exact text and regex over a pinned commit · source-only preview</p>
       <p class="boundary">Since 11 November 2026, Tuft&rsquo;s query language is frozen at v0. Its output contract, results pinned to one commit and kept as citations bound by digest, with explicit omissions, carries into the read verbs planned for Writfold&rsquo;s new direction, <a href="/#continuity">project continuity</a>. Everything on this page still runs as shown.</p>
       <nav class="actions" aria-label="Tuft sections"><a href="#program">The program</a><a href="#run">Run it</a><a href="#budget">Budgets and cursors</a><a href="#refusals">Refusals</a></nav>
@@ -71,7 +71,7 @@
       <p class="boundary">Search is exact text or a bounded regex. Over a pinned tree that makes it complete: when the trailer says <code>coverage=complete</code> and <code>hits=0</code>, there really is nothing there.</p>
     </section>
     <section id="run" class="section" aria-labelledby="run-title">
-      <div class="section-heading"><p class="eyebrow">02 / Run it</p><h2 id="run-title">What Tuft printed</h2><p>Built from source (<a href="/#try">Try it</a>), in the directory holding the repository and the program:</p></div>
+      <div class="section-heading"><p class="eyebrow">02 / Run it</p><h2 id="run-title">What Tuft printed</h2><p>Built from source (<a href="/earlier.html#try">Try it</a>), in the directory holding the repository and the program:</p></div>
       <pre class="code-panel" tabindex="0" aria-label="Executed Tuft command"><code>writfold trial init
 writfold tuft run find-open.tuft --repo repo
 </code></pre>
@@ -114,7 +114,7 @@ writfold tuft run find-open.tuft --repo repo
   <footer class="site-footer wrap">
     <div class="footer-line">
       <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/status.html">Status</a><a href="/glossary.html">Glossary</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
       <span class="footer-state">Pre-release</span>
     </div>
     <p class="footer-note">Knowledge with a record. No accounts, no analytics.</p>
