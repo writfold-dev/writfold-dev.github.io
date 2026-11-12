@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Status — Writfold</title>
-  <meta name="description" content="What runs today as frozen demos, the roadmap for Git-native project continuity, a short changelog and FAQ.">
+  <meta name="description" content="What runs today, from the first project-continuity preview to the frozen demos, the roadmap, a short changelog and FAQ.">
   <link rel="canonical" href="https://writfold.dev/status.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Status — Writfold">
-  <meta property="og:description" content="What runs today as frozen demos, the roadmap for Git-native project continuity, a short changelog and FAQ.">
+  <meta property="og:description" content="What runs today, from the first project-continuity preview to the frozen demos, the roadmap, a short changelog and FAQ.">
   <meta property="og:url" content="https://writfold.dev/status.html">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents, planned.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.2.0-dev.1.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -34,15 +34,24 @@
     <section class="hero" aria-labelledby="status-title">
       <p class="eyebrow">Status</p>
       <h1 id="status-title">What runs today.<br><span>What comes next.</span></h1>
-      <p class="lede">Writfold&rsquo;s direction is <a href="/#continuity">Git-native project continuity for coding agents</a>. None of it is built yet. What runs today are frozen demos from earlier work.</p>
-      <p class="maturity"><span class="badge">Pre-release</span> Updated 11 November 2026</p>
+      <p class="lede">Writfold is <a href="/#continuity">Git-native project continuity for coding agents</a>. Its first slice is released as a preview. The earlier work still runs as frozen demos.</p>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a> · Updated 12 November 2026</span></p>
       <nav class="actions" aria-label="Page sections"><a href="#today">Runs today</a><a href="#next">Roadmap</a><a href="#changelog">Changelog</a><a href="#faq">FAQ</a></nav>
     </section>
     <section id="today" class="section" aria-labelledby="today-title">
-      <div class="section-heading"><p class="eyebrow">01 / Runs today</p><h2 id="today-title">Frozen demos</h2><p>From the source-only preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a>, built from source on Linux x86_64 and WSL2. They still build and run, and get no new development.</p></div>
+      <div class="section-heading"><p class="eyebrow">01 / Runs today</p><h2 id="today-title">Project continuity, then frozen demos</h2><p>From the preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a>, a static Linux x86_64 binary with a <code>.sha256</code> file. <a href="/#try">Try it</a>.</p></div>
       <div class="doc-links">
+        <a href="https://github.com/writfold-dev/writfold#readme"><span><strong>Read verbs</strong><small><code>writfold kb brief | context | why | status | find | match | impact | uses | timeline | stale | resume | runs</code> over plain Markdown and JSON records in Git. Every answer ends with a coverage line: what was examined, what was omitted, and whether any cited source is stale. <code>find</code> tolerates typos; <code>impact</code> states how far it searched</small></span><span aria-hidden="true">→</span></a>
+        <a href="https://github.com/writfold-dev/writfold#readme"><span><strong>Write verbs</strong><small><code>checkpoint</code>, <code>record ticket|decision|link</code>, <code>status --set</code> and <code>cite make</code> write plain files atomically and leave them uncommitted</small></span><span aria-hidden="true">→</span></a>
+        <a href="https://github.com/writfold-dev/writfold#readme"><span><strong>Index and citations</strong><small>A local SQLite index derived from Git; <code>index verify</code> checks it equals a rebuild. Each citation pins <code>path@commit:lines</code> with a digest, and <code>stale</code> reports it fresh, moved, changed or gone</small></span><span aria-hidden="true">→</span></a>
+        <a href="https://github.com/writfold-dev/writfold/tree/main/plugins/writfold"><span><strong>Claude Code plugin</strong><small>A project brief at session start with no tool call, local checkpoint drafts before compaction and at stop, and one skill</small></span><span aria-hidden="true">→</span></a>
+      </div>
+      <p class="fine-print">Measured: reads at most 45&nbsp;ms on 4,130 records; writes about 120&ndash;130&nbsp;ms. Writes killed at every step leave the old or the new complete file. A TLA+ model of the write protocol passes, and its five mutants fail.</p>
+      <h3 class="subhead">Frozen demos</h3>
+      <p class="fine-print">From earlier work, built from source. They still build and run, and get no new development apart from the planned adapters.</p>
+      <div class="doc-links">
+        <a href="/tuft.html"><span><strong>Tuft v0</strong><small>Exact text or bounded regex over one pinned commit, kept as citations bound by digest. <code>writfold tuft run --cite</code> now adds the same citation tokens to its rows and records searches as receipts in the current run</small></span><span aria-hidden="true">→</span></a>
         <a href="/docs.html"><span><strong>The edit trial</strong><small>A cooperating single-user flow on any Git repository: retain exact evidence, prepare an edit, approve, apply and recover, each step in a validated ledger kept in Git</small></span><span aria-hidden="true">→</span></a>
-        <a href="/tuft.html"><span><strong>Tuft v0</strong><small>Exact text or bounded regex over one pinned commit, kept as citations bound by digest, with explicit omissions. Its output contract carries into the first slice</small></span><span aria-hidden="true">→</span></a>
         <a href="/weft.html"><span><strong>Weft</strong><small>Local checks of what declared assumptions support: entailed, refuted or undetermined</small></span><span aria-hidden="true">→</span></a>
         <a href="/splicery.html"><span><strong>Splicery</strong><small>Byte-exact edit preview that never touches the original file</small></span><span aria-hidden="true">→</span></a>
       </div>
@@ -51,17 +60,20 @@
     <section id="next" class="section" aria-labelledby="next-title">
       <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">In order</h2></div>
       <ol class="workflow">
-        <li><div><h3>First slice</h3><p>Four read-only commands over a knowledge base of plain Markdown and JSON records in a Git repository: <code>brief</code> (where do we stand), <code>why</code> (why did we decide X), <code>context</code> (what is around one thing) and <code>stale</code> (which sources have moved). Every answer is to name its source, a path at a commit with a digest, and say when that source has moved. <span class="chip chip-progress">Implementation started 11 Nov</span></p></div></li>
-        <li><div><h3>Index and fuzzy search</h3><p>A local SQLite index derived from the records in Git and kept in sync by Writfold, so it can always be rebuilt, with typo-tolerant text search. <span class="chip chip-planned">Planned</span></p></div></li>
-        <li><div><h3>Derived edges and impact</h3><p>Links between records, derived from the records themselves, to answer what changing X touches. <span class="chip chip-planned">Planned</span></p></div></li>
-        <li><div><h3>Writes and checkpoints</h3><p>Recording decisions and progress back to Git as plain records. <span class="chip chip-planned">Planned</span></p></div></li>
-        <li><div><h3>Claude Code plugin and MCP</h3><p>Bringing the same answers into an agent session directly. <span class="chip chip-planned">Planned</span></p></div></li>
+        <li><div><h3>Read verbs, index and impact (M1&ndash;M2)</h3><p><code>brief</code>, <code>why</code>, <code>context</code>, <code>stale</code> and the rest; the rebuildable SQLite index with typo-tolerant search; links between records to answer what changing X touches. <span class="chip chip-today">Done</span></p></div></li>
+        <li><div><h3>Writes and checkpoints (M3)</h3><p>Checkpoints, records and status changes as plain files, written atomically. <span class="chip chip-today">Done</span></p></div></li>
+        <li><div><h3>Claude Code plugin and Tuft adapter</h3><p>The brief and checkpoint drafts in a session; citation tokens and retrieval receipts from Tuft. <span class="chip chip-today">Done</span></p></div></li>
+        <li><div><h3>Gates with pinned receipts</h3><p>A check that Writfold runs itself, with one receipt per run pinned to the exact commit and paths it judged. The receipt goes stale when that subject moves. <span class="chip chip-progress">In progress</span></p></div></li>
+        <li><div><h3>Splicery adapter for big edits</h3><p>A Splicery recipe applies in a run&rsquo;s recorded worktree; the result is an ordinary Git change judged by a gate, with the recipe and preview kept as a receipt. <span class="chip chip-planned">Planned</span></p></div></li>
+        <li><div><h3><code>writfold watch</code></h3><p>A read-only terminal view of runs and progress. <span class="chip chip-planned">Planned</span></p></div></li>
+        <li><div><h3>Offline PR and Slack drafts, and MCP</h3><p>Delivery drafts written locally, never sent; the same answers over MCP. <span class="chip chip-planned">Planned</span></p></div></li>
       </ol>
       <p class="fine-print">Paused: the Dolt and Omnigraph backends explored earlier, and benchmarking. Earlier pilots found no measurable win over ordinary tools.</p>
     </section>
     <section id="changelog" class="section" aria-labelledby="changelog-title">
       <div class="section-heading"><p class="eyebrow">03 / Changelog</p><h2 id="changelog-title">What changed</h2></div>
       <ol class="changelog">
+        <li><time>12 Nov 2026</time><p>First project-continuity preview, <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a>: a static Linux x86_64 binary with the <code>kb</code> read and write verbs, the rebuildable index and citations checked for staleness. A Claude Code plugin brings the brief and checkpoint drafts into a session. <code>writfold tuft run --cite</code> adds citation tokens to Tuft rows and records searches as receipts. Gates with pinned receipts are in progress.</p></li>
         <li><time>11 Nov 2026</time><p>New direction: Git-native project continuity for coding agents. Git is the only store, with a local index Writfold derives and can always rebuild. The first slice is designed. The edit trial, Weft and Splicery are frozen as working demos, and Tuft is frozen at v0. The Dolt and Omnigraph backends and benchmarking are paused.</p></li>
         <li><time>10 Nov 2026</time><p>One command, <code>writfold trial run</code>, goes from a Tuft query through a Weft check to a prepared edit and stops at approval. Retained evidence can be read back in a later session, verified against its digest.</p></li>
         <li><time>9 Nov 2026</time><p>Source-only preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.1.0-dev.1">v0.1.0-dev.1</a>: the edit trial runs end to end, and Tuft v0 finds and cites exact evidence. Decision kernels proved over the shipped Rust with Charon/Aeneas and Lean.</p></li>
@@ -71,7 +83,7 @@
     </section>
     <section id="faq" class="section" aria-labelledby="faq-title">
       <div class="section-heading"><p class="eyebrow">04 / FAQ</p><h2 id="faq-title">Common questions</h2></div>
-      <div class="faq"><details><summary>Can I use Writfold for project continuity today?</summary><p>Not yet. It is planned; the <a href="#next">roadmap</a> gives the order. The frozen demos on <a href="/earlier.html">earlier work</a> build and run from source.</p></details><details><summary>Will it need a server or a database?</summary><p>No. The plan is one static binary, project memory as plain records in Git, and a local index that Writfold derives and can always rebuild. A new machine needs <code>git clone</code> plus the binary. No hosted service or account.</p></details><details><summary>Does it replace my coding agent?</summary><p>No. The agent keeps its own loop and model, and asks Writfold about the project. A Claude Code plugin and MCP are planned after the core.</p></details><details><summary>Is the source available?</summary><p>Yes. The <a href="https://github.com/writfold-dev/writfold">Writfold</a>, <a href="https://github.com/writfold-dev/weft">Weft</a> and <a href="https://github.com/writfold-dev/splicery">Splicery</a> repositories are public, and this website is public under the MIT license.</p></details></div>
+      <div class="faq"><details><summary>Can I use Writfold for project continuity today?</summary><p>Yes, as a preview: <a href="/#try">download the binary and install the plugin</a>. It is for a single user with cooperating agents, reads local clones only and never fetches, and runs on Linux x86_64 or WSL2.</p></details><details><summary>Does it need a server or a database?</summary><p>No. It is one static binary, project memory as plain records in Git, and a local index that Writfold derives and can always rebuild. A new machine needs <code>git clone</code> plus the binary. No hosted service or account.</p></details><details><summary>Does it replace my coding agent?</summary><p>No. The agent keeps its own loop and model, and asks Writfold about the project. The Claude Code plugin works today; MCP is planned.</p></details><details><summary>Is the source available?</summary><p>Yes. The <a href="https://github.com/writfold-dev/writfold">Writfold</a>, <a href="https://github.com/writfold-dev/weft">Weft</a> and <a href="https://github.com/writfold-dev/splicery">Splicery</a> repositories are public, and this website is public under the MIT license.</p></details></div>
     </section>
   </main>
   <footer class="site-footer wrap">
