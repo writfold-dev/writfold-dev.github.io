@@ -4,11 +4,13 @@ The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS
 
 ## Pages
 
-- `index.html`: the overview. The four questions, the flow diagram, the two retrieval and two edit options, gates and evidence, and the release block.
-- `how.html`: the flow stage by stage (research, plan, execute, deliver), with the tool choices, what goes back into the knowledge base, real commands, and the gates diagram.
+- `index.html`: the overview. The four questions, one answer card, the flow diagram with its write-back lane and check line, gates and what is owed, and the release block.
+- `how.html`: one screen per stage (research, plan, execute, deliver), then gates, checking and the plugin. Each is two sentences, one example and one link to the matching guide.
 - `status.html`: what runs in the preview, the roadmap, a short changelog and FAQ.
 - `earlier.html`, `docs.html`, `glossary.html`, `tuft.html`, `weft.html`, `splicery.html`: redirect stubs for addresses that were published before. Each holds a `meta refresh` and one link, and no other content.
 - `404.html`: the missing-page response.
+
+Full file layouts, complete configuration files and exact output live in the Writfold repository under `docs/guide/`, and the pages link there (`https://github.com/writfold-dev/writfold/blob/main/docs/guide/<page>.md`). Keep the site short: move detail to a guide and link it.
 
 Describe only exercised capabilities as running. Everything else is labelled planned: a `Planned` chip in text, a dashed amber outline in diagrams.
 

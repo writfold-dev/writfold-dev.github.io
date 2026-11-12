@@ -238,7 +238,7 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .fd-head { fill: var(--muted); fill: context-stroke; }
 .fd-rule { stroke: var(--border); stroke-width: 1; }
 .fd text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-.fd .fd-num, .fd .fd-cmd, .fd .fd-planned, .fd .fd-tag { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+.fd .fd-num, .fd .fd-cmd, .fd .fd-planned, .fd .fd-tag, .fd .fd-lane { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
 .fd-num { fill: var(--accent); font-size: 12px; font-weight: 650; letter-spacing: .1em; }
 .fd-title { fill: var(--text); font-size: 17px; font-weight: 650; }
 .fd-item { fill: var(--text); font-size: 14px; font-weight: 650; }
@@ -247,6 +247,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .fd-read { fill: var(--accent); font-size: 12.5px; }
 .fd-planned { fill: var(--amber); font-size: 12px; }
 .fd-planned-note { fill: var(--amber); font-size: 12.5px; }
+.fd-lane { fill: var(--muted); font-size: 9.5px; font-weight: 650; letter-spacing: .12em; }
+.fd-lane-read { fill: var(--accent); }
 .fd-tag { fill: var(--amber); font-size: 9.5px; font-weight: 650; letter-spacing: .12em; }
 /* Visual cards: an answer, a run, a draft. */
 .visual { margin: 28px 0; }
@@ -284,6 +286,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .options dt { font-weight: 600; }
 .options dd { margin: .25rem 0 0; color: var(--muted); font-size: .94rem; }
 .status-card > p:last-child a { font-size: .9rem; }
+.guide-link { margin: 18px 0 0; font-size: .95rem; font-weight: 600; }
+.guide-link span { color: var(--accent); margin-right: .35em; }
 .planned-panel, .planned-card { border: 1px dashed var(--amber); border-radius: 6px; }
 .planned-panel { margin-top: 28px; padding: 22px 24px 8px; }
 .planned-panel h3 { margin-top: 1.2rem; font-size: 1.04rem; }

@@ -11,29 +11,30 @@ def text(x, y, cls, s, anchor=None):
 
 STAGES = [
     ("01", "Research", ["kb find · why · context", "kb impact · stale", "or tuft run --cite"], [],
-     ["the same answers over MCP"],
+     ["required: backfill the KB"],
      ["citations,", "receipts, records"], "Citations, retrieval receipts and the records you write."),
     ("02", "Plan", ["checkpoint --new-run"], ["today the plan is a note"],
-     ["plan set · plan status", "Weft verifies each step"],
+     ["the run graph:", "plan set · plan status"],
      ["a run: its task,", "place and plan note"], "A run with its task, worktree and plan note."),
     ("03", "Execute", ["kb edit apply (Splicery)", "or Edit · grep · sed", "gate run · gate status", "checkpoint · watch"], [],
      ["plan advance"],
      ["checkpoints, edit and", "gate receipts, statements"], "Checkpoints, edit receipts, gate receipts and statements."),
     ("04", "Deliver", ["deliver prepare · check", "deliver status"], ["checked; nothing is sent"],
-     ["your own modes"],
+     ["your own modes", "required: reflect at end"],
      ["the exact draft and", "a receipt per check"], "The exact draft and one receipt per check."),
 ]
 FLOW_TITLE = "The Writfold flow: four stages, each writing back to the knowledge base"
-FLOW_DESC = ("Four stages left to right. 1 Research: kb find, why, context, impact and stale, or tuft run --cite; planned: the same answers over MCP. "
-             "2 Plan: checkpoint --new-run starts a run and today the plan is a note; planned: plan set and plan status, and Weft verifying each step. "
+FLOW_DESC = ("Four stages left to right. 1 Research: kb find, why, context, impact and stale, or tuft run --cite; planned: a required step that backfills the knowledge base. "
+             "2 Plan: checkpoint --new-run starts a run and today the plan is a note; planned: the run graph, with plan set and plan status. "
              "3 Execute: kb edit apply with Splicery, or ordinary Edit, grep and sed; gate run and gate status; checkpoint and watch; planned: plan advance. "
-             "4 Deliver: deliver prepare, check and status; drafts are checked and nothing is sent; planned: your own delivery modes. "
+             "4 Deliver: deliver prepare, check and status; drafts are checked and nothing is sent; planned: your own delivery modes, and a required reflection at the end of every run. "
              "Every stage writes to the knowledge base, plain records in Git: citations, receipts, records, runs, checkpoints, statements and drafts. "
-             "The knowledge base answers the next session's questions, with sources.")
+             "The knowledge base answers the next session's questions, with sources. "
+             "Check on demand with kb stale, kb index verify and gate status; the index refreshes itself on every read.")
 
 def flow_wide(pfx):
     W, bw, gap, bh = 960, 225, 20, 236
-    o = [f'<svg class="fd fd-wide" viewBox="0 0 {W} 412" role="img" aria-labelledby="{pfx}-t {pfx}-d" xmlns="http://www.w3.org/2000/svg">',
+    o = [f'<svg class="fd fd-wide" viewBox="0 0 {W} 458" role="img" aria-labelledby="{pfx}-t {pfx}-d" xmlns="http://www.w3.org/2000/svg">',
          f'<title id="{pfx}-t">{e(FLOW_TITLE)}</title><desc id="{pfx}-d">{e(FLOW_DESC)}</desc>', marker(pfx + "-m")]
     for i, (num, title, cmds, notes, planned, feed, _) in enumerate(STAGES):
         x = i * (bw + gap)
@@ -48,15 +49,21 @@ def flow_wide(pfx):
         for j, p in enumerate(planned): o.append(text(x + 18, py + 35 + 20 * j, "fd-planned", p))
         if i < 3:
             o.append(f'<path class="fd-arrow" d="M{x+bw+3} 54H{x+bw+gap-3}" marker-end="url(#{pfx}-m)"/>')
-        ax = x + (120 if i == 0 else 28)
+        ax = x + (132 if i == 0 else 28)
         o.append(f'<path class="fd-arrow" d="M{ax} {bh+6}V314" marker-end="url(#{pfx}-m)"/>')
-        for j, f in enumerate(feed): o.append(text(ax + 10, bh + 34 + 16 * j, "fd-note", f))
+        o.append(text(ax + 10, bh + 22, "fd-lane", "WRITES BACK"))
+        for j, f in enumerate(feed): o.append(text(ax + 10, bh + 42 + 16 * j, "fd-note", f))
     o.append(f'<path class="fd-arrow fd-arrow-read" d="M28 314V{bh+8}" marker-end="url(#{pfx}-m)"/>')
-    o.append(text(38, bh + 34, "fd-read", "answers,")); o.append(text(38, bh + 50, "fd-read", "with sources"))
+    o.append(text(38, bh + 22, "fd-lane fd-lane-read", "READS"))
+    o.append(text(38, bh + 42, "fd-read", "answers,")); o.append(text(38, bh + 58, "fd-read", "with sources"))
     o.append(f'<rect class="fd-kb" x="1" y="320" width="{W-2}" height="90" rx="7"/>')
     o.append(text(20, 350, "fd-title", "Knowledge base: plain records in Git"))
     o.append(text(20, 374, "fd-cmd", "decisions · tickets · links · runs/<id>/ checkpoints, receipts, drafts · .writfold/ gates and delivery rules"))
     o.append(text(20, 396, "fd-note", "A local index is derived from it and can always be rebuilt. A new machine needs git clone and the binary."))
+    o.append(f'<rect class="fd-box" x=".75" y="420.75" width="{W-1.5}" height="36.5" rx="7"/>')
+    o.append(text(20, 444, "fd-num", "CHECK ON DEMAND"))
+    o.append(text(170, 444, "fd-cmd", "kb stale · kb index verify · gate status"))
+    o.append(text(W - 20, 444, "fd-note", "The index refreshes itself on every read.", "end"))
     o.append('</svg>')
     return "".join(o)
 
@@ -76,7 +83,7 @@ def flow_tall(pfx):
         for j, p in enumerate(planned): body.append(text(18, py + 35 + 20 * j, "fd-planned", p))
         fy = py + ph + 12
         body.append(f'<path class="fd-rule" d="M10 {fy}H{W-10}"/>')
-        words = ("Into the KB: " + feed).split(); lines = [""]
+        words = ("Writes back: " + feed).split(); lines = [""]
         for w in words:
             if len(lines[-1]) + len(w) + 1 > 46: lines.append("")
             lines[-1] = (lines[-1] + " " + w).strip()
@@ -84,13 +91,15 @@ def flow_tall(pfx):
         y += h
         body.append(f'<path class="fd-arrow" d="M{W/2} {y+4}V{y+24}" marker-end="url(#{pfx}-m)"/>')
         y += 30
-    body.append(f'<rect class="fd-kb" x="1" y="{y}" width="{W-2}" height="118" rx="7"/>')
+    body.append(f'<rect class="fd-kb" x="1" y="{y}" width="{W-2}" height="166" rx="7"/>')
     body.append(text(16, y + 28, "fd-title", "Knowledge base"))
     body.append(text(16, y + 50, "fd-note", "Plain records in Git: decisions, tickets, links,"))
     body.append(text(16, y + 66, "fd-note", "runs with checkpoints, receipts and drafts,"))
     body.append(text(16, y + 82, "fd-note", "and .writfold/ gates and delivery rules."))
     body.append(text(16, y + 104, "fd-read", "It answers the next session, with sources."))
-    y += 120
+    body.append(text(16, y + 130, "fd-num", "CHECK ON DEMAND"))
+    body.append(text(16, y + 150, "fd-cmd", "kb stale · kb index verify · gate status"))
+    y += 168
     head = [f'<svg class="fd fd-tall" viewBox="0 0 {W} {y}" role="img" aria-labelledby="{pfx}-t {pfx}-d" xmlns="http://www.w3.org/2000/svg">',
             f'<title id="{pfx}-t">{e(FLOW_TITLE)}</title><desc id="{pfx}-d">{e(FLOW_DESC)}</desc>', marker(pfx + "-m")]
     return "".join(head + body) + '</svg>'
@@ -101,25 +110,25 @@ COLS = [
         ("A run", "every gate defined for its repository", T),
         ("A delivery draft", "PR comment or Slack summary: 3 checks", T),
         ("Your own delivery modes", "a commit message, say, listing its gates", P),
-        ("A plan step", "from a template that a skill names", P)]),
+        ("A plan step", "required steps are in every run", P)]),
     ("A GATE: ONE ATOMIC CHECK", [
         ("Command gate", "a command and the paths it covers", T),
         ("Attested gate", "a statement someone must make", T),
         ("Instruction gate", "an .md to read, with its own scripts", P),
-        ("Weft assessment", "a step's checks, from backed assumptions", P)]),
+        ("Run-record check", "did the run backfill, and reflect?", P)]),
     ("EVIDENCE WRITFOLD RECORDS", [
-        ("Receipt", "Writfold ran the command on these bytes", T),
-        ("Statement", "attested or waived, by name; never a pass", T),
+        ("Receipt", "the command, run on these bytes", T),
+        ("Statement", "attested or waived; never a pass", T),
         ("Stale when the bytes move", "derived on each read, never stored", T),
-        ("Assessed receipt", "Weft's result, after citations check fresh", P)]),
+        ("Assessed receipt", "Weft's result on a plan step", P)]),
 ]
 GATE_TITLE = "Gates, the evidence that meets them, and what follows"
 GATE_DESC = ("Three columns. Who owes gates: today a run owes every gate defined for its repository, and a delivery draft (PR comment or Slack summary) owes its built-in checks; "
-             "planned: your own delivery modes listing their gates, and plan steps from a template that a skill names. "
+             "planned: your own delivery modes listing their gates, and plan steps, with required steps included in every run. "
              "A gate is one atomic check: today a command gate (a command and the paths it covers) or an attested gate (a statement someone must make); "
-             "planned: an instruction gate with an .md to read and its own scripts, and a Weft assessment of a plan step. "
+             "planned: an instruction gate with an .md to read and its own scripts, and a run-record check over the run's own records, such as whether it backfilled the knowledge base and ended with a reflection. "
              "Evidence Writfold records: today a receipt, written after Writfold ran the command on the exact bytes, or a statement, attested or waived by name and never shown as a pass; both go stale when the bytes move; "
-             "planned: an assessed receipt from Weft. "
+             "planned: an assessed receipt from Weft on a plan step. "
              "When every gate is met, today gate status and deliver status exit 0; planned: plan advance records the step and moves to the next.")
 
 def item(o, x, y, w, t, s, st):
