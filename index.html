@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Writfold — Git-native project continuity for coding agents</title>
-  <meta name="description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. First preview: v0.2.0-dev.1.">
+  <meta name="description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. Preview: v0.3.0-dev.1.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
-  <meta property="og:description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. First preview: v0.2.0-dev.1.">
+  <meta property="og:description" content="Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. Every answer names its source and says when it has moved. Preview: v0.3.0-dev.1.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.2.0-dev.1.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.3.0-dev.1.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -42,7 +42,7 @@
         <li>What does changing X touch?</li>
       </ul>
       <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="#continuity">How it works <span aria-hidden="true">↓</span></a><a class="text-action" href="/status.html">Status and roadmap <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge badge-today">Preview</span> <span>First preview released 12 November 2026: <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a>, one static Linux x86_64 binary.</span></p>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span>Preview released 12 November 2026: <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.3.0-dev.1">v0.3.0-dev.1</a>, one static Linux x86_64 binary.</span></p>
       <figure id="example" class="example">
         <figcaption><span class="chip chip-today">Example</span> Real output format, invented content.</figcaption>
         <pre class="code-panel" tabindex="0" aria-label="Example answer with invented content"><code>$ writfold kb why "batch writes"
@@ -62,31 +62,52 @@ decision proposal/decision/2026-11-02-batch-writes [accepted] Batch ledger write
         <article class="capability"><span class="number">02</span><h3>A rebuildable index</h3><p>A local SQLite index is derived from those records, with typo-tolerant search. <code>kb index verify</code> checks it equals a fresh rebuild.</p></article>
         <article class="capability"><span class="number">03</span><h3>Pinned, flagged when stale</h3><p>Each citation pins <code>path@commit:lines</code> with a digest. <code>stale</code> reports each one as fresh, moved, changed or gone.</p></article>
       </div>
-      <p class="boundary">One static binary, with no server and no database to run. Writes are plain files, left uncommitted for you to review.</p>
+      <p class="boundary">One static binary; no server or database to run. Writes are plain files, left uncommitted for review.</p>
+    </section>
+
+    <section id="runs" class="section" aria-labelledby="runs-title">
+      <div class="section-heading"><p class="eyebrow">Inside a run</p><h2 id="runs-title">Checks, edits and drafts, kept in the run</h2><p>A run is one task in one worktree. Its receipts stay in the run and <code>resume</code> shows them, so &ldquo;where do we stand on Y?&rdquo; includes what was checked.</p></div>
+      <div class="three-up">
+        <article class="capability"><span class="number">01</span><h3>Gates</h3><p>A gate names a command and the paths it covers. Each receipt is pinned to those bytes; <code>gate status</code> says satisfied, stale, failed or unknown.</p></article>
+        <article class="capability"><span class="number">02</span><h3>Edits</h3><p><code>kb edit apply</code> replays Splicery recipes in the run&rsquo;s worktree: every file or none, recoverable after a crash, with an edit receipt.</p></article>
+        <article class="capability"><span class="number">03</span><h3>Drafts</h3><p><code>kb deliver prepare</code> keeps a PR comment or Slack summary as the exact payload, with its checks. Nothing is ever sent.</p></article>
+      </div>
+      <figure class="example">
+        <figcaption><span class="chip chip-today">Example</span> Real output from a demo repository after <code>src/main.rs</code> changed.</figcaption>
+        <pre class="code-panel" tabindex="0" aria-label="Example gate status output"><code>$ writfold kb gate status
+gate docs [satisfied] mechanical pass exit=0 at demo-api@f274f2c7afdc scope=51646af238dd paths=1 @runs/run-20261112T123649Z-ae82a6/gates/docs-20261112T123649Z-e88d93.json:1
+gate unit [stale] mechanical pass exit=0 at demo-api@f274f2c7afdc scope=bb63cd7d5295 paths=1 @runs/run-20261112T123649Z-ae82a6/gates/unit-20261112T123649Z-35e464.json:1 !stale
+  why: changed in scope: src/main.rs
+  next: writfold kb gate run unit
+# note: receipts of run run-20261112T123649Z-ae82a6 for demo-api; state is derived on every read, never stored
+# coverage=complete records=33/33 shown=2 omitted=0 gates=2 satisfied=1 open=0 stale=1 failed=0 unknown=0 attested=0 waived=0 invalid=0 kb=d51f95a17bd3+dirty:5 index=fresh cursor=none q=f11e8655b791</code></pre>
+      </figure>
+      <p class="boundary"><code>writfold watch</code> shows runs, gates and drafts, read-only. An optional publishing hook, off unless configured, is a guard, not enforcement.</p>
     </section>
 
     <section id="try" class="section" aria-labelledby="try-title">
       <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2. The plugin adds a project brief at session start and keeps local checkpoint drafts.</p></div>
-      <pre class="code-panel" tabindex="0" aria-label="Download and install commands"><code>base=https://github.com/writfold-dev/writfold/releases/download/v0.2.0-dev.1
+      <pre class="code-panel" tabindex="0" aria-label="Download and install commands"><code>base=https://github.com/writfold-dev/writfold/releases/download/v0.3.0-dev.1
 curl -LO "$base/writfold-x86_64-linux-musl" -LO "$base/writfold-x86_64-linux-musl.sha256"
 echo "$(cut -d' ' -f1 writfold-x86_64-linux-musl.sha256)  writfold-x86_64-linux-musl" | sha256sum -c
 install -m 755 writfold-x86_64-linux-musl ~/.local/bin/writfold
 
 claude plugin marketplace add writfold-dev/writfold
 claude plugin install writfold@writfold</code></pre>
-      <p class="fine-print">A cooperating, single-user preview: it reads local clones only and never fetches. Setup and the knowledge-base layout are in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
+      <p class="fine-print">Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
     </section>
 
     <section id="first" class="section" aria-labelledby="first-title">
-      <div class="section-heading"><p class="eyebrow">Built</p><h2 id="first-title">The first slice</h2></div>
+      <div class="section-heading"><p class="eyebrow">Built</p><h2 id="first-title">What the preview runs</h2></div>
       <dl class="verbs">
         <div><dt>Read</dt><dd><code>brief</code> <code>why</code> <code>status</code> <code>find</code> <code>impact</code> <code>stale</code> <code>resume</code> and more</dd></div>
         <div><dt>Write</dt><dd><code>checkpoint</code> <code>record</code> <code>status --set</code> <code>cite make</code></dd></div>
+        <div><dt>Runs</dt><dd><code>gate</code> <code>edit</code> <code>deliver</code> <code>watch</code></dd></div>
         <div><dt>Index</dt><dd><code>index status | rebuild | verify</code></dd></div>
         <div><dt>Plugin</dt><dd>Claude Code: brief, checkpoint drafts, one skill</dd></div>
       </dl>
-      <p class="fine-print">Next: gates with pinned receipts (in progress), then a Splicery adapter for big edits, a read-only <code>writfold watch</code> view, offline PR and Slack drafts, and MCP (planned). <a href="/status.html#next">Status and roadmap</a>.</p>
-      <p class="fine-print">Earlier work still builds and runs from source as frozen demos. <a href="/earlier.html">See earlier work</a>.</p>
+      <p class="fine-print">Next: a two-week pause to see whether the checks catch real problems, then MCP. <a href="/status.html#next">Status and roadmap</a>.</p>
+      <p class="fine-print"><a href="/earlier.html">Earlier work</a> runs from source as frozen demos.</p>
     </section>
   </main>
   <footer class="site-footer wrap">
