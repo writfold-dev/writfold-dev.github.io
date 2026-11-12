@@ -4,106 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Weft by example (earlier work) — Writfold</title>
-  <meta name="description" content="Earlier work, kept as a frozen demo. Weft by example: state assumptions, run checks, and read entailed, refuted and undetermined outcomes. A worked, executed example.">
-  <link rel="canonical" href="https://writfold.dev/weft.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Writfold">
-  <meta property="og:title" content="Weft by example (earlier work) — Writfold">
-  <meta property="og:description" content="Earlier work, kept as a frozen demo. Weft by example: state assumptions, run checks, and read entailed, refuted and undetermined outcomes. A worked, executed example.">
-  <meta property="og:url" content="https://writfold.dev/weft.html">
-  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.3.0-dev.1.">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <title>Moved — Writfold</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=/how.html#plan">
+  <link rel="canonical" href="https://writfold.dev/how.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
-  <script src="/assets/theme.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header wrap">
-    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/status.html">Status</a><a href="/earlier.html" aria-current="true">Earlier work</a><a href="https://github.com/writfold-dev">GitHub</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
-  </header>
-  <main id="main" class="wrap" tabindex="-1">
-    <section class="hero" aria-labelledby="weft-title">
-      <p class="eyebrow">Weft · executed development example</p>
-      <h1 id="weft-title">State the assumptions.<br><span>See what follows.</span></h1>
-      <p class="lede">In the Writfold harness, Weft is the planning check. It assesses a declared theory, keeping what follows from your assumptions separate from what remains unknown — and from permission to change anything.</p>
-      <p class="maturity"><span class="badge">Frozen demo</span> Local assessment · reports carry no write permission</p>
-      <p class="boundary">Since 11 November 2026, Weft is a frozen working demo: it still builds and runs as shown below, and gets no new development. Writfold&rsquo;s direction is now <a href="/#continuity">project continuity for coding agents</a>.</p>
-      <nav class="actions" aria-label="Weft guide sections"><a href="#example">Read the source</a><a href="#results">Understand the result</a><a href="#pipeline">What it does not do</a></nav>
-    </section>
-
-    <section id="example" class="section" aria-labelledby="example-title">
-      <div class="section-heading"><p class="eyebrow">01 / A small, explicit theory</p><h2 id="example-title">A plan is not a successful restore.</h2><p>This example assumes that the payments service has a plan. It asks whether that same fact follows, and whether a successful restore follows too. No rule connects the two.</p></div>
-      <p><a href="/examples/review.weft" download="review.weft">Download review.weft</a> · exact source used for this assessment</p>
-      <pre class="code-panel" tabindex="0" aria-label="Weft source: review.weft"><code data-source="/examples/review.weft"><span class="syntax-keyword">review</span> <span class="syntax-variable">recovery_plan</span> <span class="syntax-punctuation">{</span>
-  <span class="syntax-keyword">context</span> <span class="syntax-string">"unresolved-context"</span> <span class="syntax-keyword">at</span> <span class="syntax-string">"unresolved-release"</span><span class="syntax-punctuation">;</span>
-  <span class="syntax-keyword">profile</span> <span class="syntax-string">"weft.symbolic/1"</span><span class="syntax-punctuation">;</span>
-  <span class="syntax-keyword">target</span> <span class="syntax-variable">change</span> <span class="syntax-operator">=</span> <span class="syntax-keyword">proposal</span> <span class="syntax-string">"unresolved-plan"</span><span class="syntax-punctuation">;</span>
-
-  <span class="syntax-keyword">assume</span> <span class="syntax-variable">documented</span><span class="syntax-punctuation">:</span> <span class="syntax-function">has_plan</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
-  <span class="syntax-keyword">check</span> <span class="syntax-variable">docs_only</span><span class="syntax-punctuation">:</span> <span class="syntax-function">has_plan</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
-  <span class="syntax-keyword">check</span> <span class="syntax-variable">restore_works</span><span class="syntax-punctuation">:</span> <span class="syntax-function">restores</span><span class="syntax-punctuation">(</span><span class="syntax-string">"payments"</span><span class="syntax-punctuation">);</span>
-<span class="syntax-punctuation">}</span>
-</code></pre>
-      <div class="workflow-layout">
-        <div><h3>An assumption is an input, not evidence.</h3><p><code>assume documented</code> puts <code>has_plan("payments")</code> into the theory. The label does not mean Weft read a runbook or verified a service. Each <code>check</code> asks what follows from that declared theory.</p></div>
-        <aside class="principle"><p class="eyebrow">Deliberately unresolved</p><h3>Names do not establish evidence.</h3><p>The context, release and proposal strings are intentionally unresolved. They do not identify a verified Writfold context, retained release or authorized change. This example is hypothetical, not a query against a live knowledge store.</p></aside>
-      </div>
-    </section>
-
-    <section id="results" class="section" aria-labelledby="results-title">
-      <div class="section-heading"><p class="eyebrow">02 / Actual assessment</p><h2 id="results-title">Reading the result</h2><p>This command was run with the development binary on the downloaded file. The binary is not published yet.</p></div>
-      <pre class="code-panel" tabindex="0" aria-label="Executed Weft command"><code>weft prove review.weft --json
-</code></pre>
-      <div class="status-grid">
-        <article class="status-card"><p class="status-label">docs_only · entailed</p><h3>The assumption supports this check.</h3><p><code>has_plan("payments")</code> follows because it was explicitly assumed. The result is conditional on the declared theory, not independent confirmation that a plan exists.</p></article>
-        <article class="status-card"><p class="status-label pending">restore_works · undetermined</p><h3>The theory does not settle this check.</h3><p>Neither <code>restores("payments")</code> nor its negation follows. Undetermined is not refuted: the example establishes neither a successful restore nor a failed one.</p></article>
-      </div>
-      <p class="assurance-note">The report records each check with <code>basis=hypothetical</code>, the run as <code>execution=complete</code>, <code>effect_authority=false</code>, and that no Writfold evidence backs it.</p>
-      <p class="boundary"><code>weft prove</code> exits <strong>1</strong> for every hypothetical result, even when all checks are entailed: the local tool has no success exit for a hypothetical report. Read the per-check outcomes, not the exit code.</p>
-    </section>
-
-    <section id="pipeline" class="section" aria-labelledby="pipeline-title">
-      <div class="section-heading"><p class="eyebrow">03 / The assessment boundary</p><h2 id="pipeline-title">What Weft does and does not do</h2></div>
-      <div class="workflow-layout">
-        <figure class="truth">
-          <table class="status-table">
-            <caption>What follows from the theory in review.weft</caption>
-            <thead><tr><th scope="col">Statement</th><th scope="col">Role</th><th scope="col">Result</th></tr></thead>
-            <tbody>
-              <tr><th scope="row"><code>has_plan("payments")</code></th><td>assumed</td><td><span class="chip chip-parts">given</span></td></tr>
-              <tr><th scope="row"><code>docs_only</code></th><td>check</td><td><span class="chip chip-today">entailed</span></td></tr>
-              <tr><th scope="row"><code>restore_works</code></th><td>check</td><td><span class="chip chip-planned">undetermined</span></td></tr>
-            </tbody>
-          </table>
-          <figcaption>The report belongs to the exact source assessed. Change the theory and you need a new assessment.</figcaption>
-        </figure>
-        <div><h3>A bounded logical claim.</h3><p>Weft evaluates the declared finite theory. It does not prove an arbitrary implementation correct, extract all facts from prose, or demonstrate that a production restore works.</p><h3>Evidence and authority remain separate.</h3><p>A source-bound report is not evidence Writfold has established. Resolving real contexts and authorizing changes belong to Writfold. In Writfold's trial profile, a report can cite retained evidence by digest, is bound to a prepared edit, and can be required at approval (<code>approve --require CHECK</code> refuses unless that check is entailed); Writfold still records its results as hypothetical. Context resolution is not built yet.</p><h3>Next: preparing a change.</h3><p>Weft only assesses; it never edits. When a change is needed, <a href="/splicery.html">Splicery</a> prepares it as a byte-exact edit, and Writfold applies it only after approval.</p></div>
-      </div>
-    </section>
-
-    <section id="availability" class="section" aria-labelledby="availability-title">
-      <div class="section-heading"><p class="eyebrow">Availability</p><h2 id="availability-title">Source only</h2><p>Weft is built from source; there is no release binary. This page shows a local assessment, not Writfold integration. See the <a href="/status.html">status page</a> for what runs today.</p></div>
-      <p class="boundary">Proved over the shipped Rust: Weft's set algebra (union, intersection, difference, membership, subset, normalisation), its verdict classification (entailed, refuted, undetermined, inconsistent) and its reuse comparison, which refuses any difference. Typing, provenance, budgets, quantifiers, lowering and reports are modelled and tested, not proved. <a href="/docs.html#assurance">How we know</a></p>
-      <p class="fine-print">Executed Weft binary SHA-256: <code>939e35badb2eea01b3723810b96563987332dde581ffd8960b0d353939537845</code>. This identifies the development binary used; it is not a release download.</p>
-      <div class="actions"><a class="button" href="/splicery.html">Continue with Splicery <span aria-hidden="true">→</span></a><a class="text-action" href="/docs.html">How Writfold works</a></div>
-    </section>
-  </main>
-  <footer class="site-footer wrap">
-    <div class="footer-line">
-      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
-      <span class="footer-state">Pre-release</span>
-    </div>
-    <p class="footer-note">No accounts, no analytics.</p>
-  </footer>
+  <main id="main" class="wrap error-page"><p>This page moved to <a href="/how.html#plan">Plan verification (planned), on How it works</a>.</p></main>
 </body>
 </html>

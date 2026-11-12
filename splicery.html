@@ -4,118 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Splicery by example (earlier work) — Writfold</title>
-  <meta name="description" content="Earlier work, kept as a frozen demo. Splicery by example: select exact source bytes, preview a candidate edit without touching the original, and see how ambiguous edits are refused.">
-  <link rel="canonical" href="https://writfold.dev/splicery.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Writfold">
-  <meta property="og:title" content="Splicery by example (earlier work) — Writfold">
-  <meta property="og:description" content="Earlier work, kept as a frozen demo. Splicery by example: select exact source bytes, preview a candidate edit without touching the original, and see how ambiguous edits are refused.">
-  <meta property="og:url" content="https://writfold.dev/splicery.html">
-  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.3.0-dev.1.">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <title>Moved — Writfold</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=/how.html#execute">
+  <link rel="canonical" href="https://writfold.dev/how.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
-  <script src="/assets/theme.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header wrap">
-    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/status.html">Status</a><a href="/earlier.html" aria-current="true">Earlier work</a><a href="https://github.com/writfold-dev">GitHub</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
-  </header>
-  <main id="main" class="wrap" tabindex="-1">
-    <section class="hero" aria-labelledby="splicery-title">
-      <p class="eyebrow">Splicery · executed example</p>
-      <h1 id="splicery-title">Prepare the edit.<br><span>Preserve the original.</span></h1>
-      <p class="lede">In the Writfold harness, Splicery is how a change is expressed: a small language for byte-exact edits to source files in any language. You select exact text, describe the replacement, and get a separate candidate file. The original is never touched.</p>
-      <p class="maturity"><span class="badge">Frozen demo</span> Offline preview · never writes the original</p>
-      <p class="boundary">Since 11 November 2026, Splicery is frozen as a language: it still builds and runs as shown below, and gets no new development. The preview reaches it through <code>writfold kb edit apply</code>, which replays recipes in a run&rsquo;s worktree. Writfold&rsquo;s direction is now <a href="/#continuity">project continuity for coding agents</a>.</p>
-      <nav class="actions" aria-label="Splicery sections"><a href="#recipe">The recipe</a><a href="#pipeline">Before and after</a><a href="#preview">Run it</a><a href="#refusals">Refusals</a></nav>
-    </section>
-    <section id="recipe" class="section" aria-labelledby="recipe-title">
-      <div class="section-heading"><p class="eyebrow">01 / A precise change</p><h2 id="recipe-title">Wrap one call, not every call</h2><p>This Rust file calls <code>open(url)</code> in two functions. The recipe adds a retry around the call in <code>connect</code> only, and leaves <code>probe</code> alone.</p></div>
-      <p><a href="/examples/client.rs" download>Download client.rs</a> · <a href="/examples/add-retry.spl" download>Download add-retry.spl</a>. Save both files together.</p>
-      <pre class="code-panel" tabindex="0" aria-label="Rust source: client.rs"><code data-source="/examples/client.rs"><span class="syntax-keyword">pub fn</span> <span class="syntax-function">connect</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">:</span> <span class="syntax-operator">&amp;</span>str<span class="syntax-punctuation">)</span> <span class="syntax-operator">-&gt;</span> Result<span class="syntax-punctuation">&lt;</span>Conn<span class="syntax-punctuation">,</span> Error<span class="syntax-punctuation">&gt;</span> <span class="syntax-punctuation">{</span>
-    <span class="syntax-keyword">let</span> <span class="syntax-variable">conn</span> <span class="syntax-operator">=</span> <span class="syntax-function">open</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">)</span><span class="syntax-operator">?</span><span class="syntax-punctuation">;</span>
-    <span class="syntax-variable">conn</span><span class="syntax-punctuation">.</span><span class="syntax-function">handshake</span><span class="syntax-punctuation">()</span><span class="syntax-operator">?</span><span class="syntax-punctuation">;</span>
-    <span class="syntax-function">Ok</span><span class="syntax-punctuation">(</span><span class="syntax-variable">conn</span><span class="syntax-punctuation">)</span>
-<span class="syntax-punctuation">}</span>
-
-<span class="syntax-keyword">pub fn</span> <span class="syntax-function">probe</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">:</span> <span class="syntax-operator">&amp;</span>str<span class="syntax-punctuation">)</span> <span class="syntax-operator">-&gt;</span> bool <span class="syntax-punctuation">{</span>
-    <span class="syntax-function">open</span><span class="syntax-punctuation">(</span><span class="syntax-variable">url</span><span class="syntax-punctuation">)</span><span class="syntax-punctuation">.</span><span class="syntax-function">is_ok</span><span class="syntax-punctuation">()</span>
-<span class="syntax-punctuation">}</span>
-</code></pre>
-      <pre class="code-panel" tabindex="0" aria-label="Splicery recipe: add-retry.spl"><code data-source="/examples/add-retry.spl"><span class="syntax-keyword">edit</span> <span class="syntax-string">"client.rs"</span> <span class="syntax-punctuation">{</span>
-  <span class="syntax-operator">@</span><span class="syntax-variable">bind</span> <span class="syntax-operator">:=</span> <span class="syntax-keyword">one text</span> <span class="syntax-string">"let conn = open(url)?;"</span>
-  <span class="syntax-operator">@</span><span class="syntax-variable">call</span> <span class="syntax-operator">:=</span> <span class="syntax-keyword">one text</span> <span class="syntax-string">"open(url)"</span> <span class="syntax-keyword">within</span> <span class="syntax-operator">@</span><span class="syntax-variable">bind</span>
-  <span class="syntax-keyword">replace</span> <span class="syntax-operator">@</span><span class="syntax-variable">call</span> <span class="syntax-keyword">with</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"with_retry(3, || "</span><span class="syntax-punctuation">,</span> <span class="syntax-keyword">keep</span><span class="syntax-punctuation">(</span><span class="syntax-operator">@</span><span class="syntax-variable">call</span><span class="syntax-punctuation">),</span> <span class="syntax-string">")"</span><span class="syntax-punctuation">]</span>
-<span class="syntax-punctuation">}</span>
-</code></pre>
-      <div class="three-up">
-        <article class="capability"><h3>Anchor the line.</h3><p><code>@bind</code> selects the one exact line <code>let conn = open(url)?;</code>. If it is missing or appears twice, the recipe refuses.</p></article>
-        <article class="capability"><h3>Narrow the search.</h3><p><code>@call</code> finds <code>open(url)</code> only <code>within @bind</code>. The same call in <code>probe</code> is outside that span, so it is never a candidate.</p></article>
-        <article class="capability"><h3>Keep exact bytes.</h3><p><code>keep(@call)</code> copies the original bytes into the replacement. Nothing is reformatted or regenerated.</p></article>
-      </div>
-      <p class="boundary">Every selector is resolved against the original bytes, never against a half-edited copy, so edits cannot drift.</p>
-    </section>
-    <section id="pipeline" class="section" aria-labelledby="pipeline-title">
-      <div class="section-heading"><p class="eyebrow">02 / Computation, not application</p><h2 id="pipeline-title">Before and after</h2><p>The preview resolves the selectors, turns the recipe into checked byte edits, and prints the candidate. The original file stays untouched.</p></div>
-      <figure class="diff-figure" aria-labelledby="diff-caption">
-        <div class="diff-panes">
-          <div class="diff-pane"><p class="diff-label">client.rs · original, unchanged</p><pre class="code-panel"><code>pub fn connect(url: &amp;str) -&gt; Result&lt;Conn, Error&gt; {
-    <mark class="sel-goal">let conn = <mark class="sel-expr">open(url)</mark>?;</mark>
-    conn.handshake()?;
-    Ok(conn)
-}
-
-pub fn probe(url: &amp;str) -&gt; bool {
-    open(url).is_ok()
-}</code></pre></div>
-          <div class="diff-pane"><p class="diff-label">candidate.rs · preview on stdout</p><pre class="code-panel"><code>pub fn connect(url: &amp;str) -&gt; Result&lt;Conn, Error&gt; {
-    let conn = <ins class="ins-new">with_retry(3, || </ins><span class="kept">open(url)</span><ins class="ins-new">)</ins>?;
-    conn.handshake()?;
-    Ok(conn)
-}
-
-pub fn probe(url: &amp;str) -&gt; bool {
-    open(url).is_ok()
-}</code></pre></div>
-        </div>
-        <figcaption id="diff-caption" class="fine-print"><span class="key key-goal">@bind</span> the anchored line · <span class="key key-expr">@call</span> the call inside it, kept byte for byte · <span class="key key-new">inserted</span> new bytes. Nothing is written back to <code>client.rs</code>; applying an edit is Writfold's job, which today runs only in its <a href="/status.html#today">trial profile</a>.</figcaption>
-      </figure>
-    </section>
-    <section id="preview" class="section" aria-labelledby="preview-title">
-      <div class="section-heading"><p class="eyebrow">03 / Run it</p><h2 id="preview-title">What the preview produced</h2><p>This command was run with the development binary, which is not published yet. With both downloaded files in the current directory:</p></div>
-      <pre class="code-panel" tabindex="0" aria-label="Executed preview command"><code>splicery preview --root . add-retry.spl &gt; candidate.rs
-</code></pre>
-      <p>The preview exited <code>0</code> and printed the candidate shown above; the shell saved it as <code>candidate.rs</code>. The bytes of <code>client.rs</code> were unchanged afterwards. Splicery works on bytes, so the same recipe style applies to TypeScript, Python, Markdown or any other text file.</p>
-      <p class="boundary">Proved over the shipped Rust: batch validation, ordering and rendering. The candidate is the original with each target replaced in canonical order, the result does not depend on the order edits are listed, lengths add up exactly, and an empty batch changes nothing. The UTF-8 check of text candidates is tested, not proved. <a href="/docs.html#assurance">How we know</a></p>
-      <p class="fine-print">Development binary used: Splicery SHA-256 <code>db79d50147cc51d7183b18474d1ea9f3f6eb935e14f7c7f8719e7fdea3965081</code>.</p>
-    </section>
-    <section id="refusals" class="section" aria-labelledby="refusals-title">
-      <div class="section-heading"><p class="eyebrow">04 / Refuse rather than guess</p><h2 id="refusals-title">When Splicery refuses</h2><p>Each of these variants was run against the same file. Each exited <code>2</code> without printing a candidate.</p></div>
-      <div class="three-up">
-        <article class="capability"><h3>Ambiguity</h3><p>Drop <code>within @bind</code> and <code>open(url)</code> matches in both functions. <code>one text</code> refuses with <code>AmbiguousSelector</code> rather than picking the first.</p></article>
-        <article class="capability"><h3>No match</h3><p>Ask for <code>let conn = open( url )?;</code> with different spacing and nothing matches exactly. The recipe refuses with <code>MissingSelector</code> instead of choosing similar text.</p></article>
-        <article class="capability"><h3>Overlapping edits</h3><p>Add a second <code>replace @bind</code> that covers the same bytes as the first edit. The edits conflict, and Splicery refuses with <code>Overlap</code> rather than silently ordering them.</p></article>
-      </div>
-      <p class="boundary">This preview covers part of the language; unsupported constructs are refused rather than approximated. In the full flow, <a href="/weft.html">Weft</a> assesses the claims behind a change, Splicery prepares it, and Writfold applies it after approval. See <a href="/docs.html#workflow">how that will work</a>.</p>
-    </section>
-  </main>
-  <footer class="site-footer wrap">
-    <div class="footer-line">
-      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
-      <span class="footer-state">Pre-release</span>
-    </div>
-    <p class="footer-note">No accounts, no analytics.</p>
-  </footer>
+  <main id="main" class="wrap error-page"><p>This page moved to <a href="/how.html#execute">Edits with Splicery, on How it works</a>.</p></main>
 </body>
 </html>

@@ -1,5 +1,0 @@
-@hits := find text "open(url)" in "src/" at "67fefbdd2a2964581fe777fc07d9714e62a3eb91";
-@ev   := retain @hits around lines 0;
-@view := project @ev [path, line, excerpt(max_chars: 60)]
-           sort [path asc, line asc];
-emit @view budget_tokens 400;

@@ -4,13 +4,27 @@ The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS
 
 ## Pages
 
-- `index.html`: the overview. Writfold's direction, Git-native project continuity for coding agents, with an example answer labelled as illustrative, not real output.
-- `status.html`: what runs today (frozen demos), the roadmap, a short changelog and FAQ.
-- `earlier.html`: an index of the earlier work that still builds and runs from source, with build commands at `#try`.
-- `docs.html`, `tuft.html`, `weft.html`, `splicery.html`, `glossary.html`: the earlier-work guides. They keep their URLs, are marked "(earlier work)" in their titles and carry a "Frozen demo" badge where they show a demo.
+- `index.html`: the overview. The four questions, the flow diagram, the two retrieval and two edit options, gates and evidence, and the release block.
+- `how.html`: the flow stage by stage (research, plan, execute, deliver), with the tool choices, what goes back into the knowledge base, real commands, and the gates diagram.
+- `status.html`: what runs in the preview, the roadmap, a short changelog and FAQ.
+- `earlier.html`, `docs.html`, `glossary.html`, `tuft.html`, `weft.html`, `splicery.html`: redirect stubs for addresses that were published before. Each holds a `meta refresh` and one link, and no other content.
 - `404.html`: the missing-page response.
 
-Nothing on the site describes the planned project-continuity tool as built. Keep planned behavior in planned tense, and describe only exercised capabilities as running.
+Describe only exercised capabilities as running. Everything else is labelled planned: a `Planned` chip in text, a dashed amber outline in diagrams.
+
+## Writing pages
+
+The HTML pages are written by `scripts/build_pages.py` from shared parts (head, header, footer), with the diagrams from `scripts/diagrams.py` and syntax highlighting from `scripts/highlight.py`. Highlighting happens here, at authoring time; the site loads no highlighting script.
+
+```sh
+python3 scripts/build_pages.py
+```
+
+Edit copy in `scripts/build_pages.py`, run it, and review the HTML it writes. The committed HTML is still the publication input: packaging and publishing never run these scripts.
+
+- Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output; a `%toml`, `%spl` or `%tuft` line switches the lines after a `cat` to that language), `shell`, `toml`, `spl` or `tuft`.
+- Output shown as real must be real: run the command with the release binary against an invented demo knowledge base and paste what it printed, shortening only run IDs, digests and paths with `…`. Anything drawn rather than printed is captioned "Illustration" (invented content) or "From real output" (a drawing of real output).
+- Each diagram is drawn twice, wide and stacked; CSS shows one of them by viewport width. Both carry the same `<title>` and `<desc>`.
 
 ## Serve locally
 
@@ -37,7 +51,7 @@ python3 -m http.server 8081 --bind 127.0.0.1 --directory _site
 Before publishing, check:
 
 - every internal link and anchor resolves, the HTML is well-formed and IDs are unique;
-- `index.html`, `status.html` and `earlier.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow;
+- `index.html`, `how.html` and `status.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow, the diagrams and code panels included;
 - the System, Light and Paper Dark theme choices, disabled JavaScript, 200% text zoom, and the keyboard skip link and focus;
 - the packaged artifact in `_site/`, not only the working tree.
 
@@ -59,9 +73,9 @@ A website deployment does not release or qualify any Writfold build.
 
 ## Design
 
-The folded mark, navy and off-white surfaces and teal accent are Writfold's. Amber marks planned or frozen material; teal marks what runs. System is the default theme, following the operating system's light or dark setting. The native Theme control offers System, Light and the Paper Dark website palette; `assets/theme.js` stores an explicit choice in local storage, and choosing System clears it. With JavaScript disabled the control stays hidden and the system theme still works. If storage is unavailable, the choice applies to the current page only.
+The folded mark, navy and off-white surfaces and teal accent are Writfold's. Amber marks planned material; teal marks what runs. System is the default theme, following the operating system's light or dark setting. The native Theme control offers System, Light and the Paper Dark website palette; `assets/theme.js` stores an explicit choice in local storage, and choosing System clears it. With JavaScript disabled the control stays hidden and the system theme still works. If storage is unavailable, the choice applies to the current page only.
 
-Code panels on the earlier-work pages use static HTML highlighting, not a client-side parser.
+Code panels use static HTML highlighting written by `scripts/highlight.py`, not a client-side parser. They scroll sideways on narrow screens instead of wrapping.
 
 ## License
 

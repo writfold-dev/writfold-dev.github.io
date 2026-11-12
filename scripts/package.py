@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package already-rendered static files; never fetch or render product docs."""
+"""Package already-written static files; never fetch or render product docs."""
 import argparse
 import hashlib
 import json
@@ -8,9 +8,9 @@ import shutil
 
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (
-    ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "docs.html",
-    "tuft.html", "weft.html", "splicery.html", "status.html", "glossary.html", "earlier.html",
-    "examples/review.weft", "examples/client.rs", "examples/add-retry.spl", "examples/worker.rs", "examples/find-open.tuft",
+    ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "how.html", "status.html",
+    # Redirect stubs for addresses that were published earlier; they carry no content.
+    "earlier.html", "docs.html", "glossary.html", "tuft.html", "weft.html", "splicery.html",
     "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
@@ -35,22 +35,9 @@ def main():
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_source_base_commit": "54d4b6bd0c0bc06ac93ee12e2ceefa6e34732428",
+            "product_release": "v0.3.0-dev.1",
+            "product_source_commit": "7abce21ee34020682a8583cd96e1957d185e7471",
             "product_source_visibility": "public",
-            "architecture_revision": 5,
-            "component_evidence": {
-                "scope": "Control and local artifact regressions only; not owner data/effect services or release readiness",
-                "campaign_sha256": "f2f3bec8b7d5954a751a4c1d229c13ec7bbbc6feb4b7b04d881b5af7b19efef2",
-                "writfold_binary_sha256": "12fdaad21cb62f0d0371efd73a8febda38d0b13ba58e15c80079bf155502f65c",
-            },
-            "language_example_evidence": {
-                "scope": "Actual local symbolic assessment of the renamed-context review.weft; hypothetical, no effect authority",
-                "receipt_sha256": "ed624c6a136e139613fd908006365e449cb72c10b5ed19d718d2db2cf3ad1f32",
-            },
-            "splicery_rust_example_evidence": {
-                "scope": "Offline Splicery preview and three refusal runs on the Rust example; no Writfold effect",
-                "receipt_sha256": "ddf716c5716559671f1a321125fa1684e5b58e8cf11a4cb9bde78de1c6924b98",
-            },
             "files": actual,
         }
         MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

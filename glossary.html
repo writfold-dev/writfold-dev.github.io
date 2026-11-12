@@ -4,50 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
-  <title>Glossary (earlier work) — Writfold</title>
-  <meta name="description" content="Earlier work. Short definitions of the terms Writfold uses: harness, owner, context, citation, assessment, approval, grant, receipt and more.">
-  <link rel="canonical" href="https://writfold.dev/glossary.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Writfold">
-  <meta property="og:title" content="Glossary (earlier work) — Writfold">
-  <meta property="og:description" content="Earlier work. Short definitions of the terms Writfold uses: harness, owner, context, citation, assessment, approval, grant, receipt and more.">
-  <meta property="og:url" content="https://writfold.dev/glossary.html">
-  <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.3.0-dev.1.">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
+  <title>Moved — Writfold</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=/how.html">
+  <link rel="canonical" href="https://writfold.dev/how.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
-  <script src="/assets/theme.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header wrap">
-    <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/">Overview</a><a href="/status.html">Status</a><a href="/earlier.html" aria-current="true">Earlier work</a><a href="https://github.com/writfold-dev">GitHub</a></nav>
-    <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
-  </header>
-  <main id="main" class="wrap" tabindex="-1">
-    <section class="hero" aria-labelledby="glossary-title">
-      <p class="eyebrow">Earlier work · glossary</p>
-      <h1 id="glossary-title">The words,<br><span>defined once.</span></h1>
-      <p class="lede">Writfold keeps several ideas apart that are often blurred together. These short definitions are used on the <a href="/earlier.html">earlier-work</a> pages.</p>
-    </section>
-    <section class="section" aria-labelledby="terms-title">
-      <h2 id="terms-title" class="visually-hidden">Terms</h2>
-      <dl class="glossary"><div id="approval"><dt>Approval</dt><dd>Your signed decision to allow one exact prepared edit, under a context's policy and a current <a href="#grant">grant</a>. It names that change, not a file or a source.</dd></div><div id="assessment"><dt>Assessment</dt><dd>A Weft report on a plan's claims, saying which checks follow from the stated assumptions and evidence: entailed, refuted or undetermined. It never grants permission to change anything.</dd></div><div id="citation"><dt>Citation</dt><dd>A reference from a claim to retained evidence, bound to its exact bytes by digest. In the trial, <code>writfold trial retain</code> and Tuft create them as <code>writfold-citation/1</code> bindings. A citation can support a claim; it never approves a change.</dd></div><div id="context"><dt>Context</dt><dd>A named scope with its own sources and policy, such as client-a or home. Evidence and approval in one context do not carry over to another.</dd></div><div id="effect"><dt>Effect</dt><dd>A change outside Writfold's own records, such as writing a file. Only Writfold performs effects, and only after approval.</dd></div><div id="grant"><dt>Grant</dt><dd>A signed, revocable authorization from an operator. An approval counts only while the grant it relies on is still current.</dd></div><div id="harness"><dt>Harness</dt><dd>The layer Writfold&rsquo;s edit trial forms underneath a coding agent. The agent keeps its own loop; the harness keeps evidence, conclusions, approval and change apart, and records each step.</dd></div><div id="hypothetical"><dt>Hypothetical</dt><dd>How Writfold records a Weft result: it holds under the assumptions the report declares, not as a fact Writfold has established. An approval can require a check to be entailed; the result is still recorded as hypothetical.</dd></div><div id="kernel"><dt>Kernel</dt><dd>A small, pure piece of Rust that makes one decision, such as whether a ledger append or a grant is allowed. Some kernels are proved over the shipped Rust: translated to Lean and proved for every input. See <a href="/docs.html#assurance">how we know</a>.</dd></div><div id="ledger"><dt>Ledger</dt><dd>Writfold's append-only history of decisions and effects. Its current head decides the state of a run. In the trial, every append replays the run's history through the proved kernel first.</dd></div><div id="owner"><dt>Owner</dt><dd>Writfold itself. It alone holds the knowledge store and the approval policy, and it alone writes files, only in worktrees it created. Weft, Splicery and the agent only read and propose.</dd></div><div id="pinned"><dt>Pinned</dt><dd>Fixed to an exact version or hash, so the same input always means the same bytes.</dd></div><div id="prepared-edit"><dt>Prepared edit</dt><dd>A Splicery result: the exact bytes to change and the candidate file they produce. Preparing an edit does not apply it.</dd></div><div id="proposal"><dt>Proposal</dt><dd>Knowledge or a change that has been suggested but not yet approved or published.</dd></div><div id="realm"><dt>Realm</dt><dd>One isolated Writfold installation's trust boundary: its own store, keys and policy.</dd></div><div id="receipt"><dt>Receipt</dt><dd>A durable record that an effect happened, with the bytes before and after. After a lost response, the receipt lets Writfold return the same result rather than act twice.</dd></div><div id="retained-input"><dt>Retained input</dt><dd>An exact, unchangeable copy of bytes that were read, kept with their source and revision.</dd></div><div id="trial"><dt>Trial profile</dt><dd>The cooperating single-user profile that runs the connected flow today (<code>writfold trial</code>). It never writes your checkout, but it does not stop an agent's own shell, and it assumes nobody races it on its worktree.</dd></div><div id="tuft"><dt>Tuft</dt><dd>The family's query language for exact evidence: find text or a bounded regex in one pinned commit, retain the hits as citations, and project a compact view under a token budget. It lives in the Writfold repository.</dd></div><div id="worktree"><dt>Worktree</dt><dd>A separate Git working directory Writfold creates for a run, so an edit never lands in a checkout someone else is using.</dd></div></dl>
-    </section>
-  </main>
-  <footer class="site-footer wrap">
-    <div class="footer-line">
-      <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/status.html">Status</a><a href="/earlier.html">Earlier work</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
-      <span class="footer-state">Pre-release</span>
-    </div>
-    <p class="footer-note">No accounts, no analytics.</p>
-  </footer>
+  <main id="main" class="wrap error-page"><p>This page moved to <a href="/how.html">How it works</a>.</p></main>
 </body>
 </html>
