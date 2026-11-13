@@ -106,6 +106,7 @@
 <span class="syntax-keyword">step</span> reflect#3/reflect <span class="syntax-badge">[later]</span> gates: reflected, reflection <span class="syntax-path">@runs/run-…/plan/splice-reflect.3.json:1</span>
 <span class="syntax-comment">…</span></code></pre></figure>
       <p class="fine-print">A skill adds its own steps with one line, <code>plan use</code>; a repeat writes nothing. <code>plan skip --reason TEXT --by WHO</code> closes a step without calling it done.</p>
+      <p class="fine-print">Two sessions, two clones: every plan write re-checks its decision under the knowledge base&rsquo;s write lock, and refuses and writes nothing if the plan changed since the command read it. After two clones merge, <code>plan status</code>, <code>resume</code> and <code>kb check</code> flag <code>!out-of-order</code> (a done step after an open one), <code>!two-plans</code> and <code>!repeated</code> and exit 2; they never change the plan. A TLC model of the run graph found both gaps.</p>
       <p class="guide-link"><span aria-hidden="true">→</span> Full skeleton: <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/run-graph.md">steps, splicing and stale</a> and <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/skills.md">skills that splice</a></p>
     </section>
 
