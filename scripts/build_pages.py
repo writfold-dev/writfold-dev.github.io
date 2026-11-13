@@ -13,9 +13,9 @@ import diagrams
 from highlight import highlight
 
 SITE = Path(__file__).resolve().parent.parent
-REL = "https://github.com/writfold-dev/writfold/releases/tag/v0.3.0-dev.1"
+REL = "https://github.com/writfold-dev/writfold/releases/tag/v0.4.0-dev.1"
 ALT = ("The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. "
-       "Below it: Git-native project continuity for coding agents. Preview v0.3.0-dev.1.")
+       "Below it: Git-native project continuity for coding agents. Preview v0.4.0-dev.1.")
 NAV = [("/", "Overview"), ("/how.html", "How it works"), ("/status.html", "Status")]
 
 def head(title, desc, path):
@@ -104,22 +104,20 @@ def board(caption):
         nxt = f'<p class="rb-next"><code>next: {nxt}</code></p>' if nxt else ""
         return f'<li><span class="rb-kind">{kind}</span><div><p class="rb-title"><strong>{title}</strong> {badge}</p><p>{text}</p>{nxt}</div></li>'
     rows = "".join([
+        row("plan", "Step 4 of 6: findings", pill("current", "note"), "Owes the gate <code>findings</code>, which is open.", "writfold kb gate attest findings --statement TEXT --by WHO"),
         row("retrieval", "Tuft search", "", "3 rows at <code>harbor-api@4be03f78</code>, each with a citation."),
         row("edit", "Splicery recipes", pill("applied", "ok"), "2 files, 3 splices. The recipes and the preview are kept."),
         row("gate", "unit", pill("stale", "warn"), "Passed, then <code>src/audit.rs</code> and <code>src/ledger.rs</code> changed in its scope.", "writfold kb gate run unit"),
-        row("gate", "wording", pill("attested", "note"), "&ldquo;README unchanged; guideline read&rdquo;, by agent. A statement, not a check."),
-        row("delivery", "PR comment for harbor#42", pill("ready", "ok"), "3 of 3 checks satisfied. Not sent."),
-        row("checkpoint", "Entry 2 of 2", "", "&ldquo;Retry applied in ledger.rs and audit.rs; unit satisfied; PR comment ready. Next: commit and post.&rdquo;"),
     ])
-    return f'''<figure class="visual">
+    return f"""<figure class="visual">
         <figcaption><span class="chip chip-today">From real output</span> {caption}</figcaption>
         <div class="card">
           <p class="card-cmd"><code><span class="syntax-prompt">$ </span>writfold kb resume</code></p>
           <p class="answer-head">{pill("open", "note")} <strong>Retry ledger connections</strong> <span class="src">harbor-api · main</span></p>
           <ol class="run-board">{rows}</ol>
-          <ul class="card-foot"><li>2 gates</li><li class="warn">1 stale</li><li>1 attested</li><li>1 draft ready</li></ul>
+          <ul class="card-foot"><li>step 4 of 6</li><li>1 retrieval</li><li>2 edits</li><li class="warn">2 gates stale</li></ul>
         </div>
-      </figure>'''
+      </figure>"""
 
 def drafts():
     def col(state, kind, digest, checks):
@@ -134,8 +132,14 @@ def drafts():
             + "</div></figure>")
 
 def flow_figure(pfx, caption):
-    return (f'<figure class="diagram-figure">{diagrams.LEGEND}{diagrams.flow(pfx)}'
+    return (f'<figure class="diagram-figure">{diagrams.flow(pfx)}'
             f'<figcaption class="fine-print">{caption}</figcaption></figure>')
+
+def spine_figure(pfx):
+    return (f'<figure class="diagram-figure spine-figure"><p class="figure-lead"><span class="chip chip-today">From real output</span> '
+            f'One run&rsquo;s plan, drawn from what <code>plan status</code> prints for a demo repository.</p>{diagrams.spine(pfx)}'
+            f'<figcaption class="fine-print">A skill spliced its two steps in before <code>ship</code>. <code>implement</code> is flagged <code>!stale</code>: '
+            f'a later edit moved the bytes its gate checked, and done stays done.</figcaption></figure>')
 
 # ---------------------------------------------------------------- index
 GUIDE = "https://github.com/writfold-dev/writfold/blob/main/docs/guide/"
@@ -147,7 +151,7 @@ def more(*links):
     """The one link out of a section: the matching guide in the Writfold repository."""
     return f'<p class="guide-link"><span aria-hidden="true">→</span> Full skeleton: {" and ".join(links)}</p>'
 
-INSTALL = '''base=https://github.com/writfold-dev/writfold/releases/download/v0.3.0-dev.1
+INSTALL = '''base=https://github.com/writfold-dev/writfold/releases/download/v0.4.0-dev.1
 curl -LO "$base/writfold-x86_64-linux-musl" -LO "$base/writfold-x86_64-linux-musl.sha256"
 echo "$(cut -d' ' -f1 writfold-x86_64-linux-musl.sha256)  writfold-x86_64-linux-musl" | sha256sum -c
 install -m 755 writfold-x86_64-linux-musl ~/.local/bin/writfold
@@ -156,7 +160,7 @@ claude plugin marketplace add writfold-dev/writfold
 claude plugin install writfold@writfold'''
 
 DESC_HOME = ("Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. "
-             "Every answer names its source and says when it has moved. Preview: v0.3.0-dev.1.")
+             "Every answer names its source and says when it has moved. Preview: v0.4.0-dev.1.")
 index = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
@@ -169,25 +173,26 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
         <li>What does changing X touch?</li>
       </ul>
       <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="/how.html">How it works <span aria-hidden="true">→</span></a><a class="text-action" href="/status.html">Status and roadmap <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge badge-today">Preview</span> <span>Released 12 November 2026: <a href="{REL}">v0.3.0-dev.1</a>, one static Linux x86_64 binary.</span></p>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span>Released 13 November 2026: <a href="{REL}">v0.4.0-dev.1</a>, one static Linux x86_64 binary.</span></p>
       {ANSWER}
     </section>
 
     <section id="flow" class="section" aria-labelledby="flow-title">
       <div class="section-heading"><p class="eyebrow">The flow</p><h2 id="flow-title">Research, plan, execute, deliver. Each stage writes back.</h2><p>The agent keeps its own loop and model. What it finds, checks or drafts at each stage goes back into the knowledge base, so the next session starts from more than this one did.</p></div>
-      {flow_figure("hf", "Planned: the run graph, required steps that backfill the knowledge base and close every run with a reflection, and your own delivery modes.")}
-      <p class="boundary">The knowledge base is plain Markdown and JSON in Git. Writes are left uncommitted for you to review and commit. The index refreshes itself on every read; <code>kb stale</code>, <code>kb index verify</code> and <code>gate status</code> re-check citations, the index and gate evidence on demand. <a href="/how.html">Walk through the stages</a>.</p>
+      {flow_figure("hf", "Everything drawn here runs in v0.4.0-dev.1.")}
+      <p class="boundary">The knowledge base is plain Markdown and JSON in Git. Writes are left uncommitted for you to review and commit. The index refreshes itself on every read; <code>kb check</code> re-checks citations, the index, gate evidence and the plan on demand. <a href="/how.html">Walk through the stages</a>.</p>
     </section>
 
     <section id="runs" class="section" aria-labelledby="runs-title">
-      <div class="section-heading"><p class="eyebrow">Inside a run</p><h2 id="runs-title">Gates, evidence, and what is still owed</h2><p>A gate is one small check: a command and the paths it covers, or a statement someone must make. <code>gate run</code> keeps a receipt for the exact bytes checked, and when those bytes change the gate is owed again. <code>resume</code> lists what is met and what is owed, with the next command.</p></div>
-      {board('One run, drawn from what <code>resume</code> prints for a demo repository.')}
-      <p class="boundary">Gates report; they block nothing. Draft PR comments and Slack summaries carry their own checks, and nothing is sent.</p>
-      {more(guide("gates", "the gates guide"))}
+      <div class="section-heading"><p class="eyebrow">Inside a run</p><h2 id="runs-title">Steps, gates, and what is still owed</h2><p>A plan is an ordered list of steps, each naming the gates it owes. A gate is one small check: a command and the paths it covers, a statement someone must make, or a check of the run&rsquo;s own records. <code>gate run</code> keeps a receipt for the exact bytes checked, and <code>plan advance</code> records a step as done only when every gate is met.</p></div>
+      {spine_figure("sp")}
+      {board('The same run, drawn from what <code>resume</code> prints.')}
+      <p class="boundary">Writfold records the plan and the agent walks it. Gates and steps report; they block nothing.</p>
+      {more(guide("run-graph", "the run graph guide"), guide("gates", "the gates guide"))}
     </section>
 
     <section id="try" class="section" aria-labelledby="try-title">
-      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2. The plugin adds a project brief at session start and keeps local checkpoint drafts.</p></div>
+      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2. The plugin adds a project brief, the plan position and an inbox at session start, and keeps local checkpoint drafts.</p></div>
       {pre("Download and install commands", INSTALL, "shell")}
       <p class="fine-print">Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
     </section>
@@ -197,7 +202,9 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
       <dl class="verbs">
         <div><dt>Read</dt><dd><code>brief</code> <code>why</code> <code>status</code> <code>find</code> <code>impact</code> <code>resume</code>: {guide("kb-layout", "layout")}</dd></div>
         <div><dt>Write</dt><dd><code>checkpoint</code> <code>record</code> <code>cite make</code>: {guide("feeding-back", "feeding back")}</dd></div>
-        <div><dt>Check</dt><dd><code>stale</code> <code>index verify</code>: {guide("validation", "validation")}</dd></div>
+        <div><dt>Propose</dt><dd><code>propose</code> <code>proposals accept | drop</code>: {guide("feeding-back", "proposals")}</dd></div>
+        <div><dt>Check</dt><dd><code>check</code> <code>stale</code> <code>index verify</code>: {guide("validation", "validation")}</dd></div>
+        <div><dt>Plan</dt><dd><code>plan set | use | status | advance | skip</code>: {guide("run-graph", "run graph")}</dd></div>
         <div><dt>Gates</dt><dd><code>gate run | status | verify</code>: {guide("gates", "gates")}</dd></div>
         <div><dt>Deliver</dt><dd><code>deliver prepare | check</code>: {guide("delivery-modes", "delivery modes")}</dd></div>
         <div><dt>Plugin</dt><dd>Claude Code: {guide("hooks", "hooks")}, {guide("skills", "skills")}</dd></div>
@@ -221,24 +228,92 @@ RESEARCH = '''$ writfold kb find "harbr-api"                    # records by wor
 $ writfold kb impact harbor-db --direction in     # what a change touches, and how far it walked
 $ writfold tuft run q.tuft --repo . --cite        # exact text in code, each row with a citation
 $ writfold kb record link depends-on quay-worker harbor-db \\
-    --evidence harbor-api@4be03f7897b691715114a229ab1acc307f5de90f:src/ledger.rs:3-5'''
+    --evidence harbor-api@4be03f7897b691715114a229ab1acc307f5de90f:src/ledger.rs:3-5
+$ writfold kb gate run backfilled                 # the research step's check: did it write back?'''
 NEWRUN = '''$ writfold kb checkpoint --new-run --project harbor --task "Retry ledger connections" \\
-    --note "Plan: wrap every open(url()) in with_retry; gate unit; PR comment for harbor#42."'''
+    --note "Plan: wrap every open(url()) in with_retry; then review and ship."
+$ cat .writfold/plans/fix.toml
+%toml
+schema = "writfold-plan/1"
+name = "fix"
+description = "change the code, then ship it"
+steps = [
+  "implement: unit",
+  "ship: wording",
+]
+$ writfold kb plan set fix
+step research#1/research [current] owes: backfilled [open] @runs/run-…/plan/splice-research.1.json:1
+  next: writfold kb gate run backfilled
+step fix#2/implement [later] gates: unit @runs/run-…/plan/splice-fix.2.json:1
+step fix#2/ship [later] gates: wording @runs/run-…/plan/splice-fix.2.json:1
+step reflect#3/reflect [later] gates: reflected, reflection @runs/run-…/plan/splice-reflect.3.json:1
+…'''
 EXECUTE = '''$ writfold kb edit apply retry.spl --dry-run      # the preview diff; nothing written
 $ writfold kb edit apply retry.spl                # every file or none, with an edit receipt
 $ writfold kb gate run unit                       # run the command, keep a receipt
-$ writfold kb gate attest wording --statement "README unchanged" --by agent
-$ writfold kb checkpoint --note "Retry applied; next: commit and post."'''
-CHECK = '''$ writfold kb stale            # which cited sources moved, changed or expired
-$ writfold kb index verify     # the index equals a fresh rebuild
-$ writfold kb gate status      # which gates are met, and which are owed again'''
+$ writfold kb plan advance                        # record the step as done, or refuse (exit 3) and say what is owed
+$ writfold kb plan use review                     # a skill's line: splice its steps in before the current step
+$ writfold kb plan status
+step research#1/research [done] backfilled [satisfied] @runs/run-…/plan/done-research.1~research.json:1
+  done: recorded 2026-11-13T01:19:13Z
+step fix#2/implement [done] unit [stale] @runs/run-…/plan/done-fix.2~implement.json:1 !stale
+  why: no longer holds: unit [stale] (done stays done; list the gate again on a later step if it must hold there)
+  done: recorded 2026-11-13T01:19:17Z
+step fix#2/ship/review#1/read-diff [done] no gates @runs/run-…/plan/done-fix.2~ship~review.1~read-diff.json:1
+  done: recorded 2026-11-13T01:19:17Z
+step fix#2/ship/review#1/findings [current] owes: findings [open] @runs/run-…/plan/splice-fix.2~ship~review.1.json:1
+  next: writfold kb gate attest findings --statement TEXT --by WHO
+step fix#2/ship [later] gates: wording @runs/run-…/plan/splice-fix.2.json:1
+step reflect#3/reflect [later] gates: reflected, reflection @runs/run-…/plan/splice-reflect.3.json:1
+…'''
+MODE = '''$ cat .writfold/deliveries/commit-message.toml
+%toml
+schema = "writfold-delivery-mode/1"
+mode = "commit-message"
+description = "checked before git commit; nothing binds the checked bytes to the commit that is made"
+checks = ["references.denied"]
+gates = ["commit-format", "language-guidelines"]
+$ writfold kb deliver prepare --mode commit-message --audience external --from MSG
+$ writfold kb deliver check
+$ writfold kb deliver attest --check language-guidelines --statement "Read the guideline; plain words" --by agent
+delivery 20261113T011927Z-9d72c6 [ready] commit-message audience=external destination=(unstated) candidate=7d9d22a36379 bytes=139 @runs/run-…/deliveries/…/candidate.md:1
+  check: references.denied [satisfied] mechanical pass for 7d9d22a36379 (2 rules for external) @runs/run-…/checks/references.denied-….json:1
+  check: commit-format [satisfied] mechanical pass for 7d9d22a36379 (exit=0) @runs/run-…/checks/commit-format-….json:1
+  check: language-guidelines [attested] attested by agent: Read the guideline; plain words @runs/run-…/statements/language-guidelines-….json:1 !attested
+  read: instructions for language-guidelines @.writfold/gates/language-guidelines.md:1
+…'''
+REFLECT = '''$ writfold kb checkpoint --note "reflection: Wrapped three open(url()) calls in with_retry; unit passed on ledger.rs and went stale after the audit.rs edit. Learned: audit.rs opens its own connection. Change: list unit again on the ship step."
+$ writfold kb propose ticket HBR-130 --title "Replay is slow after a restart" --assets harbor-api
+proposal 16a41fbba45340f7 [pending] ticket HBR-130: Replay is slow after a restart @…/kb/.git/writfold/proposals/16a41fbba45340f7.json !proposal
+…
+$ writfold kb gate run reflected                  # a reflection entry, and a proposal or "no proposal"
+$ writfold kb gate attest reflection --statement "Covers done, learned, change and backfill" --by agent
+$ writfold kb plan advance                        # the last step: the plan is complete
+$ writfold kb proposals accept 16a41fbba45340f7   # your call; the record goes through the ordinary write
+ticket HBR-130 [todo] Replay is slow after a restart @ktlo/2026/hbr-130-replay-is-slow-after-a-restart.md:5
+…'''
+CHECK = '''$ writfold kb check             # the three below in one summary, plus the plan when the run has one
+$ writfold kb stale             # which cited sources moved, changed or expired
+$ writfold kb index verify      # the index equals a fresh rebuild
+$ writfold kb gate status       # which gates are met, and which are owed again'''
+HOOK = '''KB is 2 commits behind origin/main (never fetched); run git pull
+Writfold KB brief (`writfold kb brief`). Rows end in their source; re-check any row with a ! flag before relying on it.
+…
+Plan position (`writfold kb plan status`) for run run-…: step 3/5
+…
+step fix#2/implement [current] owes: unit [stale] @runs/run-…/plan/splice-fix.2.json:1
+  next: writfold kb gate run unit
+
+Inbox (local only; nothing here is in the KB until confirmed or accepted):
+proposal 64ebdafd4dd0a8ed 2026-11-13T01:20:14Z run=run-… ticket HBR-133: Ledger retry count is fixed at three
+  review: writfold kb proposals show ID (accept only when the user asks)'''
 
 how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="how-title">
       <p class="eyebrow">How it works</p>
       <h1 id="how-title">Four stages.<br><span>A record of each.</span></h1>
-      <p class="lede">Each part below is two sentences, one example and a link to the full guide. The commands are real; what is planned is marked.</p>
-      <nav class="actions" aria-label="Page sections"><a href="#kb">Knowledge base</a><a href="#research">1 Research</a><a href="#plan">2 Plan</a><a href="#execute">3 Execute</a><a href="#deliver">4 Deliver</a><a href="#gates">Gates</a><a href="#check">Checking</a><a href="#plugin">Plugin</a></nav>
+      <p class="lede">Each part below is two sentences, one example and a link to the full guide. The commands are real and all of it runs in the preview; the one planned item is marked.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#kb">Knowledge base</a><a href="#research">1 Research</a><a href="#plan">2 Plan</a><a href="#execute">3 Execute</a><a href="#deliver">4 Deliver</a><a href="#reflect">Reflect</a><a href="#gates">Gates</a><a href="#check">Checking</a><a href="#plugin">Plugin</a></nav>
     </section>
 
     <section id="kb" class="section" aria-labelledby="kb-title">
@@ -250,45 +325,56 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section id="research" class="section" aria-labelledby="research-title">
       <div class="section-heading"><p class="eyebrow">Stage 1 / Research</p><h2 id="research-title">Ask the knowledge base, or search the code</h2><p>The <code>kb</code> verbs answer from what the project already knows, and a short Tuft program finds exact text in code at one pinned commit. With <code>--cite</code> each row carries a citation, and what the agent concludes it writes down with <code>record</code>.</p></div>
       {panel("Research commands", RESEARCH)}
-      <p class="fine-print"><span class="chip chip-planned">Planned</span> A required step whose check is met only when research wrote something back.</p>
+      <p class="fine-print">In a run with a plan, a required <code>research</code> step owes <code>backfilled</code>, a check of the run&rsquo;s own records. It passes only once the step wrote a record, a citation or a retrieval receipt.</p>
       {more(guide("feeding-back", "what each stage writes back"))}
     </section>
 
     <section id="plan" class="section" aria-labelledby="plan-title">
-      <div class="section-heading"><p class="eyebrow">Stage 2 / Plan</p><h2 id="plan-title">Start a run</h2><p>A run records the task, the repository, branch, worktree and base commit, and today the plan is its first checkpoint note. <code>kb resume</code> shows it to any later session.</p></div>
-      {panel("Starting a run", NEWRUN)}
-      <div class="planned-panel"><p><span class="chip chip-planned">Planned</span> <strong>The run graph.</strong> A plan becomes an ordered list of steps, each naming the gates it owes; <code>plan advance</code> moves on only when they are met, and a skill can add its own steps. Writfold records the steps and the agent walks them. Required steps, such as a closing reflection, are part of every run, and a step can ask for a Weft assessment.</p></div>
-      {more(guide("run-graph", "the run graph (planned)"))}
+      <div class="section-heading"><p class="eyebrow">Stage 2 / Plan</p><h2 id="plan-title">Start a run, set its plan</h2><p>A run records the task, the repository, branch, worktree and base commit, and <code>plan set</code> copies a template&rsquo;s steps into it, each step naming the gates it owes. Templates listed in <code>.writfold/plans/required.toml</code> are added to every plan: here a <code>research</code> step at the start and a <code>reflect</code> step at the end.</p></div>
+      {panel("Starting a run and setting its plan", NEWRUN, REAL)}
+      <p class="fine-print">Writfold records the steps and the agent walks them; it schedules nothing. A template can include another with <code>use=</code>, and the run keeps a snapshot of each, so a template edited later is flagged <code>!template-moved</code> and the run is not rewritten.</p>
+      {more(guide("run-graph", "the run graph"))}
     </section>
 
     <section id="execute" class="section" aria-labelledby="execute-title">
-      <div class="section-heading"><p class="eyebrow">Stage 3 / Execute</p><h2 id="execute-title">Edit, check, checkpoint</h2><p>The agent edits the run&rsquo;s worktree with Splicery recipes for repeated or structural edits, or with ordinary tools for one small change. Either way the result is an uncommitted Git change, and any gate whose scope covers it is owed again.</p></div>
-      {panel("Execute commands", EXECUTE)}
-      {more(guide("gates", "gate definitions, receipts and standing"))}
+      <div class="section-heading"><p class="eyebrow">Stage 3 / Execute</p><h2 id="execute-title">Edit, check, advance</h2><p>The agent edits the run&rsquo;s worktree with Splicery recipes for repeated or structural edits, or with ordinary tools for one small change, and any gate whose scope covers the change is owed again. <code>plan advance</code> records the current step as done only when each of its gates is met; a done step whose gate later goes stale is flagged <code>!stale</code> and stays done.</p></div>
+      {panel("Execute commands and plan status", EXECUTE, REAL)}
+      <p class="fine-print">A skill adds its own steps with one line, <code>plan use</code>; a repeat writes nothing. <code>plan skip --reason TEXT --by WHO</code> closes a step without calling it done.</p>
+      {more(guide("run-graph", "steps, splicing and stale"), guide("skills", "skills that splice"))}
     </section>
 
     <section id="deliver" class="section" aria-labelledby="deliver-title">
       <div class="section-heading"><p class="eyebrow">Stage 4 / Deliver</p><h2 id="deliver-title">Drafts, checked. Nothing sent.</h2><p><code>kb deliver prepare</code> copies a PR comment or Slack summary into the run as the exact text that would be posted, and <code>deliver check</code> runs three checks on those bytes: paragraph length, references the audience must not see, and whether every citation is still fresh. Writfold has no network code, so posting stays with you or your agent.</p></div>
       {drafts()}
+      {panel("A commit-message delivery mode", MODE, "Your own mode is one file, <code>.writfold/deliveries/&lt;name&gt;.toml</code>. This one checks a commit message with a script its gate ships and a guideline to read and attest. " + REAL)}
       <p class="fine-print">The checks are mechanical: they do not judge tone or truth. An optional Claude Code hook, off unless configured, can deny a listed publishing command until a ready draft holds the exact bytes: a guard, not enforcement.</p>
+      <p class="fine-print"><span class="chip chip-planned">Planned</span> A delivery mode as a plan step&rsquo;s gate.</p>
       {more(guide("delivery-modes", "delivery modes, deny lists and the guard"))}
     </section>
 
+    <section id="reflect" class="section" aria-labelledby="reflect-title">
+      <div class="section-heading"><p class="eyebrow">Before the run ends</p><h2 id="reflect-title">Reflect, propose, close</h2><p>The required <code>reflect</code> step owes two gates: a run-record check that passes only when the run holds a <code>reflection:</code> entry and a proposal or an explicit <code>no proposal</code>, and a statement that the reflection covers what its instructions ask. A proposal is a <code>record</code> call not yet made, kept in a local queue until you accept or drop it.</p></div>
+      {panel("Closing a run", REFLECT, REAL)}
+      <p class="fine-print">The bundled <code>writfold:evaluate</code> skill walks this step in a forked subagent and never accepts a proposal itself. The check shows that a reflection was written, not that it is good.</p>
+      {more(guide("feeding-back", "proposals and the reflection checks"), guide("skills", "the evaluate skill"))}
+    </section>
+
     <section id="gates" class="section" aria-labelledby="gates-title">
-      <div class="section-heading"><p class="eyebrow">The thread</p><h2 id="gates-title">Who owes a gate, and what meets it</h2><p>Runs and delivery drafts owe gates, and evidence that Writfold records meets them. Gates report and block nothing; receipts resist mistakes, such as a forgotten check or a stale &ldquo;tests pass&rdquo;, and they are tracked files, not signatures.</p></div>
-      <figure class="diagram-figure">{diagrams.LEGEND}{diagrams.gates("wg")}<figcaption class="fine-print">Evidence is tied to exact bytes. When they change, the gate is owed again.</figcaption></figure>
-      {more(guide("assurance", "what is proved, tested and trusted"))}
+      <div class="section-heading"><p class="eyebrow">The thread</p><h2 id="gates-title">Who owes a gate, and what meets it</h2><p>Plan steps, runs and delivery drafts owe gates, and evidence that Writfold records meets them. Gates report and block nothing; receipts resist mistakes, such as a forgotten check or a stale &ldquo;tests pass&rdquo;, and they are tracked files, not signatures.</p></div>
+      <figure class="diagram-figure">{diagrams.gates("wg")}<figcaption class="fine-print">Evidence is tied to exact bytes. When they change, the gate is owed again.</figcaption></figure>
+      <p class="fine-print">A step can owe a Weft assessment. The agent states the step&rsquo;s assumptions and checks in a Weft file and cites evidence for each assumption. A check is met only when Weft entails it from assumptions whose every citation Writfold found fresh or satisfied, which Weft calls a &ldquo;grounded basis&rdquo;; otherwise it is shown as hypothetical and does not meet the gate.</p>
+      {more(guide("gates", "every gate class, with examples"), guide("assurance", "what is proved, tested and trusted"))}
     </section>
 
     <section id="check" class="section" aria-labelledby="check-title">
-      <div class="section-heading"><p class="eyebrow">Any time</p><h2 id="check-title">Check that it still holds</h2><p>The index refreshes itself on every read, so there is no sync step. Three commands re-check the rest on demand: cited sources, the index against a rebuild, and gate evidence.</p></div>
+      <div class="section-heading"><p class="eyebrow">Any time</p><h2 id="check-title">Check that it still holds</h2><p>The index refreshes itself on every read, so there is no sync step. <code>kb check</code> re-checks the rest in one summary: cited sources, the index against a rebuild, gate evidence, and the plan when the run has one.</p></div>
       {panel("Validation commands", CHECK)}
-      <p class="fine-print"><span class="chip chip-planned">Planned</span> <code>kb check</code>, one command for all three.</p>
       {more(guide("validation", "validation, flag by flag"))}
     </section>
 
     <section id="plugin" class="section" aria-labelledby="plugin-title">
-      <div class="section-heading"><p class="eyebrow">In Claude Code</p><h2 id="plugin-title">A brief at session start, drafts at the end</h2><p>The plugin puts <code>brief</code> and <code>resume</code> into a new session with no tool call, and keeps a local checkpoint draft at compaction and stop. One skill teaches the verbs; the hooks run no model, and a missing binary or knowledge base makes them do nothing.</p></div>
+      <div class="section-heading"><p class="eyebrow">In Claude Code</p><h2 id="plugin-title">The plan position at session start, drafts at the end</h2><p>The plugin puts <code>brief</code>, <code>resume</code>, the plan position and an inbox of drafts, proposals and runs that ended without a reflection into a new session with no tool call, and re-injects the plan position after a compaction. It reads local files and refs only, runs no model, and does nothing when the binary or the knowledge base is missing.</p></div>
+      {panel("Session-start context", HOOK, "What session start adds, from a demo repository; <code>…</code> marks rows left out. The first line appears only when the clone is behind its remote, judged from local refs with no fetch.", "output", "From real output")}
       {more(guide("hooks", "hooks"), guide("skills", "skills"))}
       <p class="fine-print">Ready to try it? <a href="/#try">Download the preview</a>, or see <a href="/status.html">what runs and what is next</a>.</p>
     </section>
@@ -304,30 +390,38 @@ def row(href, title, text):
     return f'<a href="{href}"><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">→</span></a>'
 TODAY = "".join([
     row(GUIDE + "kb-layout.md", "Read verbs", "<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs</code>. Every row names its source; every answer ends with what was examined and omitted"),
-    row(GUIDE + "feeding-back.md", "Write verbs", "<code>checkpoint</code>, <code>record ticket | decision | link</code>, <code>status --set</code>, <code>cite make</code>. Plain files, written atomically, left uncommitted"),
-    row(GUIDE + "validation.md", "Citations and the index", "<code>stale</code> reports each pinned citation as fresh, moved, changed or gone; <code>index verify</code> checks the index equals a rebuild"),
-    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive</code>. Receipts pinned to exact bytes; a timeout or crash is never a pass"),
-    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | attest | waive</code> for PR comments and Slack summaries. Nothing is sent"),
+    row(GUIDE + "feeding-back.md", "Write verbs and proposals", "<code>checkpoint</code>, <code>record ticket | decision | link</code>, <code>status --set</code>, <code>cite make</code>. <code>propose</code> queues a record locally; <code>proposals list | show | accept | drop</code> decides it"),
+    row(GUIDE + "validation.md", "Citations, the index and <code>kb check</code>", "<code>stale</code> reports each pinned citation as fresh, moved, changed or gone; <code>index verify</code> checks the index equals a rebuild; <code>check</code> runs both with gate and plan status"),
+    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive</code>. Receipts pinned to exact bytes; a gate can name an instructions file and ship its own script; a timeout or crash is never a pass"),
+    row(GUIDE + "run-graph.md", "The run graph", "<code>plan set | use | status | advance | skip</code>. Templates in <code>.writfold/plans/</code>, a skill splicing its steps in, <code>use=</code> includes, and the <code>!stale</code> and <code>!template-moved</code> flags"),
+    row(GUIDE + "run-graph.md#required-steps", "Required steps and run-record checks", "Start and end templates from <code>required.toml</code> join every plan. <code>research.backfilled</code> and <code>run.reflected</code> judge the run&rsquo;s own records"),
+    row(GUIDE + "gates.md#weft-assessed-gates", "Weft assessed gate", "A plan step can require a Weft assessment. A check is met only when it is entailed from assumptions whose citations hold; otherwise it is shown as hypothetical"),
+    row(GUIDE + "delivery-modes.md", "Delivery drafts and your own modes", "<code>deliver prepare | check | status | attest | waive</code> for PR comments, Slack summaries and any mode you define; a commit-message mode is included. Nothing is sent"),
     row(GUIDE + "feeding-back.md", "Tuft and Splicery in a run", "<code>tuft run --cite</code> adds citations and a retrieval receipt; <code>edit apply | recover</code> replays recipes and keeps an edit receipt"),
-    row(GUIDE + "hooks.md", "Claude Code plugin", "A brief at session start, local checkpoint drafts, one skill, and an optional guard hook"),
+    row(GUIDE + "hooks.md", "Claude Code plugin", "At session start: the brief, the plan position, an inbox and a line when the clone is behind its remote; the plan position again after compaction. Checkpoint drafts, the <code>writfold:kb</code> and <code>writfold:evaluate</code> skills, and an optional guard hook"),
+    row(GUIDE + "assurance.md", "Proofs of three kernels", "Lean proofs over the shipped Rust for the run-graph, gate and assessed-gate decisions. Parsers, file reads and globs are tested, not proved"),
     row("/how.html#execute", "<code>writfold watch</code>", "A read-only terminal view of runs, gates, receipts and drafts"),
 ])
 def step(title, text, chip):
-    cls = {"Done": "chip-today", "Next": "chip-progress", "Planned": "chip-planned"}[chip]
+    cls = {"Done": "chip-today", "Next": "chip-progress", "Planned": "chip-planned", "Deferred": "chip-planned", "Not planned": "chip-parts"}[chip]
     return f'<li><div><h3>{title}</h3><p>{text} <span class="chip {cls}">{chip}</span></p></div></li>'
 ROAD = "".join([
     step("The four questions", "Read and write verbs, the index, pinned citations and the Claude Code plugin.", "Done"),
     step("Runs with gates, edits and drafts", "Receipts, statements, Splicery edits, Tuft citations, delivery drafts and <code>watch</code>.", "Done"),
-    step("Instruction gates and your own delivery modes", "A gate can point to written instructions; a mode such as a commit message lists its gates.", "Next"),
-    step("The run graph", "<code>plan set | status | advance</code>: ordered steps, each owing gates.", "Planned"),
-    step("Splicing and required steps", "A skill adds its steps to the plan. Every run includes required steps, checked against the run&rsquo;s own records: research wrote back, the run ended with a reflection.", "Planned"),
-    step("Hooks that show the plan", "The plan position at session start and after compaction. No model in a hook.", "Planned"),
-    step("One week of real use", "Count what the checks caught before adding more.", "Planned"),
-    step("Then", "Proofs of the plan and gate kernels, a model of two sessions on one run, <code>kb check</code>, proposals, an evaluation skill, and Weft assessments of plan steps.", "Planned"),
+    step("Instruction gates and your own delivery modes", "A gate can point to written instructions and ship its script; a mode such as a commit message lists its gates.", "Done"),
+    step("The run graph, splicing and required steps", "<code>plan set | use | status | advance | skip</code>; required steps checked against the run&rsquo;s own records.", "Done"),
+    step("Hooks that show the plan", "The plan position at session start and after compaction, with an inbox. No model in a hook.", "Done"),
+    step("Proofs, proposals and the closing step", "Proofs of the plan and gate kernels, <code>kb check</code>, proposals, the evaluation skill, and Weft assessments of plan steps.", "Done"),
+    step("One week of real use", "Count what the checks caught, and what was waived, before adding more.", "Next"),
+    step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Planned"),
+    step("Trailer and tracker edges, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
+    step("An MCP server", "Deferred until a harness without a shell needs one. The CLI and the plugin are the interface.", "Deferred"),
+    step("A governed profile", "Authority levels, exception routes and signing. Writfold stays single user with cooperating agents.", "Not planned"),
 ])
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
+    ("13 Nov 2026", f'Preview <a href="{REL}">v0.4.0-dev.1</a>: the run graph (<code>plan set | use | status | advance | skip</code>) with splicing, required steps and run-record checks; instruction gates and your own delivery modes; proposals and <code>kb check</code>; the Weft assessed gate; the plan position and an inbox at session start; the <code>writfold:evaluate</code> skill; and Lean proofs of the run-graph, gate and assessed-gate kernels.'),
     ("12 Nov 2026", f'The site is shorter. Full file layouts, configuration and output moved to the <a href="{GUIDE}README.md">guides</a> in the Writfold repository. Direction set: the run graph, required steps and model-free hooks, all planned.'),
-    ("12 Nov 2026", f'Preview <a href="{REL}">v0.3.0-dev.1</a>: gates, Splicery edits in a run, <code>writfold watch</code>, delivery drafts and an optional guard hook.'),
+    ("12 Nov 2026", 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.3.0-dev.1">v0.3.0-dev.1</a>: gates, Splicery edits in a run, <code>writfold watch</code>, delivery drafts and an optional guard hook.'),
     ("12 Nov 2026", 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a>: the <code>kb</code> read and write verbs, the index, citations checked for staleness, and the Claude Code plugin.'),
     ("11 Nov 2026", "Mission set: Git-native project continuity for coding agents."),
 ])
@@ -335,9 +429,11 @@ def faq(q, a): return f"<details><summary>{q}</summary><p>{a}</p></details>"
 FAQ = "".join([
     faq("Can I use Writfold today?", 'Yes, as a preview: <a href="/#try">download the binary and install the plugin</a>. Single user, cooperating agents, local clones only, Linux x86_64 or WSL2.'),
     faq("Does it need a server or a database?", "No. One static binary, records in Git, and a local index that Writfold derives and can always rebuild."),
-    faq("Can an agent skip a gate?", "Yes. Gates record what was checked and report whether it still holds; they block nothing. A skipped gate shows as open. The optional hook is a guard, not enforcement."),
-    faq("What is proved?", f'For the knowledge base, nothing yet: its write protocol is model-checked and kill-tested, and its decision kernels are tested. Proofs of the gate and plan kernels are planned. Details are in {guide("assurance", "the assurance guide")}.'),
+    faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. No hook runs a model."),
+    faq("Can an agent skip a gate or a step?", "Yes. Gates and steps record what was checked and report whether it still holds; they block nothing. A gate that was never run shows as open, a skipped step shows as skipped with a reason and a name, and the plan is complete only when every step is done or skipped. The optional hook is a guard, not enforcement."),
+    faq("Is it formally verified?", f'In part. Three decision kernels are proved in Lean over an Aeneas translation of the Rust that ships. The run graph: a step is recorded as done exactly when it is the current step and every gate is met; a splice keeps every existing step, and repeating it changes nothing. Gate obligations: only exit status 0 on bytes that did not move is a pass, and an attestation or a waiver never counts as satisfied. The Weft assessed gate: a hypothetical entailment never passes. The proof check audits 54 claims across all proved kernels and requires each of 45 mutants of the Rust source to break its named theorem. The rest is tested, not proved: template and gate parsers, the fold from event files to steps, file and Git reads, and scope globs. The write protocol is model-checked and kill-tested. The proofs trust the Charon and Aeneas translation and the Lean kernel. Details are in {guide("assurance", "the assurance guide")}.'),
     faq("Does Writfold post PR comments or Slack messages?", "No. <code>kb deliver</code> keeps drafts with their checks in the run. Nothing is sent."),
+    faq("Who accepts a proposal?", "You do. <code>kb propose</code> queues a record call locally, and the <code>writfold:evaluate</code> skill may queue up to three. Only <code>proposals accept</code> writes the record, and it is refused when a citation in it is no longer fresh."),
     faq("Other harnesses?", "The CLI works wherever an agent has a shell. An MCP server is deferred until a harness without a shell needs one."),
     faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a>, <a href="https://github.com/writfold-dev/weft">Weft</a> and <a href="https://github.com/writfold-dev/splicery">Splicery</a> are public, and this website is under the MIT license.'),
 ])
@@ -345,18 +441,18 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="status-title">
       <p class="eyebrow">Status</p>
       <h1 id="status-title">What runs today.<br><span>What comes next.</span></h1>
-      <p class="lede">Writfold is <a href="/">Git-native project continuity for coding agents</a>. The preview covers research, execution and delivery drafts. The run graph is planned.</p>
-      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="{REL}">v0.3.0-dev.1</a> · Updated 12 November 2026</span></p>
+      <p class="lede">Writfold is <a href="/">Git-native project continuity for coding agents</a>. The preview covers the whole flow: research, the run graph, execution, delivery drafts and a closing reflection.</p>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="{REL}">v0.4.0-dev.1</a> · Updated 13 November 2026</span></p>
       <nav class="actions" aria-label="Page sections"><a href="#today">Runs today</a><a href="#next">Roadmap</a><a href="#changelog">Changelog</a><a href="#faq">FAQ</a></nav>
     </section>
     <section id="today" class="section" aria-labelledby="today-title">
       <div class="section-heading"><p class="eyebrow">01 / Runs today</p><h2 id="today-title">In the preview</h2><p>Each entry links to its guide. <a href="/#try">Try it</a>, or read the <a href="{README}">README</a>.</p></div>
       <div class="doc-links">{TODAY}</div>
       <p class="fine-print">Measured: reads at most 45&nbsp;ms on 4,130 records; writes about 120&ndash;130&nbsp;ms. A write killed at any step leaves the old or the new complete file.</p>
-      <p class="fine-print">Limits: single user with cooperating agents; local clones only. No real PR comment or Slack summary has gone through the delivery checks yet.</p>
+      <p class="fine-print">Limits: single user with cooperating agents; local clones only. The run graph has not yet had its week of real use, and no real PR comment or Slack summary has gone through the delivery checks.</p>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
-      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">In order</h2><p>The planned model is in {guide("run-graph", "the run graph guide")}.</p></div>
+      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, next, and not planned</h2><p>The run graph as built is in {guide("run-graph", "the run graph guide")}.</p></div>
       <ol class="workflow">{ROAD}</ol>
     </section>
     <section id="changelog" class="section" aria-labelledby="changelog-title">
@@ -371,7 +467,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
   </main>
 '''
 page("status.html", "Status — Writfold",
-     "What runs in the Writfold preview, what is planned next, a short changelog and FAQ.", "/status.html", status)
+     "What runs in the Writfold preview v0.4.0-dev.1, what is next, a short changelog and FAQ.", "/status.html", status)
 
 # ---------------------------------------------------------------- 404 and redirects
 page("404.html", "Page not found — Writfold", "This page is not part of writfold.dev.", None,
@@ -380,7 +476,7 @@ page("404.html", "Page not found — Writfold", "This page is not part of writfo
 STUBS = {"earlier.html": ("/", "the overview"), "docs.html": ("/how.html", "How it works"), "glossary.html": ("/how.html", "How it works"),
          "tuft.html": ("/how.html#research", "Retrieval with Tuft, on How it works"),
          "splicery.html": ("/how.html#execute", "Edits with Splicery, on How it works"),
-         "weft.html": ("/how.html#plan", "Plan verification (planned), on How it works")}
+         "weft.html": ("/how.html#gates", "Plan verification with Weft, on How it works")}
 for name, (to, label) in STUBS.items():
     (SITE / name).write_text(f'''<!doctype html>
 <html lang="en">

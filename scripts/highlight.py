@@ -18,8 +18,8 @@ def _scan(text, rules):
     return "".join(out)
 
 STRING = r'"(?:[^"\\\n]|\\.)*"' + r"|'[^'\n]*'"
-OK = {"satisfied", "accepted", "ready", "applied", "active", "done", "fresh", "confirmed", "ok"}
-WARN = {"stale", "moved", "changed", "gone", "blocked", "failed", "unknown", "open", "draft", "in-progress", "unverifiable"}
+OK = {"satisfied", "accepted", "ready", "applied", "active", "done", "fresh", "confirmed", "ok", "clean"}
+WARN = {"stale", "moved", "changed", "gone", "blocked", "failed", "unknown", "open", "draft", "in-progress", "unverifiable", "attention", "pending"}
 
 def _badge(text):
     word = text.strip("[]")
@@ -31,7 +31,7 @@ OUTPUT = [
     (r"\[(?:[a-z][a-z-]*)\](?!\()", _badge),
     (r"(?<=\s)![a-z][\w=→./:-]*", "stale"),
     (r"(?<=\s)@[\w.…<>/:#-]+", "path"),
-    (r"^(?:decision|asset|ticket|gate|edit|delivery|run|checkpoint|retrieval|relationship|investigation|project|cite)\b", "keyword"),
+    (r"^(?:decision|asset|ticket|gate|edit|delivery|run|checkpoint|retrieval|relationship|investigation|project|cite|step|plan|proposal|check)\b", "keyword"),
     (r"^ +[a-z-]+:(?= )", "function"),
     (r"^==.*==$", "comment"),
     (r"^> ", "operator"),

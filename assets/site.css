@@ -300,3 +300,25 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
   .card { padding: 16px; }
   .status-table th code { overflow-wrap: anywhere; }
 }
+/* 13 November 2026: v0.4 parts in the flow, and the run graph spine */
+.fd-new-box { fill: var(--bg); stroke: var(--accent); stroke-width: 1.3; }
+.fd-newtag { fill: var(--accent); font-size: 9.5px; font-weight: 650; letter-spacing: .12em; }
+.fd .fd-newtag, .fd .sp-step, .fd .sp-state, .fd .sp-gate { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+.sp-rail { fill: none; stroke: var(--border); stroke-width: 2; }
+.sp-rail-done { stroke: var(--accent); }
+.sp-brace { fill: none; stroke: var(--muted); stroke-width: 1; }
+.sp-done { fill: var(--accent); }
+.sp-stale { stroke: var(--amber); stroke-width: 3; }
+.sp-current { fill: var(--bg); stroke: var(--accent); stroke-width: 3; }
+.sp-later { fill: var(--bg); stroke: var(--muted); stroke-width: 1.5; }
+.sp-step { fill: var(--text); font-size: 13px; font-weight: 650; }
+.sp-state { fill: var(--muted); font-size: 11.5px; }
+.sp-chip { fill: var(--bg); stroke: var(--border); stroke-width: 1; }
+.sp-chip-ok { stroke: var(--accent); }
+.sp-chip-warn { stroke: var(--amber); }
+.sp-gate { fill: var(--text); font-size: 11px; }
+.sp-ok { fill: var(--accent); font-weight: 650; }
+.sp-warn { fill: var(--amber); font-weight: 650; }
+.figure-lead { margin: 0 0 14px; color: var(--muted); font-size: .84rem; }
+.example figcaption { display: block; }
+.example figcaption .chip { margin-right: 6px; }
