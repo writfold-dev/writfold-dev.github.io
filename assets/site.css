@@ -322,3 +322,10 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .figure-lead { margin: 0 0 14px; color: var(--muted); font-size: .84rem; }
 .example figcaption { display: block; }
 .example figcaption .chip { margin-right: 6px; }
+/* A captured terminal frame: the program's own colours, always on its dark surface. */
+.term-frame { max-width: 100%; margin: 12px 0 14px; padding: 14px 16px; overflow: auto; border: 1px solid var(--code-border); border-radius: 8px; background: #1c1f25; color: #e6e1d6; }
+.term-frame code { display: block; width: max-content; font-size: .6rem; line-height: 1.2; white-space: pre; overflow-wrap: normal; font-variant-ligatures: none; }
+@media (max-width: 700px) {
+  .term-frame { padding: 10px; }
+  .term-frame code { font-size: .58rem; }
+}
