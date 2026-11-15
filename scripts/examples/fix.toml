@@ -1,0 +1,7 @@
+schema = "writfold-plan/1"
+name = "fix"
+description = "change the code, then ship it"
+steps = [
+  "implement: unit",
+  "ship: wording",
+]

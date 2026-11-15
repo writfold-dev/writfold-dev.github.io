@@ -1,0 +1,8 @@
+schema = "writfold-guard-rule/1"
+id = "commit-needs-gates"
+event = "pre-tool-use"
+commands = ["git commit", "git push"]
+tools = []
+require = ["run.current", "gates.met"]
+action = "deny"
+description = "commit only when the run's gates are met"

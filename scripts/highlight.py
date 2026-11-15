@@ -51,7 +51,13 @@ TOML = [
     (r"\b\d+\b", "number"),
     (r"[\[\],=]", "punctuation"),
 ]
-LANGS = {"output": OUTPUT, "toml": TOML}
+MD = [
+    (r"^---$", "punctuation"),
+    (r"^#+ .*$", "keyword"),
+    (r"^[a-z-]+:(?= )", "function"),
+    (r"`[^`\n]+`", "string"),
+]
+LANGS = {"output": OUTPUT, "toml": TOML, "md": MD}
 
 def highlight(text, lang="session"):
     """`session`: `$ ` lines are commands (with `\\` continuations), the rest is

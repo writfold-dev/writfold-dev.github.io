@@ -1,0 +1,5 @@
+schema = "writfold-delivery-mode/1"
+mode = "commit-message"
+description = "checked before git commit; nothing binds the checked bytes to the commit that is made"
+checks = ["references.denied"]
+gates = ["commit-format", "language-guidelines"]

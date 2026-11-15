@@ -11,7 +11,10 @@ FILES = (
     ".nojekyll", "404.html", "CNAME", "LICENSE.txt", "index.html", "how.html", "status.html",
     # Redirect stubs for addresses that were published earlier; they carry no content.
     "earlier.html", "docs.html", "glossary.html", "tuft.html", "weft.html", "splicery.html",
-    "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
+    # The installer, served as https://writfold.dev/install.sh. GitHub Pages picks the
+    # content type from the extension (application/x-sh); `curl … | sh` ignores it.
+    "install.sh",
+    "assets/copy.js", "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
     # The terminal-capture font (scripts/build_term_font.py) and the licence it ships under.
     "assets/term-Regular.woff2", "assets/term-Bold.woff2", "assets/term-LICENSE.txt",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",

@@ -1,0 +1,4 @@
+schema = "writfold-plan/1"
+name = "review"
+description = "read the diff, then record what was found"
+steps = ["read-diff:", "findings: findings"]

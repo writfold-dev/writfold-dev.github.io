@@ -4,19 +4,20 @@ The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS
 
 ## Pages
 
-- `index.html`: the overview, about 480 words. The two ideas (deterministic, resumable), then one section each: a `writfold watch` capture with three callouts, and the three resume verbs with one answer card and the knowledge-base capture; three facts about storage, and the install block. What runs is listed once, on `status.html`; the overview links there.
-- `how.html`: the flow diagram, then one screen each for the knowledge base, research, plan, gates, execute, watch, deliver, the closing reflection and the plugin. Each is two sentences, one example and one link to the matching guide; at most one line of fine print.
-- `status.html`: what runs in the preview (the one such list), the roadmap with done work grouped and every next, planned, deferred and not-planned item on its own row, a changelog of one line per release, and the FAQ.
+- `index.html`: the overview. The two ideas (deterministic, resumable) and the install command in the hero, then one section each: a `writfold watch` capture with three callouts, the three resume commands with one answer card, three facts about storage, and the install block (what the installer does, its options, and the manual steps in a disclosure).
+- `how.html`: six sections, each one real file (a gate, a plan template, a skill, a guard rule, a delivery mode, a checkpoint) beside the few commands that use it. Each command sits in its own block under a one-line caption; the two columns stack on narrow screens.
+- `status.html`: what runs in the preview (the one such list), the roadmap, a changelog of one line per release, and the FAQ.
+- `install.sh`: the installer, served as `https://writfold.dev/install.sh` (see "Releasing the installer").
 - `earlier.html`, `docs.html`, `glossary.html` and three more stubs listed in `STUBS` in `scripts/build_pages.py`: redirects for addresses that were published before. Each holds a `meta refresh` and one link to the overview or How it works, and no other content.
 - `404.html`: the missing-page response.
 
-Full file layouts, complete configuration files and exact output live in the Writfold repository under `docs/guide/`, and the pages link there (`https://github.com/writfold-dev/writfold/blob/main/docs/guide/<page>.md`). Keep the site short: move detail to a guide and link it.
+Full file layouts, complete configuration files and exact output live in the Writfold repository under `docs/guide/`, and the pages link there (`https://github.com/writfold-dev/writfold/blob/main/docs/guide/<page>.md`). Keep the site short and plain: a first-time visitor should understand it in about five minutes. Move detail to a guide and link it, and leave out anything that is about how Writfold is built rather than what it does for its user.
 
-Describe only exercised capabilities as running. Everything else is labelled planned: a `Planned` chip in text, a dashed amber outline in diagrams. A diagram with no planned part carries no legend.
+Describe only exercised capabilities as running. Everything else is labelled with a `Next` or `Planned` chip.
 
 ## Writing pages
 
-The HTML pages are written by `scripts/build_pages.py` from shared parts (head, header, footer), with the diagrams from `scripts/diagrams.py` and syntax highlighting from `scripts/highlight.py`. Highlighting happens here, at authoring time; the site loads no highlighting script.
+The HTML pages are written by `scripts/build_pages.py` from shared parts (head, header, footer), with syntax highlighting from `scripts/highlight.py`. Highlighting happens here, at authoring time; the site loads no highlighting script.
 
 ```sh
 python3 scripts/build_pages.py
@@ -24,14 +25,15 @@ python3 scripts/build_pages.py
 
 Edit copy in `scripts/build_pages.py`, run it, and review the HTML it writes. The committed HTML is still the publication input: packaging and publishing never run these scripts.
 
-- Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output; a `%toml` line switches the lines after a `cat` to that language), `shell` or `toml`.
+- Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output), `shell`, `toml` or `md`.
+- The files shown on `how.html` are kept in `scripts/examples/`. They must be real: before publishing a change to one, copy it into a demo knowledge base (the `.toml` files under `.writfold/gates/`, `plans/`, `guards/` and `deliveries/`) and run the commands shown beside it with the release binary.
+- A command with a Copy button is written with `copy_line`. `assets/copy.js` shows the button only when the clipboard is usable; without JavaScript the command is plain selectable text.
 - Output shown as real must be real: run the command with the release binary against an invented demo knowledge base and paste what it printed, shortening only run IDs, digests and paths with `…`. Anything drawn rather than printed is captioned "Illustration" (invented content) or "From real output" (a drawing of real output).
-- Each diagram is drawn twice, wide and stacked; CSS shows one of them by viewport width. Both carry the same `<title>` and `<desc>`.
 - The release the site describes is `VERSION` and `RELEASED` at the top of `scripts/build_pages.py`, and `product_release` in `scripts/package.py`.
 
 ### Terminal captures
 
-A captured `writfold watch` frame is the `<span>` fragment the capture tool writes, kept as `scripts/frames/home.html` (the overview) and `scripts/frames/how.html` (How it works). To publish a new capture, replace the file, adjust its `FRAME_LABELS` entry in `scripts/build_pages.py` if the picture changed, and run the script again. Captions carry the `Captured` chip and say the knowledge base is a test fixture.
+A captured `writfold watch` frame is the `<span>` fragment the capture tool writes, kept as `scripts/frames/home.html` (the overview). To publish a new capture, replace the file, adjust its `FRAME_LABELS` entry in `scripts/build_pages.py` if the picture changed, and run the script again. Captions carry the `Captured` chip and say the knowledge base is a test fixture.
 
 Every cell of a frame is drawn with one font, Writfold Term: a subset of DejaVu Sans Mono (regular and bold, about 8 KB each) in `assets/term-*.woff2`, with its licence in `assets/term-LICENSE.txt`. A system monospace lacks some of the symbols a frame uses, and a fallback glyph of another width moves every column after it. The characters the font holds are listed in `scripts/term_glyphs.py`; `build_pages.py` refuses a frame that uses any other character, or any style other than regular and bold. To add a character, extend that list and run `python3 scripts/build_term_font.py` (needs `fontTools`, `brotli` and the DejaVu fonts; authoring time only).
 
@@ -60,11 +62,30 @@ python3 -m http.server 8081 --bind 127.0.0.1 --directory _site
 Before publishing, check:
 
 - every internal link and anchor resolves, the HTML is well-formed and IDs are unique;
-- `index.html`, `how.html` and `status.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow, the diagrams and code panels included, and the box borders of each terminal capture in straight columns;
+- `index.html`, `how.html` and `status.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow, the code panels and the install command included, and the box borders of each terminal capture in straight columns;
 - the System, Light and Paper Dark theme choices, disabled JavaScript, 200% text zoom, and the keyboard skip link and focus;
 - the packaged artifact in `_site/`, not only the working tree.
 
 These are website checks, not product qualification.
+
+## Releasing the installer
+
+`install.sh` installs one release by default, named by two lines at its top: `WRITFOLD_DEFAULT_VERSION` and `WRITFOLD_DEFAULT_SHA256`. For that version the downloaded binary must match both the release's `.sha256` file and the checksum pinned in the script, so a swapped release asset is refused. Stamp both lines at each release, after the release assets exist and their re-downloaded copies have passed `sha256sum -c` (a script published ahead of its release refuses to install):
+
+```sh
+v=0.5.0-dev.10                      # the new release, without the leading v
+sha=$(cut -d' ' -f1 /path/to/downloaded/writfold-x86_64-linux-musl.sha256)
+sed -i -e "s/^WRITFOLD_DEFAULT_VERSION=.*/WRITFOLD_DEFAULT_VERSION=\"$v\"/" \
+       -e "s/^WRITFOLD_DEFAULT_SHA256=.*/WRITFOLD_DEFAULT_SHA256=\"$sha\"/" install.sh
+git diff --stat install.sh          # expect exactly 2 lines changed
+```
+
+Then:
+
+1. Set `VERSION` in `scripts/build_pages.py` to the same release and run it. It stops if `install.sh` pins a different version, so the manual steps on the page and the installer cannot disagree.
+2. Run `bash scripts/test_install.sh` (offline: a fake release on a local server, an emptied environment, a fake `claude`).
+3. Check `sh install.sh --dry-run` shows the new version, and `sh install.sh --no-plugin --prefix "$(mktemp -d)"` installs it and reports the new `writfold --version`.
+4. Package and publish as below, then confirm `curl -s https://writfold.dev/install.sh | sha256sum` equals the digest of `_site/install.sh`.
 
 ## Social card
 

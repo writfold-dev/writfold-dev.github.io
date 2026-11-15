@@ -1,0 +1,9 @@
+schema = "writfold-gate/1"
+id = "unit"
+version = 1
+class = "mechanical"
+argv = ["cargo", "test", "--locked"]
+workdir = "."
+timeout_seconds = 600
+scope = ["src/**", "Cargo.toml", "!src/**/*.md"]
+description = "the unit tests"
