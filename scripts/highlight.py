@@ -51,24 +51,7 @@ TOML = [
     (r"\b\d+\b", "number"),
     (r"[\[\],=]", "punctuation"),
 ]
-SPL = [
-    (r'(?:rx)?"(?:[^"\\\n]|\\.)*"', "string"),
-    (r"@[\w.]+", "variable"),
-    (r"\b(?:edit|each|in|line_matches|expect|replace|with|keep|one|text|within|delete)\b", "keyword"),
-    (r"\b\d+\b", "number"),
-    (r":=", "operator"),
-    (r"[{}\[\](),]", "punctuation"),
-]
-TUFT = [
-    (STRING, "string"),
-    (r"@\w+", "variable"),
-    (r"\b(?:find|text|in|at|retain|around|lines|project|emit|budget_tokens|sort|asc|desc)\b", "keyword"),
-    (r"\b(?:path|line|excerpt|max_chars)\b", "function"),
-    (r"\b\d+\b", "number"),
-    (r":=", "operator"),
-    (r"[\[\](),;:]", "punctuation"),
-]
-LANGS = {"output": OUTPUT, "toml": TOML, "spl": SPL, "tuft": TUFT}
+LANGS = {"output": OUTPUT, "toml": TOML}
 
 def highlight(text, lang="session"):
     """`session`: `$ ` lines are commands (with `\\` continuations), the rest is

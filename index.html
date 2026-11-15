@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Writfold — Git-native project continuity for coding agents</title>
-  <meta name="description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.9.">
+  <meta name="description" content="Writfold makes a coding agent's work deterministic and resumable: pinned citations, gates with receipts tied to exact bytes, a plan the agent walks, and a brief a new session reads instead of the whole project. Preview: v0.5.0-dev.9.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
-  <meta property="og:description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.9.">
+  <meta property="og:description" content="Writfold makes a coding agent's work deterministic and resumable: pinned citations, gates with receipts tied to exact bytes, a plan the agent walks, and a brief a new session reads instead of the whole project. Preview: v0.5.0-dev.9.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.5.0-dev.9.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. Below it: Git-native project continuity for coding agents. Preview v0.5.0-dev.9.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -28,26 +28,24 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="wordmark" href="/" aria-label="Writfold home"><picture><source srcset="/assets/writfold-icon.svg" media="(prefers-color-scheme: light)"><img src="/assets/writfold-icon-dark.svg" width="40" height="40" alt=""></picture><span>writfold</span></a>
-    <nav aria-label="Main navigation"><a href="/" aria-current="page">Overview</a><a href="/how.html">How it works</a><a href="/status.html">Status</a><a href="https://github.com/writfold-dev">GitHub</a></nav>
+    <nav aria-label="Main navigation"><a href="/" aria-current="page">Overview</a><a href="/how.html">How it works</a><a href="/status.html">Status</a><a href="https://github.com/writfold-dev/writfold">GitHub</a></nav>
     <label class="theme-control" hidden>Theme <select id="theme" aria-describedby="theme-note"><option value="system">System</option><option value="light">Light</option><option value="paper-dark">Paper Dark</option></select><span id="theme-note" class="visually-hidden">Your choice is remembered in this browser.</span></label>
   </header>
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
-      <h1 id="hero-title">Project memory in Git<br><span>that says when it is stale.</span></h1>
-      <p class="lede">Every new agent session starts without the project&rsquo;s history. With Writfold, a fresh session on any machine can answer four questions, and each answer names the file and commit it came from.</p>
-      <ul class="questions">
-        <li>Why did we decide X?</li>
-        <li>Where do we stand on Y?</li>
-        <li>What is the tracker item for Z?</li>
-        <li>What does changing X touch?</li>
-      </ul>
+      <h1 id="hero-title">Deterministic agent work<br><span>that resumes where it stopped.</span></h1>
+      <p class="lede">Writfold keeps an agent&rsquo;s plan, checks and decisions as plain records in Git.</p>
+      <div class="two-up">
+        <div class="capability"><h2>Deterministic</h2><p>Citations pinned to a commit. Gates with receipts tied to the exact bytes they checked. A plan the agent walks, and guard rules that hold a command until its gates are met.</p></div>
+        <div class="capability"><h2>Resumable</h2><p>A new session on any machine reads a brief and the last checkpoint. It does not reload the whole project to pick the work up.</p></div>
+      </div>
       <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="/how.html">How it works <span aria-hidden="true">→</span></a></div>
       <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.9">v0.5.0-dev.9</a>, 15 November 2026. One static Linux x86_64 binary. <a href="/status.html">Status and roadmap</a></span></p>
     </section>
 
-    <section id="watch" class="section" aria-labelledby="watch-title">
-      <div class="section-heading"><p class="eyebrow">The plan, as a map</p><h2 id="watch-title">See where the work stands</h2><p>A run has a plan. Each step owes gates: small checks whose receipts are tied to the exact bytes they checked. <code>writfold watch</code> draws it in your terminal.</p></div>
+    <section id="deterministic" class="section" aria-labelledby="deterministic-title">
+      <div class="section-heading"><p class="eyebrow">Deterministic</p><h2 id="deterministic-title">A plan the agent walks, checked against exact bytes</h2><p>A run has a plan, and each step owes gates: small checks that leave a receipt. <code>writfold watch</code> draws it in your terminal.</p></div>
       <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> on a test-fixture knowledge base; its run, steps and receipts were written through the <code>kb</code> verbs.</figcaption><pre class="term-frame" style="--cols:136" tabindex="0" aria-label="writfold watch in its calm default frame: the runs, the plan map of the selected run, and the inspector for its next step"><code><span style="color:#ececea;background:#21201f"> </span><span style="color:#ececea;background:#21201f;font-weight:700">Add --plan to kb runs</span><span style="color:#ececea;background:#21201f">  </span><span style="color:#b5b3ad;background:#2b2a28"> open </span><span style="color:#ececea;background:#21201f"> </span><span style="color:#d77757;background:#2b2a28;font-weight:700"> current </span><span style="color:#ececea;background:#21201f"> </span><span style="color:#b5b3ad;background:#2b2a28"> harbor </span><span style="color:#ececea;background:#21201f">  </span><span style="color:#8f8d88;background:#21201f">subject kb</span><span style="color:#ececea;background:#21201f">                                               </span><span style="color:#8f8d88;background:#21201f">run-20261101T090000Z-a1b2c3</span>
 <span style="color:#ececea;background:#21201f"> </span><span style="color:#191918;background:#d77757;font-weight:700"> 1 progress </span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#21201f">2</span><span style="color:#b5b3ad;background:#21201f"> gates</span><span style="color:#ff6b80;background:#21201f;font-weight:700"> !2</span><span style="color:#ffc107;background:#21201f"> ○2</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">3</span><span style="color:#b5b3ad;background:#21201f"> timeline</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">4</span><span style="color:#b5b3ad;background:#21201f"> inbox 3</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">5</span><span style="color:#b5b3ad;background:#21201f"> guards</span><span style="color:#ff6b80;background:#21201f;font-weight:700"> deny 1</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">6</span><span style="color:#b5b3ad;background:#21201f"> stale</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">7</span><span style="color:#b5b3ad;background:#21201f"> brief</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">8</span><span style="color:#b5b3ad;background:#21201f"> resume</span>
 <span style="color:#4f4d4a;background:#191918">╭</span><span style="color:#ececea;background:#191918;font-weight:700"> runs (3) </span><span style="color:#4f4d4a;background:#191918">──────────╮</span><span style="color:#d77757;background:#191918">╭</span><span style="color:#d77757;background:#191918;font-weight:700"> plan </span><span style="color:#d77757;background:#191918">─────────────────────────────────────────────────╮</span><span style="color:#4f4d4a;background:#191918">╭</span><span style="color:#ececea;background:#191918;font-weight:700"> step 7/11 </span><span style="color:#4f4d4a;background:#191918">────────────────────────────────────────────╮</span>
@@ -83,13 +81,31 @@
         <div><dt><code>!</code> Done, but something moved</dt><dd>A later edit changed the bytes a gate checked. The step stays done and is flagged.</dd></div>
         <div><dt><code>▶</code> Next</dt><dd>The step to pick up, from the record. It is not a claim that an agent is working.</dd></div>
       </dl>
-      <p class="fine-print">Read-only: it shows what the records say and starts no check.</p>
+      <p class="fine-print">Gates block nothing on their own; a guard rule you add can deny a command such as <code>git commit</code> until they are met. The view is read-only.</p>
       <p class="guide-link"><span aria-hidden="true">→</span> More: <a href="/how.html#plan">how a run works</a> and <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/watch.md">the watch guide</a></p>
     </section>
 
-    <section id="knowledge" class="section" aria-labelledby="knowledge-title">
-      <div class="section-heading"><p class="eyebrow">The knowledge base, one key away</p><h2 id="knowledge-title">Why, in the same frame</h2><p>Press <code>m</code> and the same view shows the project&rsquo;s decisions, tickets and links. <code>!</code> marks a record whose cited source has moved since it was written.</p></div>
-      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> in knowledge-base mode on a test-fixture knowledge base; its records, citations and code changes were written through the <code>kb</code> verbs and Git.</figcaption><pre class="term-frame" style="--cols:136" tabindex="0" aria-label="writfold watch in knowledge-base mode: a project's decisions, one flagged because the code it cites moved, and the inspector for that decision"><code><span style="color:#ececea;background:#21201f"> </span><span style="color:#ececea;background:#21201f;font-weight:700">Harbor status</span><span style="color:#ececea;background:#21201f">  </span><span style="color:#b5b3ad;background:#2b2a28"> build </span><span style="color:#ececea;background:#21201f">  </span><span style="color:#8f8d88;background:#21201f">knowledge base</span><span style="color:#ececea;background:#21201f">                                                                                  </span><span style="color:#8f8d88;background:#21201f">project:harbor</span>
+    <section id="resumable" class="section" aria-labelledby="resumable-title">
+      <div class="section-heading"><p class="eyebrow">Resumable</p><h2 id="resumable-title">A new session reads a brief, not the project</h2><p>Three verbs carry work across sessions. Then the agent asks why, status, tracker and impact questions, and every line of an answer names its source.</p></div>
+      <dl class="callouts">
+        <div><dt><code>kb brief</code></dt><dd>Where the project stands. The Claude Code plugin adds it at session start.</dd></div>
+        <div><dt><code>kb resume</code></dt><dd>Where the run stopped: its last checkpoints, plan position and owed gates.</dd></div>
+        <div><dt><code>kb checkpoint</code></dt><dd>A note written into the run for the next session.</dd></div>
+      </dl>
+      <figure id="example" class="visual">
+        <figcaption><span class="chip chip-parts">Illustration</span> Invented content; the parts are what <code>kb why</code> prints. The evidence is code pinned at a commit, flagged because those lines have moved.</figcaption>
+        <div class="card answer">
+          <p class="card-cmd"><code><span class="syntax-prompt">$ </span>writfold kb why "batch writes"</code></p>
+          <p class="answer-head"><span class="pill pill-ok">accepted</span> <strong>Batch ledger writes</strong> <span class="src">proposals/decision/2026-11-02-batch-writes.md:4</span></p>
+          <dl class="answer-rows">
+            <div><dt>Decided</dt><dd>by api-review on 2026-11-05 <span class="src">:9</span></dd></div>
+            <div><dt>Why</dt><dd>One transaction per 500 rows keeps replay under a minute. <span class="src">:18</span></dd></div>
+            <div><dt>Evidence</dt><dd><code>demo-api src/ledger.rs:40-72</code> <span class="pill pill-warn">moved → 44-76</span> <span class="src">:25</span></dd></div>
+          </dl>
+          <ul class="card-foot"><li>31 of 31 records examined</li><li>nothing omitted</li><li class="warn">1 source stale</li><li>index fresh</li></ul>
+        </div>
+      </figure>
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> The same records in <code>writfold watch</code> after <code>m</code>, on a test-fixture knowledge base. <code>!</code> marks a record whose cited source has moved.</figcaption><pre class="term-frame" style="--cols:136" tabindex="0" aria-label="writfold watch in knowledge-base mode: a project's decisions, one flagged because the code it cites moved, and the inspector for that decision"><code><span style="color:#ececea;background:#21201f"> </span><span style="color:#ececea;background:#21201f;font-weight:700">Harbor status</span><span style="color:#ececea;background:#21201f">  </span><span style="color:#b5b3ad;background:#2b2a28"> build </span><span style="color:#ececea;background:#21201f">  </span><span style="color:#8f8d88;background:#21201f">knowledge base</span><span style="color:#ececea;background:#21201f">                                                                                  </span><span style="color:#8f8d88;background:#21201f">project:harbor</span>
 <span style="color:#ececea;background:#21201f"> </span><span style="color:#191918;background:#d77757;font-weight:700"> 1 why </span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#21201f">2</span><span style="color:#b5b3ad;background:#21201f"> status</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">3</span><span style="color:#b5b3ad;background:#21201f"> tracker</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">4</span><span style="color:#b5b3ad;background:#21201f"> impact</span><span style="color:#ececea;background:#21201f">    </span><span style="color:#d77757;background:#21201f">5</span><span style="color:#b5b3ad;background:#21201f"> stale</span><span style="color:#ff6b80;background:#21201f;font-weight:700"> !9</span><span style="color:#ececea;background:#21201f">                                                                       </span><span style="color:#d77757;background:#2b2a28;font-weight:700">m</span><span style="color:#8f8d88;background:#21201f"> runs</span>
 <span style="color:#4f4d4a;background:#191918">╭</span><span style="color:#ececea;background:#191918;font-weight:700"> projects (2) </span><span style="color:#4f4d4a;background:#191918">──────╮</span><span style="color:#d77757;background:#191918">╭</span><span style="color:#d77757;background:#191918;font-weight:700"> why (5) </span><span style="color:#d77757;background:#191918">──────────────────────────────────────────────╮</span><span style="color:#4f4d4a;background:#191918">╭</span><span style="color:#ececea;background:#191918;font-weight:700"> decision 3/5 </span><span style="color:#4f4d4a;background:#191918">─────────────────────────────────────────╮</span>
 <span style="color:#4f4d4a;background:#191918">│</span><span style="color:#ececea;background:#45403a">&gt; Harbor status     </span><span style="color:#4f4d4a;background:#191918">│</span><span style="color:#d77757;background:#191918">│</span><span style="color:#8f8d88;background:#191918"> ┬ </span><span style="color:#ececea;background:#191918;font-weight:700">decisions</span><span style="color:#ececea;background:#191918">                                           </span><span style="color:#d77757;background:#191918">│</span><span style="color:#4f4d4a;background:#191918">│</span><span style="color:#ececea;background:#191918;font-weight:700">Batch ledger writes in the API</span><span style="color:#ececea;background:#191918">  </span><span style="color:#b5b3ad;background:#2b2a28"> accepted </span><span style="color:#ececea;background:#191918">             </span><span style="color:#4f4d4a;background:#191918">│</span>
@@ -119,24 +135,7 @@
 <span style="color:#4f4d4a;background:#191918">│</span><span style="color:#ececea;background:#191918">                    </span><span style="color:#4f4d4a;background:#191918">│</span><span style="color:#d77757;background:#191918">│</span><span style="color:#8f8d88;background:#191918">decisions that name harbor as their project</span><span style="color:#ececea;background:#191918">            </span><span style="color:#d77757;background:#191918">│</span><span style="color:#4f4d4a;background:#191918">│</span><span style="color:#d77757;background:#2b2a28;font-weight:700">d</span><span style="color:#8f8d88;background:#191918"> sources and fresh cites</span><span style="color:#ececea;background:#191918">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">f</span><span style="color:#8f8d88;background:#191918"> run</span><span style="color:#ececea;background:#191918">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">a</span><span style="color:#8f8d88;background:#191918"> impact</span><span style="color:#ececea;background:#191918">           </span><span style="color:#4f4d4a;background:#191918">│</span>
 <span style="color:#4f4d4a;background:#191918">╰────────────────────╯</span><span style="color:#d77757;background:#191918">╰───────────────────────────────────────────────────────╯</span><span style="color:#4f4d4a;background:#191918">╰───────────────────────────────────────────────────────╯</span>
 <span style="color:#ececea;background:#21201f"> </span><span style="color:#b5b3ad;background:#2b2a28"> read-only </span><span style="color:#ececea;background:#21201f">  </span><span style="color:#8f8d88;background:#21201f">kb 441cbd386780</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#8f8d88;background:#21201f">index fresh</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#8f8d88;background:#21201f">asked 14:41:57Z</span><span style="color:#ececea;background:#21201f">                       </span><span style="color:#d77757;background:#2b2a28;font-weight:700">j/k</span><span style="color:#8f8d88;background:#21201f"> record</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">l</span><span style="color:#8f8d88;background:#21201f"> inspect</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">a</span><span style="color:#8f8d88;background:#21201f"> impact</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">?</span><span style="color:#8f8d88;background:#21201f"> help</span><span style="color:#ececea;background:#21201f">   </span><span style="color:#d77757;background:#2b2a28;font-weight:700">q</span><span style="color:#8f8d88;background:#21201f"> quit</span></code></pre></figure>
-      <p class="fine-print"><code>f</code> follows a run to the records its checkpoints name, and back; <code>a</code> draws what links to a record or file.</p>
-    </section>
-
-    <section id="answer" class="section" aria-labelledby="answer-title">
-      <div class="section-heading"><p class="eyebrow">One answer</p><h2 id="answer-title">Every line names its source</h2></div>
-      <figure id="example" class="visual">
-        <figcaption><span class="chip chip-parts">Illustration</span> Invented content; the parts are what <code>kb why</code> prints. The evidence is code pinned at a commit, flagged because those lines have moved.</figcaption>
-        <div class="card answer">
-          <p class="card-cmd"><code><span class="syntax-prompt">$ </span>writfold kb why "batch writes"</code></p>
-          <p class="answer-head"><span class="pill pill-ok">accepted</span> <strong>Batch ledger writes</strong> <span class="src">proposals/decision/2026-11-02-batch-writes.md:4</span></p>
-          <dl class="answer-rows">
-            <div><dt>Decided</dt><dd>by api-review on 2026-11-05 <span class="src">:9</span></dd></div>
-            <div><dt>Why</dt><dd>One transaction per 500 rows keeps replay under a minute. <span class="src">:18</span></dd></div>
-            <div><dt>Evidence</dt><dd><code>demo-api src/ledger.rs:40-72</code> <span class="pill pill-warn">moved → 44-76</span> <span class="src">:25</span></dd></div>
-          </dl>
-          <ul class="card-foot"><li>31 of 31 records examined</li><li>nothing omitted</li><li class="warn">1 source stale</li><li>index fresh</li></ul>
-        </div>
-      </figure>
+      <p class="guide-link"><span aria-hidden="true">→</span> More: <a href="/how.html#plugin">what session start adds</a></p>
     </section>
 
     <section id="git" class="section" aria-labelledby="git-title">
@@ -144,7 +143,7 @@
       <div class="three-up">
         <div class="capability"><h3>Git is the source of truth</h3><p>Decisions, tickets, runs and receipts are Markdown and JSON files. Writes are left uncommitted for you to review.</p></div>
         <div class="capability"><h3>The index is derived</h3><p>A local SQLite file, rebuilt from Git whenever needed. A new machine needs <code>git clone</code> and the binary.</p></div>
-        <div class="capability"><h3>It records and reports</h3><p>Your agent keeps its own loop and model. Gates block nothing unless you add a guard rule.</p></div>
+        <div class="capability"><h3>It records and reports</h3><p>Your agent keeps its own loop and model. Writfold schedules nothing.</p></div>
       </div>
     </section>
 
@@ -157,14 +156,14 @@
 
 <span class="syntax-function">claude</span> plugin marketplace add writfold-dev/writfold
 <span class="syntax-function">claude</span> plugin install writfold@writfold</code></pre>
-      <p class="fine-print">The Claude Code plugin adds a project brief and the plan position at session start. Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
+      <p class="fine-print">Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
       <p class="boundary">Pre-release: formats and verbs may still change. <a href="/status.html#today">What runs today</a>, <a href="/status.html#next">what is planned</a>, and <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/assurance.md">what is proved and tested</a>.</p>
     </section>
   </main>
   <footer class="site-footer wrap">
     <div class="footer-line">
       <span class="footer-credit"><span class="footer-mark" aria-hidden="true"></span> © 2026 <a href="https://tknawara.dev">Tarek Nawara</a></span>
-      <a href="/how.html">How it works</a><a href="/status.html">Status</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
+      <a href="/how.html">How it works</a><a href="/status.html">Status</a><a href="/LICENSE.txt">MIT license</a><a href="https://github.com/writfold-dev/writfold">GitHub</a><a href="https://github.com/writfold-dev/writfold-dev.github.io">Website source</a>
       <span class="footer-state">Pre-release</span>
     </div>
     <p class="footer-note">No accounts, no analytics.</p>

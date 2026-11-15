@@ -94,6 +94,9 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .section-heading { max-width: 660px; margin-bottom: 32px; }
 .section-heading > p:not(.eyebrow) { color: var(--muted); }
 .three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.two-up { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; max-width: 860px; margin: 0 0 1.6rem; }
+.two-up .capability { padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--surface); }
+.two-up h2 { font-size: 1.15rem; margin: 0 0 .4rem; }
 .subhead { margin-top: 48px; }
 .table-scroll + .table-scroll { margin-top: 32px; }
 .number { display: block; color: var(--accent); font-family: ui-monospace, monospace; font-size: .8rem; margin: 8px 0 20px; }
@@ -130,8 +133,9 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 @media (max-width: 700px) {
   .hero { padding-block: 65px 52px; }
   .section { padding-block: 44px; }
-  .three-up, .status-grid { grid-template-columns: 1fr; }
+  .three-up, .two-up, .status-grid { grid-template-columns: 1fr; }
   .three-up { gap: 24px; }
+  .two-up { gap: 16px; }
   .capability { padding-bottom: 12px; }
   .number { margin-bottom: 12px; }
   .site-header { flex-wrap: wrap; gap: 8px; padding-block: 18px; }

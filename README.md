@@ -4,10 +4,10 @@ The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS
 
 ## Pages
 
-- `index.html`: the overview, about 480 words. The four questions, one `writfold watch` capture with three callouts, one answer card, three facts about storage, and the install block. What runs is listed once, on `status.html`; the overview links there.
+- `index.html`: the overview, about 480 words. The two ideas (deterministic, resumable), then one section each: a `writfold watch` capture with three callouts, and the three resume verbs with one answer card and the knowledge-base capture; three facts about storage, and the install block. What runs is listed once, on `status.html`; the overview links there.
 - `how.html`: the flow diagram, then one screen each for the knowledge base, research, plan, gates, execute, watch, deliver, the closing reflection and the plugin. Each is two sentences, one example and one link to the matching guide; at most one line of fine print.
 - `status.html`: what runs in the preview (the one such list), the roadmap with done work grouped and every next, planned, deferred and not-planned item on its own row, a changelog of one line per release, and the FAQ.
-- `earlier.html`, `docs.html`, `glossary.html`, `tuft.html`, `weft.html`, `splicery.html`: redirect stubs for addresses that were published before. Each holds a `meta refresh` and one link, and no other content.
+- `earlier.html`, `docs.html`, `glossary.html` and three more stubs listed in `STUBS` in `scripts/build_pages.py`: redirects for addresses that were published before. Each holds a `meta refresh` and one link to the overview or How it works, and no other content.
 - `404.html`: the missing-page response.
 
 Full file layouts, complete configuration files and exact output live in the Writfold repository under `docs/guide/`, and the pages link there (`https://github.com/writfold-dev/writfold/blob/main/docs/guide/<page>.md`). Keep the site short: move detail to a guide and link it.
@@ -24,7 +24,7 @@ python3 scripts/build_pages.py
 
 Edit copy in `scripts/build_pages.py`, run it, and review the HTML it writes. The committed HTML is still the publication input: packaging and publishing never run these scripts.
 
-- Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output; a `%toml`, `%spl` or `%tuft` line switches the lines after a `cat` to that language), `shell`, `toml`, `spl` or `tuft`.
+- Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output; a `%toml` line switches the lines after a `cat` to that language), `shell` or `toml`.
 - Output shown as real must be real: run the command with the release binary against an invented demo knowledge base and paste what it printed, shortening only run IDs, digests and paths with `…`. Anything drawn rather than printed is captioned "Illustration" (invented content) or "From real output" (a drawing of real output).
 - Each diagram is drawn twice, wide and stacked; CSS shows one of them by viewport width. Both carry the same `<title>` and `<desc>`.
 - The release the site describes is `VERSION` and `RELEASED` at the top of `scripts/build_pages.py`, and `product_release` in `scripts/package.py`.

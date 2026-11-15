@@ -10,23 +10,23 @@ def text(x, y, cls, s, anchor=None):
     return f'<text x="{x}" y="{y}" class="{cls}"{a}>{e(s)}</text>'
 
 STAGES = [
-    ("01", "Research", ["kb find · why · context", "kb impact · stale", "or tuft run --cite"], [],
+    ("01", "Research", ["kb find · why · context", "kb impact · stale", "kb record · cite make"], [],
      ["required step: research", "gate: research.backfilled"],
-     ["citations,", "receipts, records"], "Citations, retrieval receipts and the records you write."),
+     ["citations and the", "records you write"], "Citations and the records you write."),
     ("02", "Plan", ["checkpoint --new-run"], ["templates in .writfold/plans/"],
      ["the run graph:", "plan set · use · status"],
      ["a run: its task,", "place and plan steps"], "A run with its task, worktree and plan steps."),
-    ("03", "Execute", ["kb edit apply (Splicery)", "or Edit · grep · sed", "gate run · gate status", "checkpoint · watch"], [],
+    ("03", "Execute", ["gate run · gate status", "gate attest · cover", "checkpoint · watch"], ["edits: the agent's own tools"],
      ["plan advance · skip"],
-     ["checkpoints, receipts,", "statements, done steps"], "Checkpoints, edit and gate receipts, statements and done steps."),
+     ["checkpoints, receipts,", "statements, done steps"], "Checkpoints, gate receipts, statements and done steps."),
     ("04", "Deliver", ["deliver prepare · check", "deliver status"], ["checked; nothing is sent"],
      ["your own modes (.toml)", "required step: reflect"],
      ["the exact draft, its", "receipts, a reflection"], "The exact draft, one receipt per check, and a reflection."),
 ]
 FLOW_TITLE = "The Writfold flow: four stages, each writing back to the knowledge base"
-FLOW_DESC = ("Four stages left to right, all built. 1 Research: kb find, why, context, impact and stale, or tuft run --cite; a required research step owes the research.backfilled check. "
+FLOW_DESC = ("Four stages left to right, all built. 1 Research: kb find, why, context, impact and stale, then kb record and cite make; a required research step owes the research.backfilled check. "
              "2 Plan: checkpoint --new-run starts a run; the run graph: plan set, plan use and plan status, from templates in .writfold/plans/. "
-             "3 Execute: kb edit apply with Splicery, or ordinary Edit, grep and sed; gate run and gate status; checkpoint and watch; plan advance and plan skip. "
+             "3 Execute: the agent edits with its own tools; gate run, gate status, gate attest and gate cover; checkpoint and watch; plan advance and plan skip. "
              "4 Deliver: deliver prepare, check and status; drafts are checked and nothing is sent; your own delivery modes as .toml files, and a required reflect step at the end of the run. "
              "Every stage writes to the knowledge base, plain records in Git: citations, receipts, records, runs with their plan steps, checkpoints, statements, drafts and a reflection. "
              "The knowledge base answers the next session's questions, with sources. "
@@ -116,20 +116,20 @@ COLS = [
         ("Command gate", "a command, or a script it ships", T),
         ("Attested gate", "a statement; it can name an .md to read", T),
         ("Run-record check", "did the step backfill, or reflect?", T),
-        ("Weft assessed gate", "checks entailed from cited evidence", T)]),
+        ("Checklist gate", "items covered one by one", T)]),
     ("EVIDENCE WRITFOLD RECORDS", [
         ("Receipt", "the command, run on these bytes", T),
         ("Statement", "attested or waived; never a pass", T),
-        ("Assessed receipt", "Weft's result and each citation", T),
+        ("Cover", "an item's cited evidence, or a reason", T),
         ("Stale when the bytes move", "derived on each read, never stored", T)]),
 ]
 GATE_TITLE = "Gates, the evidence that meets them, and what follows"
 GATE_DESC = ("Three columns, all built. Who owes gates: a run without a plan owes every gate defined for its repository; a plan step owes the gates its template names; "
              "a delivery draft (PR comment or Slack summary) owes its three checks; your own delivery mode, a commit message say, lists its gates. "
              "A gate is one atomic check: a command gate (a command, or a script the gate ships), an attested gate (a statement someone must make, which can name an .md to read first), "
-             "a run-record check over the run's own records (did the step backfill the knowledge base, or reflect), or a Weft assessed gate (checks entailed from cited evidence). "
+             "a run-record check over the run's own records (did the step backfill the knowledge base, or reflect), or a checklist gate (items someone covers one by one). "
              "Evidence Writfold records: a receipt, written after Writfold ran the command on the exact bytes; a statement, attested or waived by name and never shown as a pass; "
-             "an assessed receipt holding Weft's result and what each citation stood on; all go stale when the bytes move. "
+             "a cover, one checklist item's cited evidence or a reason; all go stale when the bytes move. "
              "When every gate of the current step is met, plan advance records what met each gate and moves to the next step; without a plan, gate status and deliver status exit 0.")
 
 def item(o, x, y, w, t, s, st):
