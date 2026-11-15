@@ -125,8 +125,8 @@ def drafts():
 # here if the picture changed, and run this script again.
 FRAMES = Path(__file__).parent / "frames"
 FRAME_LABELS = {
-    "home": "writfold watch: the runs, the plan map of the selected run, and the inspector for its next step",
-    "how": "writfold watch: the runs, the plan map of a run at step 7 of 11, and its gates and inbox",
+    "home": "writfold watch in its calm default frame: the runs, the plan map of the selected run, and the inspector for its next step",
+    "how": "writfold watch after pressing d: the same run with every recorded detail, receipts and timestamps",
 }
 
 def frame(name):
@@ -339,8 +339,8 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
     </section>
 
     <section id="watch" class="section" aria-labelledby="watch-title">
-      <div class="section-heading"><p class="eyebrow">Watching the run</p><h2 id="watch-title">The plan as a map</h2><p><code>writfold watch</code> draws the run&rsquo;s plan in a terminal, with skills spliced in as nested groups and an inspector for the selected step. Every state comes from a <code>kb</code> verb; there is no key that writes, and it never starts a check.</p></div>
-      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> in the default clay theme, on a test-fixture knowledge base; its run, splices, steps, receipts and covers were written through the <code>kb</code> verbs.</figcaption>{frame("how")}</figure>
+      <div class="section-heading"><p class="eyebrow">Watching the run</p><h2 id="watch-title">The plan as a map</h2><p><code>writfold watch</code> draws the run&rsquo;s plan in a terminal, with skills spliced in as nested groups and an inspector for the selected step. It opens calm: text only on the next step and the selected row. <code>d</code> shows every detail, receipts included, and <code>?</code> holds the marks. Every state comes from a <code>kb</code> verb; there is no key that writes, and it never starts a check.</p></div>
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> after <code>d</code>, on a test-fixture knowledge base; its run, splices, steps, receipts and covers were written through the <code>kb</code> verbs.</figcaption>{frame("how")}</figure>
       <p class="fine-print"><code>▶</code> marks the recorded position, not a claim that an agent is working; the view adds no percentage or time estimate.</p>
       {more(guide("watch", "watching a run"), lead="Keys, layouts, refresh and themes")}
     </section>
