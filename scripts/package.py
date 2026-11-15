@@ -12,6 +12,8 @@ FILES = (
     # Redirect stubs for addresses that were published earlier; they carry no content.
     "earlier.html", "docs.html", "glossary.html", "tuft.html", "weft.html", "splicery.html",
     "assets/favicon.svg", "assets/og-image.png", "assets/site.css", "assets/theme.js",
+    # The terminal-capture font (scripts/build_term_font.py) and the licence it ships under.
+    "assets/term-Regular.woff2", "assets/term-Bold.woff2", "assets/term-LICENSE.txt",
     "assets/writfold-icon-dark.svg", "assets/writfold-icon.svg",
 )
 MANIFEST = ROOT / "content-manifest.json"
@@ -35,10 +37,10 @@ def main():
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_release": "v0.4.0-dev.1",
-            # TODO(release): replace with the commit the v0.4.0-dev.1 tag points at once it is
+            "product_release": "v0.5.0-dev.7",
+            # TODO(release): replace with the commit the v0.5.0-dev.7 tag points at once it is
             # tagged, then rerun with --refresh-manifest. Until then this is writfold main as built.
-            "product_source_commit": "7a057343bc4732c86c904f305b924c4ffe06de1a",
+            "product_source_commit": "22acc4b0739c8a61f025ef6da6f121ea7ab8ee58",
             "product_source_visibility": "public",
             "files": actual,
         }

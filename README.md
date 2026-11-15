@@ -1,12 +1,12 @@
 # Writfold website
 
-The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS with a small local theme script; no external fonts, analytics, dependency installation or product build. The source files are the publication input. The folded-W assets are unchanged copies of Writfold's brand files.
+The pre-release introduction to Writfold at **writfold.dev**. Plain HTML and CSS with a small local theme script; no third-party requests, analytics, dependency installation or product build. One self-hosted subset font draws the terminal captures. The source files are the publication input. The folded-W assets are unchanged copies of Writfold's brand files.
 
 ## Pages
 
-- `index.html`: the overview. The four questions, one answer card, the flow diagram with its write-back lane and check line, one run's plan drawn as a spine of steps with their gates, and the release block.
-- `how.html`: one screen per stage (research, plan, execute, deliver), then the closing reflection, gates, checking and the plugin. Each is two sentences, one example and one link to the matching guide.
-- `status.html`: what runs in the preview, the roadmap, a short changelog and FAQ.
+- `index.html`: the overview, about 480 words. The four questions, one `writfold watch` capture with three callouts, one answer card, three facts about storage, and the install block. What runs is listed once, on `status.html`; the overview links there.
+- `how.html`: the flow diagram, then one screen each for the knowledge base, research, plan, gates, execute, watch, deliver, the closing reflection and the plugin. Each is two sentences, one example and one link to the matching guide; at most one line of fine print.
+- `status.html`: what runs in the preview (the one such list), the roadmap with done work grouped and every next, planned, deferred and not-planned item on its own row, a changelog of one line per release, and the FAQ.
 - `earlier.html`, `docs.html`, `glossary.html`, `tuft.html`, `weft.html`, `splicery.html`: redirect stubs for addresses that were published before. Each holds a `meta refresh` and one link, and no other content.
 - `404.html`: the missing-page response.
 
@@ -27,6 +27,13 @@ Edit copy in `scripts/build_pages.py`, run it, and review the HTML it writes. Th
 - Code panels take a language: `session` (lines starting with `$ ` are commands, the rest is `writfold` output; a `%toml`, `%spl` or `%tuft` line switches the lines after a `cat` to that language), `shell`, `toml`, `spl` or `tuft`.
 - Output shown as real must be real: run the command with the release binary against an invented demo knowledge base and paste what it printed, shortening only run IDs, digests and paths with `…`. Anything drawn rather than printed is captioned "Illustration" (invented content) or "From real output" (a drawing of real output).
 - Each diagram is drawn twice, wide and stacked; CSS shows one of them by viewport width. Both carry the same `<title>` and `<desc>`.
+- The release the site describes is `VERSION` and `RELEASED` at the top of `scripts/build_pages.py`, and `product_release` in `scripts/package.py`.
+
+### Terminal captures
+
+A captured `writfold watch` frame is the `<span>` fragment the capture tool writes, kept as `scripts/frames/home.html` (the overview) and `scripts/frames/how.html` (How it works). To publish a new capture, replace the file, adjust its `FRAME_LABELS` entry in `scripts/build_pages.py` if the picture changed, and run the script again. Captions carry the `Captured` chip and say the knowledge base is a test fixture.
+
+Every cell of a frame is drawn with one font, Writfold Term: a subset of DejaVu Sans Mono (regular and bold, about 8 KB each) in `assets/term-*.woff2`, with its licence in `assets/term-LICENSE.txt`. A system monospace lacks some of the symbols a frame uses, and a fallback glyph of another width moves every column after it. The characters the font holds are listed in `scripts/term_glyphs.py`; `build_pages.py` refuses a frame that uses any other character, or any style other than regular and bold. To add a character, extend that list and run `python3 scripts/build_term_font.py` (needs `fontTools`, `brotli` and the DejaVu fonts; authoring time only).
 
 ## Serve locally
 
@@ -53,7 +60,7 @@ python3 -m http.server 8081 --bind 127.0.0.1 --directory _site
 Before publishing, check:
 
 - every internal link and anchor resolves, the HTML is well-formed and IDs are unique;
-- `index.html`, `how.html` and `status.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow, the diagrams and code panels included;
+- `index.html`, `how.html` and `status.html` at 1440 and 360 pixels wide, in light and dark, with no horizontal overflow, the diagrams and code panels included, and the box borders of each terminal capture in straight columns;
 - the System, Light and Paper Dark theme choices, disabled JavaScript, 200% text zoom, and the keyboard skip link and focus;
 - the packaged artifact in `_site/`, not only the working tree.
 

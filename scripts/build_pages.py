@@ -9,11 +9,14 @@ import sys
 from html import escape
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
+import re
+from html import unescape
 import diagrams
 from highlight import highlight
+from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.5.0-dev.6"
+VERSION = "v0.5.0-dev.7"
 RELEASED = "15 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -21,8 +24,11 @@ ALT = ("The folded-W Writfold mark on navy with the headline: Project memory in 
        f"Below it: Git-native project continuity for coding agents. Preview {VERSION}.")
 NAV = [("/", "Overview"), ("/how.html", "How it works"), ("/status.html", "Status")]
 
-def head(title, desc, path):
+PRELOAD = '\n  <link rel="preload" href="/assets/term-Regular.woff2" as="font" type="font/woff2" crossorigin>'
+
+def head(title, desc, path, frames=False):
     url = "https://writfold.dev/" + path
+    preload = PRELOAD if frames else ""
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -45,7 +51,7 @@ def head(title, desc, path):
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/site.css">{preload}
   <script src="/assets/theme.js"></script>
 </head>
 <body>
@@ -74,7 +80,8 @@ FOOTER = '''  <footer class="site-footer wrap">
 '''
 
 def page(name, title, desc, current, main):
-    (SITE / name).write_text(head(title, desc, "" if name == "index.html" else name) + header(current) + main + FOOTER, encoding="utf-8")
+    frames = 'class="term-frame' in main
+    (SITE / name).write_text(head(title, desc, "" if name == "index.html" else name, frames) + header(current) + main + FOOTER, encoding="utf-8")
 
 def pre(label, text, lang="session"):
     return (f'<pre class="code-panel" tabindex="0" aria-label="{label}"><code>'
@@ -88,7 +95,7 @@ def pill(text, kind):
     return f'<span class="pill pill-{kind}">{text}</span>'
 
 ANSWER = f'''<figure id="example" class="visual">
-        <figcaption><span class="chip chip-parts">Illustration</span> One <code>kb why</code> answer as a card. Invented content; the parts are what the command prints.</figcaption>
+        <figcaption><span class="chip chip-parts">Illustration</span> Invented content; the parts are what <code>kb why</code> prints. The evidence is code pinned at a commit, flagged because those lines have moved.</figcaption>
         <div class="card answer">
           <p class="card-cmd"><code><span class="syntax-prompt">$ </span>writfold kb why "batch writes"</code></p>
           <p class="answer-head">{pill("accepted", "ok")} <strong>Batch ledger writes</strong> <span class="src">proposals/decision/2026-11-02-batch-writes.md:4</span></p>
@@ -99,28 +106,7 @@ ANSWER = f'''<figure id="example" class="visual">
           </dl>
           <ul class="card-foot"><li>31 of 31 records examined</li><li>nothing omitted</li><li class="warn">1 source stale</li><li>index fresh</li></ul>
         </div>
-        <p class="fine-print">Every line names its file and line. The evidence is code pinned at a commit, flagged because those lines have moved.</p>
       </figure>'''
-
-def board(caption):
-    def row(kind, title, badge, text, nxt=""):
-        nxt = f'<p class="rb-next"><code>next: {nxt}</code></p>' if nxt else ""
-        return f'<li><span class="rb-kind">{kind}</span><div><p class="rb-title"><strong>{title}</strong> {badge}</p><p>{text}</p>{nxt}</div></li>'
-    rows = "".join([
-        row("plan", "Step 4 of 6: findings", pill("current", "note"), "Owes the gate <code>findings</code>, which is open.", "writfold kb gate attest findings --statement TEXT --by WHO"),
-        row("retrieval", "Tuft search", "", "3 rows at <code>harbor-api@4be03f78</code>, each with a citation."),
-        row("edit", "Splicery recipes", pill("applied", "ok"), "2 files, 3 splices. The recipes and the preview are kept."),
-        row("gate", "unit", pill("stale", "warn"), "Passed, then <code>src/audit.rs</code> and <code>src/ledger.rs</code> changed in its scope.", "writfold kb gate run unit"),
-    ])
-    return f"""<figure class="visual">
-        <figcaption><span class="chip chip-today">From real output</span> {caption}</figcaption>
-        <div class="card">
-          <p class="card-cmd"><code><span class="syntax-prompt">$ </span>writfold kb resume</code></p>
-          <p class="answer-head">{pill("open", "note")} <strong>Retry ledger connections</strong> <span class="src">harbor-api · main</span></p>
-          <ol class="run-board">{rows}</ol>
-          <ul class="card-foot"><li>step 4 of 6</li><li>1 retrieval</li><li>2 edits</li><li class="warn">2 gates stale</li></ul>
-        </div>
-      </figure>"""
 
 def drafts():
     def col(state, kind, digest, checks):
@@ -134,13 +120,29 @@ def drafts():
                                   ("ok", "claims.cited-fresh", "satisfied: 0 citation tokens")])
             + "</div></figure>")
 
+# Captured terminal frames. Each is the <span> fragment the capture tool wrote, kept in
+# scripts/frames/<name>.html. To publish a new capture, replace the file, adjust its label
+# here if the picture changed, and run this script again.
 FRAMES = Path(__file__).parent / "frames"
+FRAME_LABELS = {
+    "home": "writfold watch: the runs, the plan map of the selected run, and the inspector for its next step",
+    "how": "writfold watch: the runs, the plan map of a run at step 7 of 11, and its gates and inbox",
+}
 
-def frame(name, label, cls="term-frame", style=""):
-    """A captured terminal frame: the <span> fragment the capture tool wrote to scripts/frames/<name>.html."""
+def frame(name):
     body = (FRAMES / f"{name}.html").read_text(encoding="utf-8").rstrip("\n")
-    style = f' style="{style}"' if style else ""
-    return f'<pre class="{cls}"{style} tabindex="0" aria-label="{label}"><code>{body}</code></pre>'
+    # Every cell must come from the Writfold Term subset font, or the columns drift.
+    text = unescape(re.sub(r"<[^>]+>", "", body))
+    stray = uncovered(text)
+    if stray:
+        raise SystemExit(f"scripts/frames/{name}.html uses characters outside the terminal font: "
+                         + " ".join(f"U+{ord(c):04X}" for c in stray) + "; add them to scripts/term_glyphs.py and run scripts/build_term_font.py")
+    styles = set(re.findall(r"font-(?:style|weight):[^;\"]+", body)) - {"font-weight:700"}
+    if styles:
+        raise SystemExit(f"scripts/frames/{name}.html uses {sorted(styles)}; the terminal font has regular and bold only")
+    # The widest row, in cells: the stylesheet sizes the text so that many cells fit the column.
+    cols = max(len(line) for line in text.split("\n"))
+    return f'<pre class="term-frame" style="--cols:{cols}" tabindex="0" aria-label="{FRAME_LABELS[name]}"><code>{body}</code></pre>'
 
 def flow_figure(pfx, caption):
     return (f'<figure class="diagram-figure">{diagrams.flow(pfx)}'
@@ -148,9 +150,7 @@ def flow_figure(pfx, caption):
 
 def spine_figure(pfx):
     return (f'<figure class="diagram-figure spine-figure"><p class="figure-lead"><span class="chip chip-today">From real output</span> '
-            f'One run&rsquo;s plan, drawn from what <code>plan status</code> prints for a demo repository.</p>{diagrams.spine(pfx)}'
-            f'<figcaption class="fine-print">A skill spliced its two steps in before <code>ship</code>. <code>implement</code> is flagged <code>!stale</code>: '
-            f'a later edit moved the bytes its gate checked, and done stays done.</figcaption></figure>')
+            f'One run&rsquo;s plan, drawn from what <code>plan status</code> prints for a demo repository.</p>{diagrams.spine(pfx)}</figure>')
 
 # ---------------------------------------------------------------- index
 GUIDE = "https://github.com/writfold-dev/writfold/blob/main/docs/guide/"
@@ -158,9 +158,9 @@ GUIDE = "https://github.com/writfold-dev/writfold/blob/main/docs/guide/"
 def guide(page, label):
     return f'<a href="{GUIDE}{page}.md">{label}</a>'
 
-def more(*links):
-    """The one link out of a section: the matching guide in the Writfold repository."""
-    return f'<p class="guide-link"><span aria-hidden="true">→</span> Full skeleton: {" and ".join(links)}</p>'
+def more(*links, lead="Full skeleton"):
+    '''The one link out of a section: the matching guide in the Writfold repository.'''
+    return f'<p class="guide-link"><span aria-hidden="true">→</span> {lead}: {" and ".join(links)}</p>'
 
 INSTALL = f'''base={RELEASES}download/{VERSION}
 curl -LO "$base/writfold-x86_64-linux-musl" -LO "$base/writfold-x86_64-linux-musl.sha256"
@@ -170,8 +170,8 @@ install -m 755 writfold-x86_64-linux-musl ~/.local/bin/writfold
 claude plugin marketplace add writfold-dev/writfold
 claude plugin install writfold@writfold'''
 
-DESC_HOME = ("Git-native project continuity for coding agents: why we decided X, where we stand on Y, the tracker item for Z, what changing X touches. "
-             f"Every answer names its source and says when it has moved. Preview: {VERSION}.")
+DESC_HOME = ("Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; "
+             f"every answer names its source and says when it moved. Preview: {VERSION}.")
 index = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
@@ -183,50 +183,41 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
         <li>What is the tracker item for Z?</li>
         <li>What does changing X touch?</li>
       </ul>
-      <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="/how.html">How it works <span aria-hidden="true">→</span></a><a class="text-action" href="/status.html">Status and roadmap <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge badge-today">Preview</span> <span>Released {RELEASED}: <a href="{REL}">{VERSION}</a>, one static Linux x86_64 binary.</span></p>
-      {ANSWER}
-    </section>
-
-    <section id="flow" class="section" aria-labelledby="flow-title">
-      <div class="section-heading"><p class="eyebrow">The flow</p><h2 id="flow-title">Research, plan, execute, deliver. Each stage writes back.</h2><p>The agent keeps its own loop and model. What it finds, checks or drafts at each stage goes back into the knowledge base, so the next session starts from more than this one did.</p></div>
-      {flow_figure("hf", f"Everything drawn here runs in {VERSION}.")}
-      <p class="boundary">The knowledge base is plain Markdown and JSON in Git. Writes are left uncommitted for you to review and commit. The index refreshes itself on every read; <code>kb check</code> re-checks citations, the index, gate evidence and the plan on demand. <a href="/how.html">Walk through the stages</a>.</p>
-    </section>
-
-    <section id="runs" class="section" aria-labelledby="runs-title">
-      <div class="section-heading"><p class="eyebrow">Inside a run</p><h2 id="runs-title">Steps, gates, and what is still owed</h2><p>A plan is an ordered list of steps, each naming the gates it owes. A gate is one small check: a command and the paths it covers, a statement someone must make, or a check of the run&rsquo;s own records. <code>gate run</code> keeps a receipt for the exact bytes checked, and <code>plan advance</code> records a step as done only when every gate is met.</p></div>
-      {spine_figure("sp")}
-      {board('The same run, drawn from what <code>resume</code> prints.')}
-      <p class="boundary">Writfold records the plan and the agent walks it. Gates and steps report; a guard rule you add can hold a command until they are met.</p>
-      {more(guide("run-graph", "the run graph guide"), guide("gates", "the gates guide"))}
+      <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="/how.html">How it works <span aria-hidden="true">→</span></a></div>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="{REL}">{VERSION}</a>, {RELEASED}. One static Linux x86_64 binary. <a href="/status.html">Status and roadmap</a></span></p>
     </section>
 
     <section id="watch" class="section" aria-labelledby="watch-title">
-      <div class="section-heading"><p class="eyebrow">Watching a run</p><h2 id="watch-title">The plan as a map, in your terminal</h2><p><code>writfold watch</code> lists the runs on the left and draws the selected run&rsquo;s plan: skills spliced in as nested groups, each step&rsquo;s state and gates, and <code>▶</code> on the next step to pick up. Select a step and the inspector shows its gates, checklist items and the evidence behind them. It is read-only and adds nothing the records do not say.</p></div>
-      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> at 136&times;38, on a test-fixture knowledge base: its gate and template definitions are files, as in any project, and its run, splices, steps, receipts and covers were written through the <code>kb</code> verbs.</figcaption>{frame("home", "writfold watch: runs on the left, the plan map in the middle, the inspector on the right", "term-frame term-frame-hero")}</figure>
-      <p class="guide-link"><span aria-hidden="true">→</span> More: <a href="/how.html#watch">watching the run</a> and {guide("watch", "the watch guide")}</p>
+      <div class="section-heading"><p class="eyebrow">The plan, as a map</p><h2 id="watch-title">See where the work stands</h2><p>A run has a plan. Each step owes gates: small checks whose receipts are tied to the exact bytes they checked. <code>writfold watch</code> draws it in your terminal.</p></div>
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> on a test-fixture knowledge base; its run, steps and receipts were written through the <code>kb</code> verbs.</figcaption>{frame("home")}</figure>
+      <dl class="callouts">
+        <div><dt><code>✓</code> Done, and still true</dt><dd>A step is recorded as done only when every gate it owes is met.</dd></div>
+        <div><dt><code>!</code> Done, but something moved</dt><dd>A later edit changed the bytes a gate checked. The step stays done and is flagged.</dd></div>
+        <div><dt><code>▶</code> Next</dt><dd>The step to pick up, from the record. It is not a claim that an agent is working.</dd></div>
+      </dl>
+      <p class="fine-print">Read-only: it shows what the records say and starts no check.</p>
+      {more('<a href="/how.html#plan">how a run works</a>', guide("watch", "the watch guide"), lead="More")}
+    </section>
+
+    <section id="answer" class="section" aria-labelledby="answer-title">
+      <div class="section-heading"><p class="eyebrow">One answer</p><h2 id="answer-title">Every line names its source</h2></div>
+      {ANSWER}
+    </section>
+
+    <section id="git" class="section" aria-labelledby="git-title">
+      <div class="section-heading"><p class="eyebrow">No server</p><h2 id="git-title">Plain records in Git, and one binary</h2></div>
+      <div class="three-up">
+        <div class="capability"><h3>Git is the source of truth</h3><p>Decisions, tickets, runs and receipts are Markdown and JSON files. Writes are left uncommitted for you to review.</p></div>
+        <div class="capability"><h3>The index is derived</h3><p>A local SQLite file, rebuilt from Git whenever needed. A new machine needs <code>git clone</code> and the binary.</p></div>
+        <div class="capability"><h3>It records and reports</h3><p>Your agent keeps its own loop and model. Gates block nothing unless you add a guard rule.</p></div>
+      </div>
     </section>
 
     <section id="try" class="section" aria-labelledby="try-title">
-      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2. The plugin adds a project brief, the plan position and an inbox at session start, and keeps local checkpoint drafts.</p></div>
+      <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2.</p></div>
       {pre("Download and install commands", INSTALL, "shell")}
-      <p class="fine-print">Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
-    </section>
-
-    <section id="first" class="section" aria-labelledby="first-title">
-      <div class="section-heading"><p class="eyebrow">Built</p><h2 id="first-title">What the preview runs</h2></div>
-      <dl class="verbs">
-        <div><dt>Read</dt><dd><code>brief</code> <code>why</code> <code>status</code> <code>find</code> <code>impact</code> <code>resume</code>: {guide("kb-layout", "layout")}</dd></div>
-        <div><dt>Write</dt><dd><code>checkpoint</code> <code>record</code> <code>cite make</code>: {guide("feeding-back", "feeding back")}</dd></div>
-        <div><dt>Propose</dt><dd><code>propose</code> <code>proposals accept | drop</code>: {guide("feeding-back", "proposals")}</dd></div>
-        <div><dt>Check</dt><dd><code>check</code> <code>stale</code> <code>index verify</code>: {guide("validation", "validation")}</dd></div>
-        <div><dt>Plan</dt><dd><code>plan set | use | status | advance | skip</code>: {guide("run-graph", "run graph")}</dd></div>
-        <div><dt>Gates</dt><dd><code>gate run | status | verify</code>: {guide("gates", "gates")}</dd></div>
-        <div><dt>Deliver</dt><dd><code>deliver prepare | check</code>: {guide("delivery-modes", "delivery modes")}</dd></div>
-        <div><dt>Plugin</dt><dd>Claude Code: {guide("hooks", "hooks")}, {guide("skills", "skills")}</dd></div>
-      </dl>
-      <p class="fine-print">Also <code>edit apply</code> for Splicery recipes, <code>tuft run --cite</code> and <code>writfold watch</code>. What is proved, tested and trusted: {guide("assurance", "assurance")}. Next: <a href="/status.html#next">the roadmap</a>.</p>
+      <p class="fine-print">The Claude Code plugin adds a project brief and the plan position at session start. Single user, cooperating agents, local clones only; nothing is fetched. Setup is in the <a href="https://github.com/writfold-dev/writfold#readme">README</a>.</p>
+      <p class="boundary">Pre-release: formats and verbs may still change. <a href="/status.html#today">What runs today</a>, <a href="/status.html#next">what is planned</a>, and {guide("assurance", "what is proved and tested")}.</p>
     </section>
   </main>
 '''
@@ -283,22 +274,6 @@ step fix#2/ship/review#1/findings [current] owes: findings [open] @runs/run-…/
 step fix#2/ship [later] gates: wording @runs/run-…/plan/splice-fix.2.json:1
 step reflect#3/reflect [later] gates: reflected, reflection @runs/run-…/plan/splice-reflect.3.json:1
 …'''
-MODE = '''$ cat .writfold/deliveries/commit-message.toml
-%toml
-schema = "writfold-delivery-mode/1"
-mode = "commit-message"
-description = "checked before git commit; nothing binds the checked bytes to the commit that is made"
-checks = ["references.denied"]
-gates = ["commit-format", "language-guidelines"]
-$ writfold kb deliver prepare --mode commit-message --audience external --from MSG
-$ writfold kb deliver check
-$ writfold kb deliver attest --check language-guidelines --statement "Read the guideline; plain words" --by agent
-delivery 20261113T011927Z-9d72c6 [ready] commit-message audience=external destination=(unstated) candidate=7d9d22a36379 bytes=139 @runs/run-…/deliveries/…/candidate.md:1
-  check: references.denied [satisfied] mechanical pass for 7d9d22a36379 (2 rules for external) @runs/run-…/checks/references.denied-….json:1
-  check: commit-format [satisfied] mechanical pass for 7d9d22a36379 (exit=0) @runs/run-…/checks/commit-format-….json:1
-  check: language-guidelines [attested] attested by agent: Read the guideline; plain words @runs/run-…/statements/language-guidelines-….json:1 !attested
-  read: instructions for language-guidelines @.writfold/gates/language-guidelines.md:1
-…'''
 REFLECT = '''$ writfold kb checkpoint --note "reflection: Wrapped three open(url()) calls in with_retry; unit passed on ledger.rs and went stale after the audit.rs edit. Learned: audit.rs opens its own connection. Change: list unit again on the ship step."
 $ writfold kb propose ticket HBR-130 --title "Replay is slow after a restart" --assets harbor-api
 proposal 16a41fbba45340f7 [pending] ticket HBR-130: Replay is slow after a restart @…/kb/.git/writfold/proposals/16a41fbba45340f7.json !proposal
@@ -309,10 +284,6 @@ $ writfold kb plan advance                        # the last step: the plan is c
 $ writfold kb proposals accept 16a41fbba45340f7   # your call; the record goes through the ordinary write
 ticket HBR-130 [todo] Replay is slow after a restart @ktlo/2026/hbr-130-replay-is-slow-after-a-restart.md:5
 …'''
-CHECK = '''$ writfold kb check             # the three below in one summary, plus the plan when the run has one
-$ writfold kb stale             # which cited sources moved, changed or expired
-$ writfold kb index verify      # the index equals a fresh rebuild
-$ writfold kb gate status       # which gates are met, and which are owed again'''
 HOOK = '''KB is 2 commits behind origin/main (never fetched); run git pull
 Writfold KB brief (`writfold kb brief`). Rows end in their source; re-check any row with a ! flag before relying on it.
 …
@@ -329,75 +300,69 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="how-title">
       <p class="eyebrow">How it works</p>
       <h1 id="how-title">Four stages.<br><span>A record of each.</span></h1>
-      <p class="lede">Each part below is two sentences, one example and a link to the full guide. The commands are real and all of it runs in the preview; the one planned item is marked.</p>
-      <nav class="actions" aria-label="Page sections"><a href="#kb">Knowledge base</a><a href="#research">1 Research</a><a href="#plan">2 Plan</a><a href="#execute">3 Execute</a><a href="#deliver">4 Deliver</a><a href="#reflect">Reflect</a><a href="#gates">Gates</a><a href="#check">Checking</a><a href="#plugin">Plugin</a></nav>
+      <p class="lede">Each part is two sentences, one example and a link to its guide. Everything runs in the preview; the one planned item is marked.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#kb">Knowledge base</a><a href="#research">1 Research</a><a href="#plan">2 Plan</a><a href="#gates">Gates</a><a href="#execute">3 Execute</a><a href="#watch">Watch</a><a href="#deliver">4 Deliver</a><a href="#reflect">Reflect</a><a href="#plugin">Plugin</a></nav>
+      {flow_figure("hf", f"Each stage writes back to the knowledge base. Everything drawn here runs in {VERSION}.")}
     </section>
 
     <section id="kb" class="section" aria-labelledby="kb-title">
-      <div class="section-heading"><p class="eyebrow">The base</p><h2 id="kb-title">Records in Git, an index you can rebuild</h2><p>The knowledge base is a Git repository of plain Markdown and JSON: decisions, tickets, assets, the links between them and one folder per run. Every row of an answer ends in its source, and the last line says what was examined and how many sources are stale.</p></div>
+      <div class="section-heading"><p class="eyebrow">The base</p><h2 id="kb-title">Records in Git, checked on demand</h2><p>The knowledge base is a Git repository of Markdown and JSON: decisions, tickets, assets, their links and one folder per run. Every row of an answer ends in its source, and <code>kb check</code> re-checks citations, the index, gate evidence and the plan in one summary.</p></div>
       {panel("kb why output", WHY, REAL)}
-      {more(guide("kb-layout", "the knowledge base layout"))}
+      {more(guide("kb-layout", "the knowledge base layout"), guide("validation", "validation, flag by flag"))}
     </section>
 
     <section id="research" class="section" aria-labelledby="research-title">
-      <div class="section-heading"><p class="eyebrow">Stage 1 / Research</p><h2 id="research-title">Ask the knowledge base, or search the code</h2><p>The <code>kb</code> verbs answer from what the project already knows, and a short Tuft program finds exact text in code at one pinned commit. With <code>--cite</code> each row carries a citation, and what the agent concludes it writes down with <code>record</code>.</p></div>
+      <div class="section-heading"><p class="eyebrow">Stage 1 / Research</p><h2 id="research-title">Ask the knowledge base, or search the code</h2><p>The <code>kb</code> verbs answer from what the project already knows, and a Tuft search finds exact text in code at one pinned commit. With <code>--cite</code> each row carries a citation, and in a run with a plan the required <code>research</code> step passes only once it wrote a record, a citation or a retrieval receipt.</p></div>
       {panel("Research commands", RESEARCH)}
-      <p class="fine-print">In a run with a plan, a required <code>research</code> step owes <code>backfilled</code>, a check of the run&rsquo;s own records. It passes only once the step wrote a record, a citation or a retrieval receipt.</p>
       {more(guide("feeding-back", "what each stage writes back"))}
     </section>
 
     <section id="plan" class="section" aria-labelledby="plan-title">
-      <div class="section-heading"><p class="eyebrow">Stage 2 / Plan</p><h2 id="plan-title">Start a run, set its plan</h2><p>A run records the task, the repository, branch, worktree and base commit, and <code>plan set</code> copies a template&rsquo;s steps into it, each step naming the gates it owes. Templates listed in <code>.writfold/plans/required.toml</code> are added to every plan: here a <code>research</code> step at the start and a <code>reflect</code> step at the end.</p></div>
-      {panel("Starting a run and setting its plan", NEWRUN, REAL)}
-      <p class="fine-print">Writfold records the steps and the agent walks them; it schedules nothing. A template can include another with <code>use=</code>, and the run keeps a snapshot of each, so a template edited later is flagged <code>!template-moved</code> and the run is not rewritten.</p>
+      <div class="section-heading"><p class="eyebrow">Stage 2 / Plan</p><h2 id="plan-title">Start a run, set its plan</h2><p>A run records the task, the repository, branch, worktree and base commit, and <code>plan set</code> copies a template&rsquo;s steps into it. Each step names the gates it owes; Writfold records the steps and schedules nothing.</p></div>
+      {spine_figure("sp")}
+      {panel("Starting a run and setting its plan", NEWRUN, "The <code>research</code> and <code>reflect</code> steps come from <code>.writfold/plans/required.toml</code>, which joins every plan. " + REAL)}
       {more(guide("run-graph", "the run graph"))}
     </section>
 
-    <section id="execute" class="section" aria-labelledby="execute-title">
-      <div class="section-heading"><p class="eyebrow">Stage 3 / Execute</p><h2 id="execute-title">Edit, check, advance</h2><p>The agent edits the run&rsquo;s worktree with Splicery recipes for repeated or structural edits, or with ordinary tools for one small change, and any gate whose scope covers the change is owed again. <code>plan advance</code> records the current step as done only when each of its gates is met; a done step whose gate later goes stale is flagged <code>!stale</code> and stays done.</p></div>
-      {panel("Execute commands and plan status", EXECUTE, REAL)}
-      <p class="fine-print">A skill adds its own steps with one line, <code>plan use</code>; a repeat writes nothing. <code>plan skip --reason TEXT --by WHO</code> closes a step without calling it done.</p>
-      <p class="fine-print">Two sessions, two clones: every plan write re-checks its decision under the knowledge base&rsquo;s write lock, and refuses and writes nothing if the plan changed since the command read it. After two clones merge, <code>plan status</code>, <code>resume</code> and <code>kb check</code> flag <code>!out-of-order</code> (a done step after an open one), <code>!two-plans</code> and <code>!repeated</code> and exit 2; they never change the plan. A TLC model of the run graph found both gaps.</p>
-      {more(guide("run-graph", "steps, splicing and stale"), guide("skills", "skills that splice"))}
-      <h3 id="watch">Watching the run</h3>
-      <p><code>writfold watch</code> draws the run&rsquo;s plan as a map in a terminal: one row per step in order, skills spliced in as nested groups under the step they belong to, a glyph for each step&rsquo;s state (<code>✓</code> done, <code>!</code> done but a gate went stale, <code>–</code> skipped, <code>▶</code> the next step to pick up, <code>○</code> later) and a chip for each of its gates. Select a step with <code>j</code>/<code>k</code> and the inspector beside the map shows its gates, checklist items, evidence paths, why it is flagged and the next command. Every state comes from a <code>kb</code> verb. The marker is the recorded position, not a claim that an agent is working; the view adds no percentage or time estimate, has no key that writes, and never starts a checker.</p>
-      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> {VERSION} at 160&times;40 in the default clay theme, on a test-fixture knowledge base: its gate and template definitions are files, as in any project, and its run, splices, steps, receipts and covers were written through the <code>kb</code> verbs. A review skill was spliced under <code>change#1/review</code>, with a findings template under it; the lint file changed after its receipt, so <code>implement</code> is flagged and the checklist item citing that gate turned stale.</figcaption>{frame("how", "writfold watch: the plan map of a run at step 7 of 11, with the inspector open on the current step")}</figure>
-      <details class="exact"><summary>The same frame in the clay-light theme</summary>{frame("how-light", "writfold watch in the clay-light theme", style="background:#faf9f5;color:#1f1e1d")}</details>
-      <p class="guide-link"><span aria-hidden="true">→</span> Keys, layouts, refresh and themes: {guide("watch", "watching a run")}</p>
-    </section>
-
-    <section id="deliver" class="section" aria-labelledby="deliver-title">
-      <div class="section-heading"><p class="eyebrow">Stage 4 / Deliver</p><h2 id="deliver-title">Drafts, checked. Nothing sent.</h2><p><code>kb deliver prepare</code> copies a PR comment or Slack summary into the run as the exact text that would be posted, and <code>deliver check</code> runs three checks on those bytes: paragraph length, references the audience must not see, and whether every citation is still fresh. Writfold has no network code, so posting stays with you or your agent.</p></div>
-      {drafts()}
-      {panel("A commit-message delivery mode", MODE, "Your own mode is one file, <code>.writfold/deliveries/&lt;name&gt;.toml</code>. This one checks a commit message with a script its gate ships and a guideline to read and attest. " + REAL)}
-      <p class="fine-print">The checks are mechanical: they do not judge tone or truth. An optional Claude Code hook, off unless configured, can deny a listed publishing command until a ready draft holds the exact bytes: a guard, not enforcement.</p>
-      <p class="fine-print"><span class="chip chip-planned">Planned</span> A delivery mode as a plan step&rsquo;s gate.</p>
-      {more(guide("delivery-modes", "delivery modes, deny lists and the guard"))}
-    </section>
-
-    <section id="reflect" class="section" aria-labelledby="reflect-title">
-      <div class="section-heading"><p class="eyebrow">Before the run ends</p><h2 id="reflect-title">Reflect, propose, close</h2><p>The required <code>reflect</code> step owes two gates: a run-record check that passes only when the run holds a <code>reflection:</code> entry and a proposal or an explicit <code>no proposal</code>, and a statement that the reflection covers what its instructions ask. A proposal is a <code>record</code> call not yet made, kept in a local queue until you accept or drop it.</p></div>
-      {panel("Closing a run", REFLECT, REAL)}
-      <p class="fine-print">The bundled <code>writfold:evaluate</code> skill walks this step in a forked subagent and never accepts a proposal itself. The check shows that a reflection was written, not that it is good.</p>
-      {more(guide("feeding-back", "proposals and the reflection checks"), guide("skills", "the evaluate skill"))}
-    </section>
-
     <section id="gates" class="section" aria-labelledby="gates-title">
-      <div class="section-heading"><p class="eyebrow">The thread</p><h2 id="gates-title">Who owes a gate, and what meets it</h2><p>Plan steps, runs and delivery drafts owe gates, and evidence that Writfold records meets them. Gates report; on their own they block nothing (a guard rule can hold a command until they are met); receipts resist mistakes, such as a forgotten check or a stale &ldquo;tests pass&rdquo;, and they are tracked files, not signatures.</p></div>
-      <figure class="diagram-figure">{diagrams.gates("wg")}<figcaption class="fine-print">Evidence is tied to exact bytes. When they change, the gate is owed again.</figcaption></figure>
-      <p class="fine-print">A step can owe a Weft assessment. The agent states the step&rsquo;s assumptions and checks in a Weft file and cites evidence for each assumption. A check is met only when Weft entails it from assumptions whose every citation Writfold found fresh or satisfied, which Weft calls a &ldquo;grounded basis&rdquo;; otherwise it is shown as hypothetical and does not meet the gate.</p>
+      <div class="section-heading"><p class="eyebrow">The thread</p><h2 id="gates-title">Who owes a gate, and what meets it</h2><p>A gate is a command with the paths it covers, a statement someone makes, or a check of the run&rsquo;s own records. Evidence is tied to exact bytes, so a change makes the gate owed again; gates report and block nothing on their own, and receipts are tracked files, not signatures.</p></div>
+      <figure class="diagram-figure">{diagrams.gates("wg")}</figure>
+      <p class="fine-print">A step can also owe a Weft assessment, met only when the check is entailed from assumptions whose citations hold.</p>
       {more(guide("gates", "every gate class, with examples"), guide("assurance", "what is proved, tested and trusted"))}
     </section>
 
-    <section id="check" class="section" aria-labelledby="check-title">
-      <div class="section-heading"><p class="eyebrow">Any time</p><h2 id="check-title">Check that it still holds</h2><p>The index refreshes itself on every read, so there is no sync step. <code>kb check</code> re-checks the rest in one summary: cited sources, the index against a rebuild, gate evidence, and the plan when the run has one.</p></div>
-      {panel("Validation commands", CHECK)}
-      {more(guide("validation", "validation, flag by flag"))}
+    <section id="execute" class="section" aria-labelledby="execute-title">
+      <div class="section-heading"><p class="eyebrow">Stage 3 / Execute</p><h2 id="execute-title">Edit, check, advance</h2><p>The agent edits the run&rsquo;s worktree with Splicery recipes or ordinary tools, and any gate whose scope covers the change is owed again. <code>plan advance</code> records the current step as done only when each of its gates is met, and a skill adds its own steps with <code>plan use</code>.</p></div>
+      {panel("Execute commands and plan status", EXECUTE, REAL)}
+      <p class="fine-print">A done step whose gate later goes stale is flagged <code>!stale</code> and stays done. <code>plan skip --reason TEXT --by WHO</code> closes a step without calling it done.</p>
+      {more(guide("run-graph", "steps, splicing, stale and merged clones"), guide("skills", "skills that splice"))}
+    </section>
+
+    <section id="watch" class="section" aria-labelledby="watch-title">
+      <div class="section-heading"><p class="eyebrow">Watching the run</p><h2 id="watch-title">The plan as a map</h2><p><code>writfold watch</code> draws the run&rsquo;s plan in a terminal, with skills spliced in as nested groups and an inspector for the selected step. Every state comes from a <code>kb</code> verb; there is no key that writes, and it never starts a check.</p></div>
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> in the default clay theme, on a test-fixture knowledge base; its run, splices, steps, receipts and covers were written through the <code>kb</code> verbs.</figcaption>{frame("how")}</figure>
+      <p class="fine-print"><code>▶</code> marks the recorded position, not a claim that an agent is working; the view adds no percentage or time estimate.</p>
+      {more(guide("watch", "watching a run"), lead="Keys, layouts, refresh and themes")}
+    </section>
+
+    <section id="deliver" class="section" aria-labelledby="deliver-title">
+      <div class="section-heading"><p class="eyebrow">Stage 4 / Deliver</p><h2 id="deliver-title">Drafts, checked. Nothing sent.</h2><p><code>kb deliver prepare</code> keeps the exact text of a PR comment or Slack summary in the run, and <code>deliver check</code> checks those bytes: paragraph length, references the audience must not see, and whether every citation is still fresh. Writfold has no network code, so posting stays with you or your agent.</p></div>
+      {drafts()}
+      <p class="fine-print">The checks are mechanical: they do not judge tone or truth. An optional Claude Code hook, off unless configured, can deny a listed publishing command until a ready draft holds the exact bytes: a guard, not enforcement.</p>
+      <p class="fine-print"><span class="chip chip-planned">Planned</span> A delivery mode as a plan step&rsquo;s gate.</p>
+      {more(guide("delivery-modes", "delivery modes, your own modes, deny lists and the guard"))}
+    </section>
+
+    <section id="reflect" class="section" aria-labelledby="reflect-title">
+      <div class="section-heading"><p class="eyebrow">Before the run ends</p><h2 id="reflect-title">Reflect, propose, close</h2><p>The required <code>reflect</code> step passes only when the run holds a <code>reflection:</code> entry and a proposal or an explicit <code>no proposal</code>. A proposal is a <code>record</code> call not yet made, and only you accept it.</p></div>
+      {panel("Closing a run", REFLECT, REAL)}
+      <p class="fine-print">The check shows that a reflection was written, not that it is good. The bundled <code>writfold:evaluate</code> skill can walk this step and never accepts a proposal itself.</p>
+      {more(guide("feeding-back", "proposals and the reflection checks"), guide("skills", "the evaluate skill"))}
     </section>
 
     <section id="plugin" class="section" aria-labelledby="plugin-title">
-      <div class="section-heading"><p class="eyebrow">In Claude Code</p><h2 id="plugin-title">The plan position at session start, drafts at the end</h2><p>The plugin puts <code>brief</code>, <code>resume</code>, the plan position and an inbox of drafts, proposals and runs that ended without a reflection into a new session with no tool call, and re-injects the plan position after a compaction. It reads local files and refs only, runs no model, and does nothing when the binary or the knowledge base is missing.</p></div>
-      {panel("Session-start context", HOOK, "What session start adds, from a demo repository; <code>…</code> marks rows left out. The first line appears only when the clone is behind its remote, judged from local refs with no fetch.", "output", "From real output")}
+      <div class="section-heading"><p class="eyebrow">In Claude Code</p><h2 id="plugin-title">The plan position at session start</h2><p>The plugin puts the brief, the plan position and an inbox into a new session with no tool call, and the plan position again after a compaction. It reads local files and refs only and runs no model.</p></div>
+      {panel("Session-start context", HOOK, "What session start adds, from a demo repository; <code>…</code> marks rows left out.", "output", "From real output")}
       {more(guide("hooks", "hooks"), guide("skills", "skills"))}
       <p class="fine-print">Ready to try it? <a href="/#try">Download the preview</a>, or see <a href="/status.html">what runs and what is next</a>.</p>
     </section>
@@ -411,77 +376,70 @@ page("how.html", "How it works — Writfold",
 README = "https://github.com/writfold-dev/writfold#readme"
 def row(href, title, text):
     return f'<a href="{href}"><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">→</span></a>'
+# The one list of what runs; the overview and How it works link here.
 TODAY = "".join([
-    row(GUIDE + 'kb-layout.md', 'Read verbs', '<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs</code>. Every row names its source; every answer ends with what was examined and omitted'),
-    row(GUIDE + 'feeding-back.md', 'Write verbs and proposals', '<code>checkpoint</code>, <code>record ticket | decision | link</code>, <code>status --set</code>, <code>cite make</code>. <code>propose</code> queues a record locally; <code>proposals list | show | accept | drop</code> decides it'),
-    row(GUIDE + 'validation.md', 'Citations, the index and <code>kb check</code>', '<code>stale</code> reports each pinned citation as fresh, moved, changed or gone; <code>index verify</code> checks the index equals a rebuild; <code>check</code> runs both with gate and plan status'),
-    row(GUIDE + 'gates.md', 'Gates', '<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts pinned to exact bytes; a gate can name an instructions file and ship its own script; a checklist gate is covered item by item with evidence that is re-checked on every read; a timeout or crash is never a pass'),
-    row(GUIDE + 'hooks.md#guard-rules', 'Guard rules', 'A rule in <code>.writfold/guards/</code> denies or asks about a command such as <code>git commit</code>, or a tool such as <code>Edit</code>, until the run&rsquo;s gates are met, naming what is owed and the command that meets it. A <code>stop</code> rule reminds once per session. A guard, not enforcement'),
-    row(GUIDE + 'checkers.md', 'External checkers', 'A kind declared <code>checked</code> in <code>.writfold/sources/</code> names a program, <code>writfold-check-&lt;name&gt;</code> on your <code>PATH</code>, that <code>kb stale</code> asks over JSON lines. Credentials stay with the program; the knowledge base never runs a command it names'),
-    row(GUIDE + 'run-graph.md', 'The run graph', '<code>plan set | use | status | advance | skip</code>. Templates in <code>.writfold/plans/</code>, a skill splicing its steps in, <code>use=</code> includes, and the <code>!stale</code> and <code>!template-moved</code> flags. Plan writes re-check under the write lock; after a merge, <code>!out-of-order</code>, <code>!two-plans</code> and <code>!repeated</code> flag what it left'),
-    row(GUIDE + 'run-graph.md#required-steps', 'Required steps and run-record checks', 'Start and end templates from <code>required.toml</code> join every plan. <code>research.backfilled</code> and <code>run.reflected</code> judge the run&rsquo;s own records'),
-    row(GUIDE + 'gates.md#weft-assessed-gates', 'Weft assessed gate', 'A plan step can require a Weft assessment. A check is met only when it is entailed from assumptions whose citations hold; otherwise it is shown as hypothetical'),
-    row(GUIDE + 'delivery-modes.md', 'Delivery drafts and your own modes', '<code>deliver prepare | check | status | attest | waive</code> for PR comments, Slack summaries and any mode you define; a commit-message mode is included. Nothing is sent'),
-    row(GUIDE + 'feeding-back.md', 'Tuft and Splicery in a run', '<code>tuft run --cite</code> adds citations and a retrieval receipt; <code>edit apply | recover</code> replays recipes and keeps an edit receipt'),
-    row(GUIDE + 'hooks.md', 'Claude Code plugin', 'At session start: the brief, the plan position, an inbox and a line when the clone is behind its remote; the plan position again after compaction. Checkpoint drafts, the <code>writfold:kb</code> and <code>writfold:evaluate</code> skills, and an optional guard hook'),
-    row(GUIDE + 'assurance.md', 'Proofs of three kernels', 'Lean proofs over the shipped Rust for the run-graph, gate and assessed-gate decisions. Parsers, file reads and globs are tested, not proved'),
-    row(GUIDE + 'assurance.md#model-checked', 'A model of the run graph', '<code>spec/RunGraph.tla</code>, checked with TLC at small bounds: two runs finished with no violation, the widest was stopped unfinished with none found, and ten mutants each fail their property. Evidence about the design, not a refinement of the Rust'),
-    row('/how.html#watch', '<code>writfold watch</code>', 'A read-only terminal view of a run&rsquo;s recorded progress: each plan step with its gates and checklist items, the inbox, guard rules and the run&rsquo;s checkpoints. Six colour themes; it never runs a check'),
+    row(GUIDE + "kb-layout.md", "Read verbs", "<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs</code>. Every row names its source"),
+    row(GUIDE + "feeding-back.md", "Write verbs and proposals", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
+    row(GUIDE + "validation.md", "Citations, the index and <code>kb check</code>", "<code>stale</code> reports each citation as fresh, moved, changed or gone; <code>check</code> adds the index, gates and the plan"),
+    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts pinned to exact bytes; a timeout or crash is never a pass"),
+    row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not enforcement"),
+    row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check"),
+    row(GUIDE + "run-graph.md", "The run graph", "<code>plan set | use | status | advance | skip</code>. Templates, skills that splice steps in, and flags for stale gates and merged clones"),
+    row(GUIDE + "run-graph.md#required-steps", "Required steps and run-record checks", "Start and end templates join every plan; their checks judge the run&rsquo;s own records"),
+    row(GUIDE + "gates.md#weft-assessed-gates", "Weft assessed gate", "A step can require a Weft assessment; a hypothetical entailment does not meet it"),
+    row(GUIDE + "delivery-modes.md", "Delivery drafts and your own modes", "<code>deliver prepare | check | status | attest | waive</code>. Checks tied to the draft&rsquo;s bytes. Nothing is sent"),
+    row(GUIDE + "feeding-back.md", "Tuft and Splicery in a run", "<code>tuft run --cite</code> adds citations and a retrieval receipt; <code>edit apply | recover</code> replays recipes and keeps an edit receipt"),
+    row(GUIDE + "hooks.md", "Claude Code plugin", "The brief, the plan position and an inbox at session start; the plan position again after compaction; checkpoint drafts and two skills"),
+    row(GUIDE + "assurance.md", "Proofs of three kernels", "Lean proofs over the shipped Rust for the run-graph, gate and assessed-gate decisions. Parsers, file reads and globs are tested, not proved"),
+    row(GUIDE + "assurance.md#model-checked", "A model of the run graph", "Checked with TLC at small bounds; the widest run was stopped unfinished with no violation found. Evidence about the design, not a refinement of the Rust"),
+    row("/how.html#watch", "<code>writfold watch</code>", "A read-only terminal view: the run&rsquo;s plan as a map with an inspector, and its gates, inbox, guard rules and timeline. It never runs a check"),
 ])
 def step(title, text, chip):
     cls = {"Done": "chip-today", "Next": "chip-progress", "Planned": "chip-planned", "Deferred": "chip-planned", "Not planned": "chip-parts"}[chip]
     return f'<li><div><h3>{title}</h3><p>{text} <span class="chip {cls}">{chip}</span></p></div></li>'
 ROAD = "".join([
-    step('The four questions', 'Read and write verbs, the index, pinned citations and the Claude Code plugin.', 'Done'),
-    step('Runs with gates, edits and drafts', 'Receipts, statements, Splicery edits, Tuft citations, delivery drafts and <code>watch</code>.', 'Done'),
-    step('Instruction gates and your own delivery modes', 'A gate can point to written instructions and ship its script; a mode such as a commit message lists its gates.', 'Done'),
-    step('The run graph, splicing and required steps', '<code>plan set | use | status | advance | skip</code>; required steps checked against the run&rsquo;s own records.', 'Done'),
-    step('Hooks that show the plan', 'The plan position at session start and after compaction, with an inbox. No model in a hook.', 'Done'),
-    step('Proofs, proposals and the closing step', 'Proofs of the plan and gate kernels, a TLC model of the run graph, <code>kb check</code>, proposals, the evaluation skill, and Weft assessments of plan steps.', 'Done'),
-    step('Guard rules, checklists and citation kinds', 'Rules that deny a command until gates are met, checklist gates covered item by item, per-kind citation lifetimes, and concluded investigations.', 'Done'),
-    step('Checks against systems outside Git', 'External checkers that <code>kb stale</code> runs for citation kinds Git cannot check, with cached verdicts; decision states bound to a commit and a gate receipt; renames with edits followed.', 'Done'),
-    step('Check receipts other machines can read', 'A tracked record of what a checker found, so a machine without the checker or its credentials can read when a citation was last checked.', 'Planned'),
-    step('Observations, clones and batch cover', '<code>kb observe</code> for lookups and their outcome, <code>kb repos</code> for missing clones, several checklist items in one call, proposals kept in the knowledge base, path-scoped guard rules.', 'Done'),
-    step('Run progress in <code>writfold watch</code>', 'Plan steps with their gates and checklist items, the inbox, guard rules and a timeline in the terminal view, with colour themes. Read-only.', 'Done'),
-    step('The plan map in <code>writfold watch</code>', 'The run&rsquo;s plan drawn as a map with nested splices, a glyph and gate chips per step, the next step to pick up, and an inspector for each step.', 'Done'),
-    step('Tuft for everyday search', 'Branch names where a commit is expected, a one-line search, several repositories in one query and symbol finds from a ctags index, still pinned to a commit.', 'Done'),
-    step('One week of real use', 'Count what the checks caught, and what was waived, before adding more.', 'Next'),
-    step('A delivery mode as a step&rsquo;s gate', 'A plan step that owes a checked draft.', 'Planned'),
-    step('Trailer and tracker edges, and <code>--at</code>', 'Links read from commit trailers and tracker references, and answers as of a given commit.', 'Planned'),
-    step('An MCP server', 'Deferred until a harness without a shell needs one. The CLI and the plugin are the interface.', 'Deferred'),
-    step('A governed profile', 'Authority levels, exception routes and signing. Writfold stays single user with cooperating agents.', 'Not planned'),
+    step("The four questions", "Read and write verbs, the index, pinned citations, external checkers and the Claude Code plugin.", "Done"),
+    step("Runs, gates and delivery drafts", "Receipts tied to exact bytes, instruction and checklist gates, Splicery edits, delivery drafts and your own modes.", "Done"),
+    step("The run graph, guards and proposals", "Plans with splicing and required steps, guard rules, proposals, the closing reflection, and proofs of three decision kernels.", "Done"),
+    step("<code>writfold watch</code> and Tuft search", "The plan map with an inspector and a calm default frame; Tuft with a one-line search, several repositories and symbols.", "Done"),
+    step("One week of real use", "Count what the checks caught, and what was waived, before adding more.", "Next"),
+    step("Check receipts other machines can read", "A tracked record of what a checker found, so a machine without the checker or its credentials can read when a citation was last checked.", "Planned"),
+    step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Planned"),
+    step("Trailer and tracker edges, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
+    step("An MCP server", "Deferred until a harness without a shell needs one. The CLI and the plugin are the interface.", "Deferred"),
+    step("A governed profile", "Authority levels, exception routes and signing. Writfold stays single user with cooperating agents.", "Not planned"),
 ])
+def rel(version):
+    return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ('15 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.6">v0.5.0-dev.6</a>: the plan map in <code>writfold watch</code>. The run&rsquo;s plan is drawn as rows in order, with skills spliced in as nested groups under the step they belong to, a glyph for each step&rsquo;s state, a chip for each gate and <code>▶</code> on the next step to pick up. An inspector shows the selected step&rsquo;s gates, checklist items, evidence and next command; <code>x</code> keeps the text list. <code>plan status --gates</code> adds <code>splice</code> and <code>under</code> lines and <code>timeline</code> of a run lists its plan events. A new default theme, clay, with clay-light. <a href="/how.html#watch">See it</a>.'),
-    ('14 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.5">v0.5.0-dev.5</a>: run progress in <code>writfold watch</code>. Each plan step with its gates and checklist items, and a strip with one cell per step; a done step whose gate went stale stays done and is flagged. Separate views for gates, the inbox of drafts and proposals, the guard rules as they would judge the current run, and the run&rsquo;s own checkpoint timeline. Layouts for wide and narrow terminals, refresh when the knowledge base or the repository changes, and six colour themes with ANSI and no-colour modes. Every number comes from a <code>kb</code> verb; the view adds no percentage or time estimate, has no key that writes, and never starts a checker. <code>plan status --gates</code>, <code>runs --plan</code>, <code>guard status</code> and <code>timeline &lt;run&gt;</code> give the same answers on the command line.'),
-    ('13 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.4">v0.5.0-dev.4</a>: Tuft for everyday search. <code>writfold tuft grep</code> runs the common search in one line; a branch name or <code>HEAD</code> is accepted and resolved to the commit it names, which the output shows and every citation and receipt keeps; one search covers several repositories, each with its own coverage line; path globs in scopes; every parse error reported, with the fix named; a working-tree mode whose citations of uncommitted bytes are marked and never read as fresh; and definitions and references from a ctags index built at the same commit.'),
-    ('13 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.3">v0.5.0-dev.3</a>: <code>kb observe</code> records a lookup and its outcome, so a timeout or an empty answer stays visible under a checklist item without ever counting as support; <code>kb repos</code> lists the repositories your citations name and which have no clone, and a partial clone no longer stops <code>kb stale</code>; several checklist items covered in one call (<code>gate cover --from</code>); proposals kept in the knowledge base so they survive losing the clone; guard rules scoped to file paths, and a stop reminder that can repeat every turn; and a maximum age for a checker&rsquo;s cached verdict.'),
-    ('13 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.2">v0.5.0-dev.2</a>: external checkers, programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check (an absent or failing checker leaves those citations unverifiable, never fresh), and <code>cite make --kind</code> to build such citations; a decision&rsquo;s <code>accepted</code>, <code>applied</code> and <code>verified</code> states, each bound to something Writfold checks (the reviewed design, a commit on the target branch, a passing gate receipt); and code citations followed through a rename that also edited the file, <code>moved</code> only when the cited lines are found at the new path.'),
-    ('13 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.1">v0.5.0-dev.1</a>: guard rules that deny or ask about a command or tool until the run&rsquo;s gates are met, with a once-per-session Stop reminder; checklist gates covered item by item (<code>gate cover</code>) with evidence re-checked on every read; per-kind citation lifetimes in <code>.writfold/sources/</code>; a stale-citation count at session start; the <code>--json</code> envelope documented; and investigations that can be concluded once their write-up is complete.'),
-    ('13 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.4.0-dev.1">v0.4.0-dev.1</a>: the run graph (<code>plan set | use | status | advance | skip</code>) with splicing, required steps and run-record checks; instruction gates and your own delivery modes; proposals and <code>kb check</code>; the Weft assessed gate; the plan position and an inbox at session start; the <code>writfold:evaluate</code> skill; and Lean proofs of the run-graph, gate and assessed-gate kernels. A TLC model of the run graph, <code>spec/RunGraph.tla</code>, found two gaps, both fixed in this release: plan writes now re-check their decision under the write lock, and a merge of two clones is flagged <code>!out-of-order</code>, <code>!two-plans</code> or <code>!repeated</code>.'),
-    ('12 Nov 2026', 'The site is shorter. Full file layouts, configuration and output moved to the <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/README.md">guides</a> in the Writfold repository. Direction set: the run graph, required steps and model-free hooks, all planned.'),
-    ('12 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.3.0-dev.1">v0.3.0-dev.1</a>: gates, Splicery edits in a run, <code>writfold watch</code>, delivery drafts and an optional guard hook.'),
-    ('12 Nov 2026', 'Preview <a href="https://github.com/writfold-dev/writfold/releases/tag/v0.2.0-dev.1">v0.2.0-dev.1</a>: the <code>kb</code> read and write verbs, the index, citations checked for staleness, and the Claude Code plugin.'),
-    ('11 Nov 2026', 'Mission set: Git-native project continuity for coding agents.'),
+    ("15 Nov 2026", f'{rel(VERSION)}: <code>writfold watch</code> shows a calm frame by default: text follows the next step and the cursor, <code>d</code> shows every detail, and the header, tabs and footer are chips. The site is shorter and leads with the plan map.'),
+    ("15 Nov 2026", f'{rel("v0.5.0-dev.6")}: the plan map in <code>writfold watch</code>, with nested splice groups, a glyph and gate chips per step, an inspector, and the clay themes.'),
+    ("14 Nov 2026", f'{rel("v0.5.0-dev.5")}: run progress in <code>writfold watch</code>: plan steps with gates and checklist items, the inbox, guard rules and a timeline.'),
+    ("13 Nov 2026", f'{rel("v0.5.0-dev.4")}: Tuft for everyday search: <code>tuft grep</code>, branch names resolved to commits, several repositories, a marked working-tree mode and ctags symbols.'),
+    ("13 Nov 2026", f'{rel("v0.5.0-dev.3")}: <code>kb observe</code>, <code>kb repos</code>, several checklist items covered in one call, proposals kept in the knowledge base, and path-scoped guard rules.'),
+    ("13 Nov 2026", f'{rel("v0.5.0-dev.2")}: external checkers for citation kinds Git cannot check, decision states bound to what Writfold checks, and citations followed through renames with edits.'),
+    ("13 Nov 2026", f'{rel("v0.5.0-dev.1")}: guard rules, checklist gates covered item by item, per-kind citation lifetimes, and the <code>--json</code> envelope documented.'),
+    ("13 Nov 2026", f'{rel("v0.4.0-dev.1")}: the run graph with splicing and required steps, instruction gates, your own delivery modes, proposals, <code>kb check</code>, the Weft assessed gate, and Lean proofs of three kernels.'),
+    ("12 Nov 2026", f'The site is shorter: full file layouts, configuration and output moved to the <a href="{GUIDE}README.md">guides</a>.'),
+    ("12 Nov 2026", f'{rel("v0.3.0-dev.1")}: gates, Splicery edits in a run, <code>writfold watch</code>, delivery drafts and an optional guard hook.'),
+    ("12 Nov 2026", f'{rel("v0.2.0-dev.1")}: the <code>kb</code> read and write verbs, the index, citations checked for staleness, and the Claude Code plugin.'),
+    ("11 Nov 2026", "Mission set: Git-native project continuity for coding agents."),
 ])
 def faq(q, a): return f"<details><summary>{q}</summary><p>{a}</p></details>"
 FAQ = "".join([
-    faq('Can I use Writfold today?', 'Yes, as a preview: <a href="/#try">download the binary and install the plugin</a>. Single user, cooperating agents, local clones (plus any external checkers you install), Linux x86_64 or WSL2.'),
-    faq('Does it need a server or a database?', 'No. One static binary, records in Git, and a local index that Writfold derives and can always rebuild.'),
-    faq('Does Writfold run or schedule my agent?', 'No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. No hook runs a model.'),
-    faq('Can an agent skip a gate or a step?', 'Yes. Gates and steps record what was checked and report whether it still holds; on their own they block nothing. A gate that was never run shows as open, a skipped step shows as skipped with a reason and a name, and the plan is complete only when every step is done or skipped. A guard rule you add can deny or ask about a command such as <code>git commit</code> until the gates are met; it is a guard, not enforcement, and only sees the tool calls Claude Code shows it.'),
-    faq('Is it formally verified?', 'In part. Three decision kernels are proved in Lean over an Aeneas translation of the Rust that ships. The run graph: a step is recorded as done exactly when it is the current step and every gate is met; a splice keeps every existing step, and repeating it changes nothing. Gate obligations: only exit status 0 on bytes that did not move is a pass, and an attestation or a waiver never counts as satisfied. The Weft assessed gate: a hypothetical entailment never passes. The proof check audits 54 claims across all proved kernels and requires each of 45 mutants of the Rust source to break its named theorem. The rest is tested, not proved: template and gate parsers, the fold from event files to steps, file and Git reads, and scope globs. The write protocol and the run graph are model-checked, not proved (next answer). The proofs trust the Charon and Aeneas translation and the Lean kernel. Details are in <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/assurance.md">the assurance guide</a>.'),
-    faq('What did model checking cover?', 'Two TLA+ models, checked with TLC at small bounds. The write protocol: five invariants over about 18 million states, with a power loss at any moment. The run graph, <code>spec/RunGraph.tla</code>: two runs finished with no violation, two merging clones without drift or a crash (about 2.1 million states) and two sessions in one clone with drift and a crash (about 44 million states). The widest run, two merging clones with drift and a crash, was stopped unfinished at depth 21 with no violation found, so that case is checked only to that depth. Ten mutants of the run-graph model each fail their property. The models are hand-written evidence about the design, not a refinement of the Rust; tests tie them to the code. The run-graph model found two gaps, both now fixed in the Rust: a plan write re-checks its decision under the write lock and refuses if the plan changed, and after a merge <code>plan status</code>, <code>resume</code> and <code>kb check</code> flag <code>!out-of-order</code>, <code>!two-plans</code> and <code>!repeated</code> without changing the plan. Details are in <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/assurance.md">the assurance guide</a>.'),
-    faq('Does Writfold post PR comments or Slack messages?', 'No. <code>kb deliver</code> keeps drafts with their checks in the run. Nothing is sent.'),
-    faq('Who accepts a proposal?', 'You do. <code>kb propose</code> queues a record call locally, and the <code>writfold:evaluate</code> skill may queue up to three. Only <code>proposals accept</code> writes the record, and it is refused when a citation in it is no longer fresh.'),
-    faq('Other harnesses?', 'The CLI works wherever an agent has a shell. An MCP server is deferred until a harness without a shell needs one.'),
-    faq('Is the source available?', 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a>, <a href="https://github.com/writfold-dev/weft">Weft</a> and <a href="https://github.com/writfold-dev/splicery">Splicery</a> are public, and this website is under the MIT license.'),
+    faq("Can I use Writfold today?", 'Yes, as a preview: <a href="/#try">download the binary and install the plugin</a>. Single user, cooperating agents, local clones (plus any external checkers you install), Linux x86_64 or WSL2.'),
+    faq("Does it need a server or a database?", "No. One static binary, records in Git, and a local index that Writfold derives and can always rebuild."),
+    faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. No hook runs a model, and nothing is posted: delivery drafts stay in the run."),
+    faq("Can an agent skip a gate or a step?", "Yes. Gates and steps record what was checked and report whether it still holds; on their own they block nothing, so a gate never run shows as open and a skipped step shows as skipped, with a reason and a name. A guard rule you add can deny or ask about a command such as <code>git commit</code> until the gates are met; it is a guard, not enforcement, and only sees the tool calls Claude Code shows it."),
+    faq("Is it formally verified?", f'In part. Three decision kernels (the run graph, gate obligations and the Weft assessed gate) are proved in Lean over an Aeneas translation of the Rust that ships; the proofs trust that translation and the Lean kernel. The write protocol and the run graph are model-checked with TLC at small bounds, not proved: the models are hand-written evidence about the design, not a refinement of the Rust, and the widest run-graph configuration was stopped unfinished with no violation found. The rest (parsers, file and Git reads, scope globs) is tested. The numbers and limits are in {guide("assurance", "the assurance guide")}.'),
+    faq("Other harnesses?", "The CLI works wherever an agent has a shell. An MCP server is deferred until a harness without a shell needs one."),
+    faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a>, <a href="https://github.com/writfold-dev/weft">Weft</a> and <a href="https://github.com/writfold-dev/splicery">Splicery</a> are public, and this website is under the MIT license.'),
 ])
 status = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="status-title">
       <p class="eyebrow">Status</p>
       <h1 id="status-title">What runs today.<br><span>What comes next.</span></h1>
-      <p class="lede">Writfold is <a href="/">Git-native project continuity for coding agents</a>. The preview covers the whole flow: research, the run graph, execution, delivery drafts and a closing reflection.</p>
+      <p class="lede">Writfold is <a href="/">Git-native project continuity for coding agents</a>. This page lists what the preview runs, what is planned and what is not.</p>
       <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="{REL}">{VERSION}</a> · Updated {RELEASED}</span></p>
       <nav class="actions" aria-label="Page sections"><a href="#today">Runs today</a><a href="#next">Roadmap</a><a href="#changelog">Changelog</a><a href="#faq">FAQ</a></nav>
     </section>
@@ -492,11 +450,11 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: single user with cooperating agents; local clones only. The run graph has not yet had its week of real use, and no real PR comment or Slack summary has gone through the delivery checks.</p>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
-      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, next, and not planned</h2><p>The run graph as built is in {guide("run-graph", "the run graph guide")}.</p></div>
+      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, next, and not planned</h2><p>What is done is listed in full <a href="#today">above</a>.</p></div>
       <ol class="workflow">{ROAD}</ol>
     </section>
     <section id="changelog" class="section" aria-labelledby="changelog-title">
-      <div class="section-heading"><p class="eyebrow">03 / Changelog</p><h2 id="changelog-title">What changed</h2></div>
+      <div class="section-heading"><p class="eyebrow">03 / Changelog</p><h2 id="changelog-title">What changed</h2><p>One line per release; the <a href="{RELEASES}">release notes</a> carry the detail.</p></div>
       <ol class="changelog">{LOG}</ol>
       <p class="fine-print">Every published file on this site is listed with its SHA-256 in the <a href="/content-manifest.json">content manifest</a>.</p>
     </section>

@@ -323,10 +323,29 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .example figcaption { display: block; }
 .example figcaption .chip { margin-right: 6px; }
 /* A captured terminal frame: the program's own colours, always on its dark surface. */
-.term-frame { max-width: 100%; margin: 12px 0 14px; padding: 14px 16px; overflow: auto; border: 1px solid var(--code-border); border-radius: 8px; background: #191918; color: #ececea; }
-.term-frame code { display: block; width: max-content; font-size: .6rem; line-height: 1.2; white-space: pre; overflow-wrap: normal; font-variant-ligatures: none; }
-.term-frame-hero code { font-size: .7rem; }
+.term-frame { max-width: 100%; margin: 12px 0 14px; padding: 14px 16px; overflow: auto; container-type: inline-size; border: 1px solid var(--code-border); border-radius: 8px; background: #191918; color: #ececea; }
+/* Every cell comes from one self-hosted subset font (scripts/build_term_font.py). A system
+   monospace lacks some of the symbols, and a fallback glyph with another advance width
+   moves every column after it. font-display: block, because a swap would paint that drift. */
+@font-face { font-family: "Writfold Term"; src: url("/assets/term-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Writfold Term"; src: url("/assets/term-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: block; }
+.term-frame code { display: block; width: max-content; font-family: "Writfold Term", "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: .6rem; line-height: 1.2; white-space: pre; overflow-wrap: normal; font-variant-ligatures: none; font-synthesis: none; font-kerning: none; text-rendering: geometricPrecision; }
+/* Fit the frame's --cols cells to the column (a cell is .602em wide), within readable bounds;
+   below the lower bound the frame scrolls sideways inside its box. geometricPrecision above
+   keeps the cell width fractional; a browser that rounds it to whole pixels would overshoot. */
+@supports (width: 1cqw) {
+  .term-frame code { font-size: clamp(.58rem, calc(100cqw / var(--cols, 160) / .6025), .78rem); }
+}
 @media (max-width: 700px) {
   .term-frame { padding: 10px; }
   .term-frame code { font-size: .58rem; }
+}
+/* What the glyphs on the plan map mean, under the captured frame. */
+.callouts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 32px; margin: 24px 0 18px; }
+.callouts div { padding-top: 12px; border-top: 1px solid var(--border); }
+.callouts dt { font-weight: 650; }
+.callouts dt code { color: var(--accent); font-size: 1em; margin-right: .3em; }
+.callouts dd { margin: .35rem 0 0; color: var(--muted); font-size: .94rem; }
+@media (max-width: 700px) {
+  .callouts { grid-template-columns: 1fr; gap: 16px; }
 }
