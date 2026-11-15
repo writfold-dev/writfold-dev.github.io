@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Writfold — Git-native project continuity for coding agents</title>
-  <meta name="description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.8.">
+  <meta name="description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.9.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
-  <meta property="og:description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.8.">
+  <meta property="og:description" content="Project memory in Git for coding agents. A fresh session answers why, status, tracker and impact questions; every answer names its source and says when it moved. Preview: v0.5.0-dev.9.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.5.0-dev.8.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Project memory in Git that says when it is stale. Below it: Git-native project continuity for coding agents. Preview v0.5.0-dev.9.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -43,7 +43,7 @@
         <li>What does changing X touch?</li>
       </ul>
       <div class="actions"><a class="button" href="#try">Try it <span aria-hidden="true">↓</span></a><a class="text-action" href="/how.html">How it works <span aria-hidden="true">→</span></a></div>
-      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.8">v0.5.0-dev.8</a>, 15 November 2026. One static Linux x86_64 binary. <a href="/status.html">Status and roadmap</a></span></p>
+      <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="https://github.com/writfold-dev/writfold/releases/tag/v0.5.0-dev.9">v0.5.0-dev.9</a>, 15 November 2026. One static Linux x86_64 binary. <a href="/status.html">Status and roadmap</a></span></p>
     </section>
 
     <section id="watch" class="section" aria-labelledby="watch-title">
@@ -150,7 +150,7 @@
 
     <section id="try" class="section" aria-labelledby="try-title">
       <div class="section-heading"><p class="eyebrow">Try it</p><h2 id="try-title">Download, verify, install the plugin</h2><p>Linux x86_64 or WSL2.</p></div>
-      <pre class="code-panel" tabindex="0" aria-label="Download and install commands"><code>base<span class="syntax-operator">=</span>https://github.com/writfold-dev/writfold/releases/download/v0.5.0-dev.8
+      <pre class="code-panel" tabindex="0" aria-label="Download and install commands"><code>base<span class="syntax-operator">=</span>https://github.com/writfold-dev/writfold/releases/download/v0.5.0-dev.9
 <span class="syntax-function">curl</span> <span class="syntax-flag">-LO</span> <span class="syntax-string">"$base/writfold-x86_64-linux-musl"</span> <span class="syntax-flag">-LO</span> <span class="syntax-string">"$base/writfold-x86_64-linux-musl.sha256"</span>
 <span class="syntax-function">echo</span> <span class="syntax-string">"$(cut -d' ' -f1 writfold-x86_64-linux-musl.sha256)  writfold-x86_64-linux-musl"</span> <span class="syntax-operator">|</span> <span class="syntax-function">sha256sum</span> <span class="syntax-flag">-c</span>
 <span class="syntax-function">install</span> <span class="syntax-flag">-m</span> 755 writfold-x86_64-linux-musl ~/.local/bin/writfold

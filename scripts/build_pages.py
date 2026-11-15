@@ -16,7 +16,7 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.5.0-dev.8"
+VERSION = "v0.5.0-dev.9"
 RELEASED = "15 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -392,7 +392,7 @@ TODAY = "".join([
     row(GUIDE + "validation.md", "Citations, the index and <code>kb check</code>", "<code>stale</code> reports each citation as fresh, moved, changed or gone; <code>check</code> adds the index, gates and the plan"),
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts pinned to exact bytes; a timeout or crash is never a pass"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not enforcement"),
-    row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check"),
+    row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> commits their answers so other machines can read them, labelled and dated"),
     row(GUIDE + "run-graph.md", "The run graph", "<code>plan set | use | status | advance | skip</code>. Templates, skills that splice steps in, and flags for stale gates and merged clones"),
     row(GUIDE + "run-graph.md#required-steps", "Required steps and run-record checks", "Start and end templates join every plan; their checks judge the run&rsquo;s own records"),
     row(GUIDE + "gates.md#weft-assessed-gates", "Weft assessed gate", "A step can require a Weft assessment; a hypothetical entailment does not meet it"),
@@ -411,8 +411,8 @@ ROAD = "".join([
     step("Runs, gates and delivery drafts", "Receipts tied to exact bytes, instruction and checklist gates, Splicery edits, delivery drafts and your own modes.", "Done"),
     step("The run graph, guards and proposals", "Plans with splicing and required steps, guard rules, proposals, the closing reflection, and proofs of three decision kernels.", "Done"),
     step("<code>writfold watch</code> and Tuft search", "The plan map with an inspector and a calm default frame, the knowledge base in the same view; Tuft with a one-line search, several repositories and symbols.", "Done"),
+    step("Check receipts other machines can read", "A tracked record of what a checker found, so a machine without the checker or its credentials can read when a citation was last checked.", "Done"),
     step("One week of real use", "Count what the checks caught, and what was waived, before adding more.", "Next"),
-    step("Check receipts other machines can read", "A tracked record of what a checker found, so a machine without the checker or its credentials can read when a citation was last checked.", "Planned"),
     step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Planned"),
     step("Trailer and tracker edges, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("An MCP server", "Deferred until a harness without a shell needs one. The CLI and the plugin are the interface.", "Deferred"),
@@ -421,7 +421,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("15 Nov 2026", f'{rel(VERSION)}: <code>writfold watch</code> shows the knowledge base too: press <code>m</code> for decisions, tracker, an impact tree and stale citations, with <code>f</code> between runs and records. <code>find --kind</code> lists records by kind; <code>impact --json</code> rows carry their edge.'),
+    ("15 Nov 2026", f'{rel(VERSION)}: check receipts: <code>kb stale --record</code> commits what a checker found, and a machine without that checker reads it, labelled and dated. <code>record investigation</code>, edit recipes on stdin, and guard rules that <code>edit apply</code> checks itself.'),
+    ("15 Nov 2026", f'{rel("v0.5.0-dev.8")}: <code>writfold watch</code> shows the knowledge base too: press <code>m</code> for decisions, tracker, an impact tree and stale citations, with <code>f</code> between runs and records. <code>find --kind</code> lists records by kind; <code>impact --json</code> rows carry their edge.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.7")}: <code>writfold watch</code> shows a calm frame by default: text follows the next step and the cursor, <code>d</code> shows every detail, and the header, tabs and footer are chips. The site is shorter and leads with the plan map.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.6")}: the plan map in <code>writfold watch</code>, with nested splice groups, a glyph and gate chips per step, an inspector, and the clay themes.'),
     ("14 Nov 2026", f'{rel("v0.5.0-dev.5")}: run progress in <code>writfold watch</code>: plan steps with gates and checklist items, the inbox, guard rules and a timeline.'),
