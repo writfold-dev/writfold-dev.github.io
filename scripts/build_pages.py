@@ -16,7 +16,7 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.5.0-dev.7"
+VERSION = "v0.5.0-dev.8"
 RELEASED = "15 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -125,6 +125,8 @@ def drafts():
 # here if the picture changed, and run this script again.
 FRAMES = Path(__file__).parent / "frames"
 FRAME_LABELS = {
+    "kb": "writfold watch in knowledge-base mode: a project's decisions, one flagged because the code it cites moved, and the inspector for that decision",
+    "kbimpact": "writfold watch in knowledge-base mode: the impact tree of a project, every record that links to it, with flags where a source moved",
     "home": "writfold watch in its calm default frame: the runs, the plan map of the selected run, and the inspector for its next step",
     "how": "writfold watch after pressing d: the same run with every recorded detail, receipts and timestamps",
 }
@@ -197,6 +199,12 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
       </dl>
       <p class="fine-print">Read-only: it shows what the records say and starts no check.</p>
       {more('<a href="/how.html#plan">how a run works</a>', guide("watch", "the watch guide"), lead="More")}
+    </section>
+
+    <section id="knowledge" class="section" aria-labelledby="knowledge-title">
+      <div class="section-heading"><p class="eyebrow">The knowledge base, one key away</p><h2 id="knowledge-title">Why, in the same frame</h2><p>Press <code>m</code> and the same view shows the project&rsquo;s decisions, tickets and links. <code>!</code> marks a record whose cited source has moved since it was written.</p></div>
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> in knowledge-base mode on a test-fixture knowledge base; its records, citations and code changes were written through the <code>kb</code> verbs and Git.</figcaption>{frame("kb")}</figure>
+      <p class="fine-print"><code>f</code> follows a run to the records its checkpoints name, and back; <code>a</code> draws what links to a record or file.</p>
     </section>
 
     <section id="answer" class="section" aria-labelledby="answer-title">
@@ -308,6 +316,7 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section id="kb" class="section" aria-labelledby="kb-title">
       <div class="section-heading"><p class="eyebrow">The base</p><h2 id="kb-title">Records in Git, checked on demand</h2><p>The knowledge base is a Git repository of Markdown and JSON: decisions, tickets, assets, their links and one folder per run. Every row of an answer ends in its source, and <code>kb check</code> re-checks citations, the index, gate evidence and the plan in one summary.</p></div>
       {panel("kb why output", WHY, REAL)}
+      <figure class="example"><figcaption><span class="chip chip-today">Captured</span> The same records in <code>writfold watch</code>: press <code>m</code>, then <code>4</code> for the impact tree of the project.</figcaption>{frame("kbimpact")}</figure>
       {more(guide("kb-layout", "the knowledge base layout"), guide("validation", "validation, flag by flag"))}
     </section>
 
@@ -392,7 +401,7 @@ TODAY = "".join([
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief, the plan position and an inbox at session start; the plan position again after compaction; checkpoint drafts and two skills"),
     row(GUIDE + "assurance.md", "Proofs of three kernels", "Lean proofs over the shipped Rust for the run-graph, gate and assessed-gate decisions. Parsers, file reads and globs are tested, not proved"),
     row(GUIDE + "assurance.md#model-checked", "A model of the run graph", "Checked with TLC at small bounds; the widest run was stopped unfinished with no violation found. Evidence about the design, not a refinement of the Rust"),
-    row("/how.html#watch", "<code>writfold watch</code>", "A read-only terminal view: the run&rsquo;s plan as a map with an inspector, and its gates, inbox, guard rules and timeline. It never runs a check"),
+    row("/how.html#watch", "<code>writfold watch</code>", "A read-only terminal view: the run&rsquo;s plan as a map with an inspector, its gates, inbox, guard rules and timeline, and the knowledge base (decisions, tracker, impact tree, stale citations). It never runs a check"),
 ])
 def step(title, text, chip):
     cls = {"Done": "chip-today", "Next": "chip-progress", "Planned": "chip-planned", "Deferred": "chip-planned", "Not planned": "chip-parts"}[chip]
@@ -401,7 +410,7 @@ ROAD = "".join([
     step("The four questions", "Read and write verbs, the index, pinned citations, external checkers and the Claude Code plugin.", "Done"),
     step("Runs, gates and delivery drafts", "Receipts tied to exact bytes, instruction and checklist gates, Splicery edits, delivery drafts and your own modes.", "Done"),
     step("The run graph, guards and proposals", "Plans with splicing and required steps, guard rules, proposals, the closing reflection, and proofs of three decision kernels.", "Done"),
-    step("<code>writfold watch</code> and Tuft search", "The plan map with an inspector and a calm default frame; Tuft with a one-line search, several repositories and symbols.", "Done"),
+    step("<code>writfold watch</code> and Tuft search", "The plan map with an inspector and a calm default frame, the knowledge base in the same view; Tuft with a one-line search, several repositories and symbols.", "Done"),
     step("One week of real use", "Count what the checks caught, and what was waived, before adding more.", "Next"),
     step("Check receipts other machines can read", "A tracked record of what a checker found, so a machine without the checker or its credentials can read when a citation was last checked.", "Planned"),
     step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Planned"),
@@ -412,7 +421,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("15 Nov 2026", f'{rel(VERSION)}: <code>writfold watch</code> shows a calm frame by default: text follows the next step and the cursor, <code>d</code> shows every detail, and the header, tabs and footer are chips. The site is shorter and leads with the plan map.'),
+    ("15 Nov 2026", f'{rel(VERSION)}: <code>writfold watch</code> shows the knowledge base too: press <code>m</code> for decisions, tracker, an impact tree and stale citations, with <code>f</code> between runs and records. <code>find --kind</code> lists records by kind; <code>impact --json</code> rows carry their edge.'),
+    ("15 Nov 2026", f'{rel("v0.5.0-dev.7")}: <code>writfold watch</code> shows a calm frame by default: text follows the next step and the cursor, <code>d</code> shows every detail, and the header, tabs and footer are chips. The site is shorter and leads with the plan map.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.6")}: the plan map in <code>writfold watch</code>, with nested splice groups, a glyph and gate chips per step, an inspector, and the clay themes.'),
     ("14 Nov 2026", f'{rel("v0.5.0-dev.5")}: run progress in <code>writfold watch</code>: plan steps with gates and checklist items, the inbox, guard rules and a timeline.'),
     ("13 Nov 2026", f'{rel("v0.5.0-dev.4")}: Tuft for everyday search: <code>tuft grep</code>, branch names resolved to commits, several repositories, a marked working-tree mode and ctags symbols.'),
