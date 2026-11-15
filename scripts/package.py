@@ -38,9 +38,7 @@ def main():
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
             "product_release": "v0.5.0-dev.7",
-            # TODO(release): replace with the commit the v0.5.0-dev.7 tag points at once it is
-            # tagged, then rerun with --refresh-manifest. Until then this is writfold main as built.
-            "product_source_commit": "22acc4b0739c8a61f025ef6da6f121ea7ab8ee58",
+            "product_source_commit": "976562621514b911b1b0968b5d3ae2a2b7bbebda",
             "product_source_visibility": "public",
             "files": actual,
         }
