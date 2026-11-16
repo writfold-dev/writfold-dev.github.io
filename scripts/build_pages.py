@@ -15,8 +15,8 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.5.0-dev.9"
-RELEASED = "15 November 2026"
+VERSION = "v0.6.0-dev.1"
+RELEASED = "16 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -288,7 +288,8 @@ HOW = "".join([
          [file_panel(".writfold/deliveries/commit-message.toml", "commit-message.toml", "toml")],
          commands(("Keep the exact text as a draft in the run.", "writfold kb deliver prepare \\\n    --mode commit-message \\\n    --audience external --from msg.txt"),
                   ("Run the mode&rsquo;s checks on that text.", "writfold kb deliver check"),
-                  ("The draft is ready only when every check is met.", "writfold kb deliver status")),
+                  ("The draft is ready only when every check is met.", "writfold kb deliver status"),
+                  ("A plan step can owe this mode: <code>commit: deliver:commit-message</code>. It advances only once the draft is ready.", "writfold kb plan advance")),
          more(guide("delivery-modes", "the delivery guide"), lead="PR comments, Slack summaries and your own modes")),
     pair("resume", "A checkpoint", "A checkpoint is a note for the next session",
          "Each run keeps its notes in one Markdown file. The next session reads the last ones instead of the whole history.",
@@ -328,6 +329,7 @@ TODAY = "".join([
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip</code>. Templates, skills that add steps, and steps you require in every plan"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
+    row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode passes every check"),
     row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | attest | waive</code>. PR comments, Slack summaries and your own modes, checked. Nothing is sent"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, checkpoint drafts, and two skills"),
@@ -341,14 +343,15 @@ ROAD = "".join([
     step("Gates and delivery drafts", "Receipts tied to exact bytes, statements, checklists and checked drafts.", "Done"),
     step("Plans and guard rules", "Plan templates, skills that add steps, required steps and guard rules.", "Done"),
     step("<code>writfold watch</code>", "The plan and the project&rsquo;s records in one terminal view.", "Done"),
-    step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Next"),
+    step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Done"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("15 Nov 2026", f'{rel(VERSION)}: <code>kb stale --record</code> writes what a checker found to a tracked file you commit, so a clone without that checker can read it, for citation kinds that set a <code>max_age</code>. <code>record investigation</code> opens an investigation record.'),
+    ("16 Nov 2026", f'{rel(VERSION)}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
+    ("15 Nov 2026", f'{rel("v0.5.0-dev.9")}: <code>kb stale --record</code> writes what a checker found to a tracked file you commit, so a clone without that checker can read it, for citation kinds that set a <code>max_age</code>. <code>record investigation</code> opens an investigation record.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.8")}: <code>writfold watch</code> shows the project&rsquo;s records too: decisions, tracker, an impact tree and stale citations. <code>find --kind</code> lists records by kind.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.7")}: <code>writfold watch</code> opens on a calm frame; <code>d</code> shows every detail.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.6")}: the plan map in <code>writfold watch</code>, with an inspector for the selected step.'),
@@ -384,7 +387,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
-      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, next, and not planned</h2></div>
+      <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, planned, and not planned</h2></div>
       <ol class="workflow">{ROAD}</ol>
     </section>
     <section id="changelog" class="section" aria-labelledby="changelog-title">
