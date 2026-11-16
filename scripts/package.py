@@ -41,7 +41,7 @@ def main():
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
             "product_release": "v0.6.0-dev.1",
-            "product_source_commit": "0419f5a647e4e85735e37517c18cfc8060d4bec7",
+            "product_source_commit": "da63b1f3a8937a568f3e2be995c892dbb2c50074",
             "product_source_visibility": "public",
             "files": actual,
         }
