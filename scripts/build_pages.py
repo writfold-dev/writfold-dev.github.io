@@ -15,7 +15,7 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.1"
+VERSION = "v0.6.0-dev.2"
 RELEASED = "16 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -331,6 +331,7 @@ TODAY = "".join([
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
     row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode passes every check"),
     row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | attest | waive</code>. PR comments, Slack summaries and your own modes, checked. Nothing is sent"),
+    row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, checkpoint drafts, and two skills"),
     row(GUIDE + "watch.md", "<code>writfold watch</code>", "A read-only terminal view of the run&rsquo;s plan, gates and guard rules, and of the project&rsquo;s decisions, tracker and stale citations"),
@@ -350,7 +351,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("16 Nov 2026", f'{rel(VERSION)}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
+    ("16 Nov 2026", f'{rel(VERSION)}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
+    ("16 Nov 2026", f'{rel("v0.6.0-dev.1")}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.9")}: <code>kb stale --record</code> writes what a checker found to a tracked file you commit, so a clone without that checker can read it, for citation kinds that set a <code>max_age</code>. <code>record investigation</code> opens an investigation record.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.8")}: <code>writfold watch</code> shows the project&rsquo;s records too: decisions, tracker, an impact tree and stale citations. <code>find --kind</code> lists records by kind.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.7")}: <code>writfold watch</code> opens on a calm frame; <code>d</code> shows every detail.'),
