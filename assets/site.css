@@ -378,6 +378,8 @@ code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-si
 .cmds p { margin: 0 0 6px; color: var(--muted); font-size: .92rem; }
 .cmds .code-panel { margin: 0; padding: 10px 14px; }
 .pair + .guide-link { margin-top: 24px; }
+.cmds.walk { max-width: 920px; }
+.cmds.wrap .code-panel code { white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 800px) {
   .pair { grid-template-columns: 1fr; gap: 24px; }
 }

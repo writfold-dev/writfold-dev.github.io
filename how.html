@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>How it works — Writfold</title>
-  <meta name="description" content="How Writfold works, shown as six small files (a gate, a plan, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.">
+  <meta name="description" content="How Writfold works: one short example of stopping and resuming, then seven small files (a gate, a plan, a policy, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.">
   <link rel="canonical" href="https://writfold.dev/how.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="How it works — Writfold">
-  <meta property="og:description" content="How Writfold works, shown as six small files (a gate, a plan, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.">
+  <meta property="og:description" content="How Writfold works: one short example of stopping and resuming, then seven small files (a gate, a plan, a policy, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.">
   <meta property="og:url" content="https://writfold.dev/how.html">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. Below it: Git-native project continuity for coding agents. Preview v0.6.0-dev.2.">
+  <meta property="og:image:alt" content="The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. Below it: Git-native project continuity for coding agents. Preview v0.6.0-dev.3.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#101922" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F7F8F4" media="(prefers-color-scheme: light)">
@@ -35,8 +35,33 @@
     <section class="hero" aria-labelledby="how-title">
       <p class="eyebrow">How it works</p>
       <h1 id="how-title">Small files.<br><span>A few commands.</span></h1>
-      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here are six files, each beside the commands that use it.</p>
-      <nav class="actions" aria-label="Page sections"><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
+      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here is one short example, then seven files, each beside the commands that use it.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#example">Example</a><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#policy">Policy</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
+    </section>
+    <section id="example" class="section" aria-labelledby="example-title">
+      <div class="section-heading"><p class="eyebrow">An example</p><h2 id="example-title">Stop on one machine, resume on another</h2><p>Six commands, run on a demo repository whose <code>unit</code> gate covers <code>src/**</code>. The output is real and trimmed: <code>…</code> stands for a run ID, a path or lines left out.</p></div>
+      <ol class="cmds walk"><li><p>1. Record a decision. It is a file, and the answer names where it is.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb record decision <span class="syntax-flag">--title</span> <span class="syntax-string">"Batch ledger writes"</span> <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--target-source</span> src/ledger.rs <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--why</span> <span class="syntax-string">"One transaction per 500 rows keeps replay under a minute."</span>
+<span class="syntax-keyword">decision</span> proposal/decision/2026-11-17-batch-ledger-writes <span class="syntax-warn">[draft]</span> Batch ledger writes <span class="syntax-path">@proposals/…/proposal.md:6</span>
+<span class="syntax-comment">…</span></code></pre></li><li><p>2. Start a run, with a note for the next session.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb checkpoint <span class="syntax-flag">--new-run</span> <span class="syntax-flag">--project</span> demo-api <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--task</span> <span class="syntax-string">"batch ledger writes"</span> <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--note</span> <span class="syntax-string">"Batching at 500 rows. Next: tune the batch size."</span>
+<span class="syntax-keyword">run</span> run-… <span class="syntax-warn">[open]</span> batch ledger writes <span class="syntax-path">@runs/run-…/manifest.json:8</span> <span class="syntax-stale">!current</span>
+<span class="syntax-comment">…</span>
+<span class="syntax-keyword">checkpoint</span> 2026-11-17T00:42:26Z entry 1 of 1 <span class="syntax-path">@runs/run-…/checkpoint.md:2</span>
+<span class="syntax-function">  note:</span> Batching at 500 rows. Next: tune the batch size. <span class="syntax-path">@runs/run-…/checkpoint.md:4</span>
+<span class="syntax-comment">…</span></code></pre></li><li><p>3. Pass a gate. Its receipt names the commit and the bytes it checked.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb gate run unit
+<span class="syntax-keyword">gate</span> unit <span class="syntax-ok">[satisfied]</span> mechanical pass exit=0 at demo-api@de2997f4dbc4 scope=7ac784bc428b paths=1 <span class="syntax-path">@runs/run-…/gates/unit-….json:1</span>
+<span class="syntax-comment">…</span></code></pre></li><li><p>4. Stop. Commit and push the run&rsquo;s files.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">git</span> add <span class="syntax-flag">-A</span> <span class="syntax-operator">&amp;&amp;</span> <span class="syntax-function">git</span> commit <span class="syntax-flag">-qm</span> <span class="syntax-string">"batch writes: decision, checkpoint, receipt"</span> <span class="syntax-operator">&amp;&amp;</span> <span class="syntax-function">git</span> push <span class="syntax-flag">-q</span></code></pre></li><li><p>5. Later, a commit changes a file in the gate&rsquo;s scope.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span>sed <span class="syntax-flag">-i</span> <span class="syntax-string">'s/500/250/'</span> src/ledger.rs <span class="syntax-operator">&amp;&amp;</span> <span class="syntax-function">git</span> commit <span class="syntax-flag">-qam</span> <span class="syntax-string">"try 250 rows"</span> <span class="syntax-operator">&amp;&amp;</span> <span class="syntax-function">git</span> push <span class="syntax-flag">-q</span></code></pre></li><li><p>6. On another machine, clone and resume. The gate is stale, and the <code>next:</code> line names the command that meets it again.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">git</span> clone <span class="syntax-flag">-q</span> …/demo-api.git <span class="syntax-operator">&amp;&amp;</span> cd demo-api <span class="syntax-operator">&amp;&amp;</span> <span class="syntax-function">writfold</span> kb resume
+<span class="syntax-keyword">run</span> run-… <span class="syntax-warn">[open]</span> batch ledger writes <span class="syntax-path">@runs/run-…/manifest.json:8</span>
+<span class="syntax-comment">…</span>
+<span class="syntax-keyword">gate</span> unit <span class="syntax-warn">[stale]</span> mechanical pass exit=0 at demo-api@de2997f4dbc4 scope=7ac784bc428b paths=1 <span class="syntax-path">@runs/run-…/gates/unit-….json:1</span> <span class="syntax-stale">!stale</span>
+<span class="syntax-function">  why:</span> changed in scope: src/ledger.rs
+<span class="syntax-function">  next:</span> writfold kb gate run unit
+<span class="syntax-keyword">checkpoint</span> 2026-11-17T00:42:26Z entry 1 of 1 <span class="syntax-path">@runs/run-…/checkpoint.md:2</span>
+<span class="syntax-function">  note:</span> Batching at 500 rows. Next: tune the batch size. <span class="syntax-path">@runs/run-…/checkpoint.md:4</span>
+<span class="syntax-comment">…</span></code></pre></li></ol>
     </section>
 
     <section id="gates" class="section" aria-labelledby="gates-title">
@@ -66,6 +91,30 @@
       <p class="guide-link"><span aria-hidden="true">→</span> Templates, skipping and required steps: <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/run-graph.md">the plan guide</a></p>
     </section>
 
+    <section id="policy" class="section" aria-labelledby="policy-title">
+      <div class="section-heading"><p class="eyebrow">Your policy</p><h2 id="policy-title">Your policy says what counts</h2><p>You decide what adequate work means; Writfold holds no opinion of its own. Here the research gate takes a statement and no waiver, and every plan starts with a research step that cannot be skipped.</p></div>
+      <div class="pair"><div class="pair-files"><figure class="file"><figcaption>.writfold/gates/research.toml</figcaption><pre class="code-panel lang-toml" tabindex="0" aria-label="The file .writfold/gates/research.toml"><code><span class="syntax-keyword">schema</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"writfold-gate/1"</span>
+<span class="syntax-keyword">id</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"research"</span>
+<span class="syntax-keyword">version</span> <span class="syntax-punctuation">=</span> <span class="syntax-number">1</span>
+<span class="syntax-keyword">class</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"attested"</span>
+<span class="syntax-keyword">scope</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"docs/research/**"</span><span class="syntax-punctuation">]</span>
+<span class="syntax-keyword">description</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"the research note was read"</span>
+<span class="syntax-keyword">accept</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"attested"</span><span class="syntax-punctuation">]</span></code></pre></figure><figure class="file"><figcaption>.writfold/plans/required.toml</figcaption><pre class="code-panel lang-toml" tabindex="0" aria-label="The file .writfold/plans/required.toml"><code><span class="syntax-keyword">schema</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"writfold-plan-required/1"</span>
+<span class="syntax-keyword">start</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"research"</span><span class="syntax-punctuation">]</span>
+<span class="syntax-keyword">unskippable</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"research"</span><span class="syntax-punctuation">]</span></code></pre></figure></div><ol class="cmds wrap"><li><p>A waiver is refused.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb gate waive research <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--reason</span> <span class="syntax-string">"no time"</span> <span class="syntax-flag">--by</span> agent
+writfold kb: refused: gate research does not accept a waiver (accept = ["attested"] <span class="syntax-path">@.writfold/gates/research.toml:7</span>); meet it: writfold kb gate attest research --statement TEXT --by WHO</code></pre></li><li><p>So is skipping the step.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan skip <span class="syntax-operator">\</span>
+    <span class="syntax-flag">--reason</span> <span class="syntax-string">"no time"</span> <span class="syntax-flag">--by</span> agent
+<span class="syntax-keyword">step</span> research#1/research <span class="syntax-badge">[current]</span> owes: research <span class="syntax-warn">[open]</span> <span class="syntax-path">@runs/run-…/plan/splice-research.1.json:1</span> <span class="syntax-stale">!locked</span>
+<span class="syntax-function">  next:</span> writfold kb gate attest research --statement TEXT --by WHO
+<span class="syntax-comment"># note: not skipped: research#1/research is a required step this run cannot skip (unskippable = ["research"] @.writfold/plans/required.toml:3, pinned @runs/run-…/policy/pin-1-….json:1); nothing written</span>
+<span class="syntax-comment">…</span></code></pre></li><li><p>A finished plan says how it finished. This one closed its research on a statement and skipped two steps.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command and its output"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan status
+<span class="syntax-comment">…</span>
+<span class="syntax-keyword">plan</span> complete-with-exceptions 4 steps: 1 passed, 1 attested, 0 waived, 2 skipped; policy=same <span class="syntax-path">@runs/run-…/plan/</span>
+<span class="syntax-comment">…</span></code></pre></li></ol></div>
+      <p class="guide-link"><span aria-hidden="true">→</span> Checklists, pinned policy and an example to start from: <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/policy.md">the policy guide</a></p>
+    </section>
+
     <section id="skill" class="section" aria-labelledby="skill-title">
       <div class="section-heading"><p class="eyebrow">A skill</p><h2 id="skill-title">A skill adds its own steps</h2><p>A Claude Code skill can carry one line that adds steps to the plan when the skill loads. The steps come from a template of their own.</p></div>
       <div class="pair"><div class="pair-files"><figure class="file"><figcaption>.claude/skills/review/SKILL.md</figcaption><pre class="code-panel lang-md" tabindex="0" aria-label="The file .claude/skills/review/SKILL.md"><code><span class="syntax-punctuation">---</span>
@@ -81,11 +130,11 @@
 <span class="syntax-keyword">## Your task</span>
 
 Work the current step shown above, in order. When its gates are met, run
-<span class="syntax-string">`writfold kb plan advance`</span>; report a gate as passed only when it shows
+<span class="syntax-string">`writfold kb plan advance`</span>; report a gate as met only when it shows
 <span class="syntax-string">`[satisfied]`</span> or <span class="syntax-string">`[attested]`</span>.</code></pre></figure><figure class="file"><figcaption>.writfold/plans/review.toml</figcaption><pre class="code-panel lang-toml" tabindex="0" aria-label="The file .writfold/plans/review.toml"><code><span class="syntax-keyword">schema</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"writfold-plan/1"</span>
 <span class="syntax-keyword">name</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"review"</span>
 <span class="syntax-keyword">description</span> <span class="syntax-punctuation">=</span> <span class="syntax-string">"read the diff, then record what was found"</span>
-<span class="syntax-keyword">steps</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"read-diff:"</span><span class="syntax-punctuation">,</span> <span class="syntax-string">"findings: findings"</span><span class="syntax-punctuation">]</span></code></pre></figure></div><ol class="cmds"><li><p>The skill&rsquo;s line. It adds the review steps before the current step; running it twice adds them once.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan use review</code></pre></li><li><p>Then the agent walks them like any other step.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan advance</code></pre></li></ol></div>
+<span class="syntax-keyword">steps</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"read-diff:"</span><span class="syntax-punctuation">,</span> <span class="syntax-string">"findings: findings"</span><span class="syntax-punctuation">]</span></code></pre></figure></div><ol class="cmds"><li><p>The skill&rsquo;s line. It adds the review steps before the current step; running it twice adds them once. The agent then walks them like any other step.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan use review</code></pre></li></ol></div>
       <p class="guide-link"><span aria-hidden="true">→</span> Writing a skill: <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/skills.md">the skills guide</a></p>
     </section>
 
@@ -110,7 +159,7 @@ Work the current step shown above, in order. When its gates are met, run
 <span class="syntax-keyword">checks</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"references.denied"</span><span class="syntax-punctuation">]</span>
 <span class="syntax-keyword">gates</span> <span class="syntax-punctuation">=</span> <span class="syntax-punctuation">[</span><span class="syntax-string">"commit-format"</span><span class="syntax-punctuation">,</span> <span class="syntax-string">"language-guidelines"</span><span class="syntax-punctuation">]</span></code></pre></figure></div><ol class="cmds"><li><p>Keep the exact text as a draft in the run.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb deliver prepare <span class="syntax-operator">\</span>
     <span class="syntax-flag">--mode</span> commit-message <span class="syntax-operator">\</span>
-    <span class="syntax-flag">--audience</span> external <span class="syntax-flag">--from</span> msg.txt</code></pre></li><li><p>Run the mode&rsquo;s checks on that text.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb deliver check</code></pre></li><li><p>The draft is ready only when every check is met.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb deliver status</code></pre></li><li><p>A plan step can owe this mode: <code>commit: deliver:commit-message</code>. It advances only once the draft is ready.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan advance</code></pre></li></ol></div>
+    <span class="syntax-flag">--audience</span> external <span class="syntax-flag">--from</span> msg.txt</code></pre></li><li><p>Run the mode&rsquo;s checks on that text. The draft is ready only when every check is met.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb deliver check</code></pre></li><li><p>A plan step can owe this mode: <code>commit: deliver:commit-message</code>. It advances only once the draft is ready.</p><pre class="code-panel lang-session" tabindex="0" aria-label="Command"><code><span class="syntax-prompt">$ </span><span class="syntax-function">writfold</span> kb plan advance</code></pre></li></ol></div>
       <p class="guide-link"><span aria-hidden="true">→</span> PR comments, Slack summaries and your own modes: <a href="https://github.com/writfold-dev/writfold/blob/main/docs/guide/delivery-modes.md">the delivery guide</a></p>
     </section>
 

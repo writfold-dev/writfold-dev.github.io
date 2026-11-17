@@ -1,0 +1,7 @@
+schema = "writfold-gate/1"
+id = "research"
+version = 1
+class = "attested"
+scope = ["docs/research/**"]
+description = "the research note was read"
+accept = ["attested"]

@@ -15,8 +15,8 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.2"
-RELEASED = "16 November 2026"
+VERSION = "v0.6.0-dev.3"
+RELEASED = "17 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -168,7 +168,7 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
       <h1 id="hero-title">Deterministic agent work<br><span>that resumes where it stopped.</span></h1>
       <p class="lede">Writfold keeps a coding agent&rsquo;s plan, checks and decisions as plain files in Git.</p>
       <div class="two-up">
-        <div class="capability"><h2>Deterministic</h2><p>The agent follows a plan. Each check leaves a receipt tied to the exact bytes it checked, and guard rules hold a command until its gates are met.</p></div>
+        <div class="capability"><h2>Deterministic</h2><p>Not the model: the process around it. The agent follows a plan; each check leaves a receipt tied to the exact bytes it checked; and what is done, what is owed and whether a step may close are computed from files in Git, the same on every machine.</p></div>
         <div class="capability"><h2>Resumable</h2><p>A new session reads a short brief and the last checkpoint, not the whole project. Commit and push the run&rsquo;s files, and it resumes on any machine.</p></div>
       </div>
       <div class="hero-install">
@@ -179,15 +179,16 @@ index = f'''  <main id="main" class="wrap" tabindex="-1">
     </section>
 
     <section id="deterministic" class="section" aria-labelledby="deterministic-title">
-      <div class="section-heading"><p class="eyebrow">Deterministic</p><h2 id="deterministic-title">A plan the agent walks, with checks that leave receipts</h2><p>Each task is a run with a plan. Each step names its gates: checks you define, such as your tests. <code>writfold watch</code> shows the plan in your terminal.</p></div>
+      <div class="section-heading"><p class="eyebrow">Deterministic</p><h2 id="deterministic-title">A plan the agent walks, with checks that leave receipts</h2><p>What the agent writes is its own; what Writfold says about it is derived from the records, never from a model.</p><p>Each task is a run with a plan. Each step names its gates: checks you define, such as your tests. <code>writfold watch</code> shows the plan in your terminal.</p></div>
       <figure class="example"><figcaption><span class="chip chip-today">Captured</span> <code>writfold watch</code> on a demo project.</figcaption>{frame("home")}</figure>
       <dl class="callouts">
-        <div><dt><code>✓</code> Done, and still true</dt><dd>A step is done only when every gate it owes is met.</dd></div>
-        <div><dt><code>!</code> Done, but something moved</dt><dd>A later edit changed the bytes a gate checked. The step is flagged.</dd></div>
+        <div><dt><code>✓</code> Done, and its checks still hold</dt><dd>A step is recorded done only when every gate it owes is met. A gate met by a statement or a waiver is shown as attested or waived, never as passed, and a step whose checked bytes have since changed is flagged stale.</dd></div>
+        <div><dt><code>!</code> Done, but something moved</dt><dd>A later edit changed the bytes a gate checked.</dd></div>
         <div><dt><code>▶</code> Next</dt><dd>The step to pick up.</dd></div>
       </dl>
-      <p class="fine-print">Gates report; they block nothing by themselves. A guard rule you add can deny a command such as <code>git commit</code> until they are met.</p>
-      {more('<a href="/how.html">the files and commands behind this</a>')}
+      <p>A finished plan says how it finished: <code>complete</code>, <code>complete-with-exceptions</code>, <code>policy-moved</code>.</p>
+      <p class="fine-print">Gates report; they block nothing by themselves. A guard rule you add can deny a command such as <code>git commit</code> until they are met, and <a href="/how.html#policy">your policy</a> says which outcomes meet a gate.</p>
+      {more('<a href="/how.html">a short example, and the files and commands behind this</a>')}
     </section>
 
     <section id="resumable" class="section" aria-labelledby="resumable-title">
@@ -247,6 +248,11 @@ def commands(*items):
     return '<ol class="cmds">' + "".join(
         f'<li><p>{caption}</p>{pre("Command", "$ " + command)}</li>' for caption, command in items) + "</ol>"
 
+def sessions(*items):
+    '''Commands with the output they printed, trimmed as the README allows.'''
+    return '<ol class="cmds wrap">' + "".join(
+        f'<li><p>{caption}</p>{pre("Command and its output", text)}</li>' for caption, text in items) + "</ol>"
+
 def pair(sid, eyebrow, title, text, files, cmds, link):
     return f'''
     <section id="{sid}" class="section" aria-labelledby="{sid}-title">
@@ -271,11 +277,27 @@ HOW = "".join([
                   ("See each step and what it owes.", "writfold kb plan status"),
                   ("Record the current step as done. Refused while a gate is owed.", "writfold kb plan advance")),
          more(guide("run-graph", "the plan guide"), lead="Templates, skipping and required steps")),
+    pair("policy", "Your policy", "Your policy says what counts",
+         "You decide what adequate work means; Writfold holds no opinion of its own. Here the research gate takes a statement and no waiver, and every plan starts with a research step that cannot be skipped.",
+         [file_panel(".writfold/gates/research.toml", "research.toml", "toml"), file_panel(".writfold/plans/required.toml", "required.toml", "toml")],
+         sessions(("A waiver is refused.", """$ writfold kb gate waive research \\
+    --reason "no time" --by agent
+writfold kb: refused: gate research does not accept a waiver (accept = ["attested"] @.writfold/gates/research.toml:7); meet it: writfold kb gate attest research --statement TEXT --by WHO"""),
+                  ("So is skipping the step.", """$ writfold kb plan skip \\
+    --reason "no time" --by agent
+step research#1/research [current] owes: research [open] @runs/run-…/plan/splice-research.1.json:1 !locked
+  next: writfold kb gate attest research --statement TEXT --by WHO
+# note: not skipped: research#1/research is a required step this run cannot skip (unskippable = ["research"] @.writfold/plans/required.toml:3, pinned @runs/run-…/policy/pin-1-….json:1); nothing written
+…"""),
+                  ("A finished plan says how it finished. This one closed its research on a statement and skipped two steps.", """$ writfold kb plan status
+…
+plan complete-with-exceptions 4 steps: 1 passed, 1 attested, 0 waived, 2 skipped; policy=same @runs/run-…/plan/
+…""")),
+         more(guide("policy", "the policy guide"), lead="Checklists, pinned policy and an example to start from")),
     pair("skill", "A skill", "A skill adds its own steps",
          "A Claude Code skill can carry one line that adds steps to the plan when the skill loads. The steps come from a template of their own.",
          [file_panel(".claude/skills/review/SKILL.md", "SKILL.md", "md"), file_panel(".writfold/plans/review.toml", "review.toml", "toml")],
-         commands(("The skill&rsquo;s line. It adds the review steps before the current step; running it twice adds them once.", "writfold kb plan use review"),
-                  ("Then the agent walks them like any other step.", "writfold kb plan advance")),
+         commands(("The skill&rsquo;s line. It adds the review steps before the current step; running it twice adds them once. The agent then walks them like any other step.", "writfold kb plan use review")),
          more(guide("skills", "the skills guide"), lead="Writing a skill")),
     pair("guard", "A guard rule", "A guard rule holds a command until the gates are met",
          "With the Claude Code plugin, this rule denies <code>git commit</code> and <code>git push</code> while the run owes a gate. It only sees the commands Claude Code shows it, so it is a guard, not a lock.",
@@ -287,8 +309,7 @@ HOW = "".join([
          "This mode checks a commit message. Writfold checks the exact text and sends nothing: posting stays with you or your agent.",
          [file_panel(".writfold/deliveries/commit-message.toml", "commit-message.toml", "toml")],
          commands(("Keep the exact text as a draft in the run.", "writfold kb deliver prepare \\\n    --mode commit-message \\\n    --audience external --from msg.txt"),
-                  ("Run the mode&rsquo;s checks on that text.", "writfold kb deliver check"),
-                  ("The draft is ready only when every check is met.", "writfold kb deliver status"),
+                  ("Run the mode&rsquo;s checks on that text. The draft is ready only when every check is met.", "writfold kb deliver check"),
                   ("A plan step can owe this mode: <code>commit: deliver:commit-message</code>. It advances only once the draft is ready.", "writfold kb plan advance")),
          more(guide("delivery-modes", "the delivery guide"), lead="PR comments, Slack summaries and your own modes")),
     pair("resume", "A checkpoint", "A checkpoint is a note for the next session",
@@ -300,12 +321,46 @@ HOW = "".join([
          more(guide("kb-layout", "the knowledge base layout"), lead="Every record and where it lives")),
 ])
 
+EXAMPLE = '<ol class="cmds walk">' + "".join(f'<li><p>{caption}</p>{pre("Command and its output", text)}</li>' for caption, text in [
+    ("1. Record a decision. It is a file, and the answer names where it is.", """$ writfold kb record decision --title "Batch ledger writes" \\
+    --target-source src/ledger.rs \\
+    --why "One transaction per 500 rows keeps replay under a minute."
+decision proposal/decision/2026-11-17-batch-ledger-writes [draft] Batch ledger writes @proposals/…/proposal.md:6
+…"""),
+    ("2. Start a run, with a note for the next session.", """$ writfold kb checkpoint --new-run --project demo-api \\
+    --task "batch ledger writes" \\
+    --note "Batching at 500 rows. Next: tune the batch size."
+run run-… [open] batch ledger writes @runs/run-…/manifest.json:8 !current
+…
+checkpoint 2026-11-17T00:42:26Z entry 1 of 1 @runs/run-…/checkpoint.md:2
+  note: Batching at 500 rows. Next: tune the batch size. @runs/run-…/checkpoint.md:4
+…"""),
+    ("3. Pass a gate. Its receipt names the commit and the bytes it checked.", """$ writfold kb gate run unit
+gate unit [satisfied] mechanical pass exit=0 at demo-api@de2997f4dbc4 scope=7ac784bc428b paths=1 @runs/run-…/gates/unit-….json:1
+…"""),
+    ("4. Stop. Commit and push the run&rsquo;s files.", """$ git add -A && git commit -qm "batch writes: decision, checkpoint, receipt" && git push -q"""),
+    ("5. Later, a commit changes a file in the gate&rsquo;s scope.", """$ sed -i 's/500/250/' src/ledger.rs && git commit -qam "try 250 rows" && git push -q"""),
+    ("6. On another machine, clone and resume. The gate is stale, and the <code>next:</code> line names the command that meets it again.", """$ git clone -q …/demo-api.git && cd demo-api && writfold kb resume
+run run-… [open] batch ledger writes @runs/run-…/manifest.json:8
+…
+gate unit [stale] mechanical pass exit=0 at demo-api@de2997f4dbc4 scope=7ac784bc428b paths=1 @runs/run-…/gates/unit-….json:1 !stale
+  why: changed in scope: src/ledger.rs
+  next: writfold kb gate run unit
+checkpoint 2026-11-17T00:42:26Z entry 1 of 1 @runs/run-…/checkpoint.md:2
+  note: Batching at 500 rows. Next: tune the batch size. @runs/run-…/checkpoint.md:4
+…"""),
+]) + "</ol>"
+
 how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="how-title">
       <p class="eyebrow">How it works</p>
       <h1 id="how-title">Small files.<br><span>A few commands.</span></h1>
-      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here are six files, each beside the commands that use it.</p>
-      <nav class="actions" aria-label="Page sections"><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
+      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here is one short example, then seven files, each beside the commands that use it.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#example">Example</a><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#policy">Policy</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
+    </section>
+    <section id="example" class="section" aria-labelledby="example-title">
+      <div class="section-heading"><p class="eyebrow">An example</p><h2 id="example-title">Stop on one machine, resume on another</h2><p>Six commands, run on a demo repository whose <code>unit</code> gate covers <code>src/**</code>. The output is real and trimmed: <code>…</code> stands for a run ID, a path or lines left out.</p></div>
+      {EXAMPLE}
     </section>
 {HOW}
     <section class="section" aria-labelledby="next-title">
@@ -314,7 +369,7 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
   </main>
 '''
 page("how.html", "How it works — Writfold",
-     "How Writfold works, shown as six small files (a gate, a plan, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.",
+     "How Writfold works: one short example of stopping and resuming, then seven small files (a gate, a plan, a policy, a skill, a guard rule, a delivery mode, a checkpoint), each beside the commands that use it.",
      "/how.html", how)
 
 # ---------------------------------------------------------------- status
@@ -328,8 +383,9 @@ TODAY = "".join([
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip</code>. Templates, skills that add steps, and steps you require in every plan"),
+    row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
-    row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode passes every check"),
+    row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode is ready: every check met"),
     row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | attest | waive</code>. PR comments, Slack summaries and your own modes, checked. Nothing is sent"),
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
@@ -345,13 +401,16 @@ ROAD = "".join([
     step("Plans and guard rules", "Plan templates, skills that add steps, required steps and guard rules.", "Done"),
     step("<code>writfold watch</code>", "The plan and the project&rsquo;s records in one terminal view.", "Done"),
     step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Done"),
+    step("Your policy", "Which outcomes meet a gate, steps that cannot be skipped, policy pinned per run, and a plan that says how it finished.", "Done"),
+    step("Re-pinning and delivery waivers", "<code>plan repin</code> to accept an edited policy mid-run, and a delivery mode that says which checks may be waived.", "Planned"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("16 Nov 2026", f'{rel(VERSION)}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
+    ("17 Nov 2026", f'{rel(VERSION)}: your policy, applied the same way every time. A gate can say which outcomes meet it, a required step can refuse a skip, each run pins the policy it started under and says when it moved, and a finished plan says how it finished. <code>kb init</code> starts a knowledge base. More of the core is proved in Lean.'),
+    ("16 Nov 2026", f'{rel("v0.6.0-dev.2")}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.1")}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.9")}: <code>kb stale --record</code> writes what a checker found to a tracked file you commit, so a clone without that checker can read it, for citation kinds that set a <code>max_age</code>. <code>record investigation</code> opens an investigation record.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.8")}: <code>writfold watch</code> shows the project&rsquo;s records too: decisions, tracker, an impact tree and stale citations. <code>find --kind</code> lists records by kind.'),
@@ -370,8 +429,8 @@ FAQ = "".join([
     faq("Can I use Writfold today?", 'Yes, as a preview: <a href="/#try">install it</a> on Linux x86_64 or WSL2. It is built for one person and their agents, working on local clones.'),
     faq("Does it need a server or a database?", "No. One static binary and files in Git. Writfold keeps a local index for speed and can always rebuild it from Git."),
     faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. Writfold runs no model and posts nothing."),
-    faq("Can an agent skip a gate or a step?", "Yes, and it shows. A gate never run shows as open; a skipped step shows as skipped, with a reason and a name. A guard rule you add can deny a command such as <code>git commit</code> until the gates are met. It is a guard, not a lock: it only sees the commands Claude Code shows it."),
-    faq("Is it formally verified?", f'In part. The core decisions for plans and gates are proved in Lean against the Rust that ships. The rest is tested. {guide("assurance", "The assurance guide")} has the details and the limits.'),
+    faq("Can an agent skip a gate or a step?", "Yes, and it shows. A gate never run shows as open; a skipped step shows as skipped, with a reason and a name. Your policy can narrow this: a gate can refuse a waiver, and a required step can refuse a skip. A guard rule you add can deny a command such as <code>git commit</code> until the gates are met. It is a guard, not a lock: it only sees the commands Claude Code shows it."),
+    faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules and your policy, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
     faq("Other harnesses?", "The CLI works wherever an agent has a shell. The session-start brief and the guard rules come with the Claude Code plugin."),
     faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a> is public, and this website is under the MIT license.'),
 ])
@@ -386,7 +445,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
     <section id="today" class="section" aria-labelledby="today-title">
       <div class="section-heading"><p class="eyebrow">01 / Runs today</p><h2 id="today-title">In the preview</h2><p>Each entry links to its guide. <a href="/#try">Install it</a>, or read the <a href="{README}">README</a>.</p></div>
       <div class="doc-links">{TODAY}</div>
-      <p class="fine-print">Limits: one person and their agents, on local clones. Plans, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
+      <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
       <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, planned, and not planned</h2></div>

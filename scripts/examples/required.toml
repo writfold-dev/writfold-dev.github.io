@@ -1,0 +1,3 @@
+schema = "writfold-plan-required/1"
+start = ["research"]
+unskippable = ["research"]

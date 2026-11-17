@@ -11,5 +11,5 @@ allowed-tools: Bash(writfold kb plan use *)
 ## Your task
 
 Work the current step shown above, in order. When its gates are met, run
-`writfold kb plan advance`; report a gate as passed only when it shows
+`writfold kb plan advance`; report a gate as met only when it shows
 `[satisfied]` or `[attested]`.
