@@ -15,7 +15,7 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.3"
+VERSION = "v0.6.0-dev.4"
 RELEASED = "17 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -386,7 +386,7 @@ TODAY = "".join([
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
     row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode is ready: every check met"),
-    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | attest | waive</code>. PR comments, Slack summaries and your own modes, checked. Nothing is sent"),
+    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting; the guard holds the posting command until the exact text is ready. Nothing is sent"),
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, checkpoint drafts, and two skills"),
@@ -402,14 +402,17 @@ ROAD = "".join([
     step("<code>writfold watch</code>", "The plan and the project&rsquo;s records in one terminal view.", "Done"),
     step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Done"),
     step("Your policy", "Which outcomes meet a gate, steps that cannot be skipped, policy pinned per run, and a plan that says how it finished.", "Done"),
-    step("Re-pinning and delivery waivers", "<code>plan repin</code> to accept an edited policy mid-run, and a delivery mode that says which checks may be waived.", "Planned"),
+    step("Delivery modes for agents", "A mode says which checks may be waived; the guard reads the exact text being posted; citations are stripped from outward text; posts are recorded.", "Done"),
+    step("Re-pinning", "<code>plan repin</code> to accept an edited policy mid-run.", "Planned"),
+    step("Finding records by what people call them", "Stemming, aliases on every record, acronyms and faster lookups for session-start hooks.", "Next"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("17 Nov 2026", f'{rel(VERSION)}: your policy, applied the same way every time. A gate can say which outcomes meet it, a required step can refuse a skip, each run pins the policy it started under and says when it moved, and a finished plan says how it finished. <code>kb init</code> starts a knowledge base. More of the core is proved in Lean.'),
+    ("17 Nov 2026", f'{rel(VERSION)}: delivery modes other agents can rely on: the guard reads the exact text being posted, a mode says which checks may be waived, citations never leave in outward text, and posts are recorded. More of the core proved in Lean, a fix for a wrong result across two clones, and faster lookups.'),
+    ("17 Nov 2026", f'{rel("v0.6.0-dev.3")}: your policy, applied the same way every time. A gate can say which outcomes meet it, a required step can refuse a skip, each run pins the policy it started under and says when it moved, and a finished plan says how it finished. <code>kb init</code> starts a knowledge base. More of the core is proved in Lean.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.2")}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.1")}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
     ("15 Nov 2026", f'{rel("v0.5.0-dev.9")}: <code>kb stale --record</code> writes what a checker found to a tracked file you commit, so a clone without that checker can read it, for citation kinds that set a <code>max_age</code>. <code>record investigation</code> opens an investigation record.'),
