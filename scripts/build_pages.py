@@ -15,7 +15,7 @@ from highlight import highlight
 from term_glyphs import uncovered
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.4"
+VERSION = "v0.6.0-dev.5"
 RELEASED = "17 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -411,7 +411,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("17 Nov 2026", f'{rel(VERSION)}: delivery modes other agents can rely on: the guard reads the exact text being posted, a mode says which checks may be waived, citations never leave in outward text, and posts are recorded. More of the core proved in Lean, a fix for a wrong result across two clones, and faster lookups.'),
+    ("17 Nov 2026", f'{rel(VERSION)}: <code>deliver match</code> shows the same draft on every run when several hold the same text.'),
+    ("17 Nov 2026", f'{rel("v0.6.0-dev.4")}: delivery modes other agents can rely on: the guard reads the exact text being posted, a mode says which checks may be waived, citations never leave in outward text, and posts are recorded. More of the core proved in Lean, a fix for a wrong result across two clones, and faster lookups.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.3")}: your policy, applied the same way every time. A gate can say which outcomes meet it, a required step can refuse a skip, each run pins the policy it started under and says when it moved, and a finished plan says how it finished. <code>kb init</code> starts a knowledge base. More of the core is proved in Lean.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.2")}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.1")}: guard rules read the command as the shell does; a plan step can owe a checked draft (<code>deliver:&lt;mode&gt;</code>); lookups find the right record first more often; <code>writfold watch</code> speaks plain words; and a smaller binary, now just <code>kb</code> and <code>watch</code>.'),
