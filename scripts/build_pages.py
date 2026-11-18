@@ -13,10 +13,11 @@ import re
 from html import unescape
 from highlight import highlight
 from term_glyphs import uncovered
+import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.5"
-RELEASED = "17 November 2026"
+VERSION = "v0.6.0-dev.7"
+RELEASED = "18 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -262,6 +263,18 @@ def pair(sid, eyebrow, title, text, files, cmds, link):
     </section>
 '''
 
+def drawn(sid, eyebrow, title, text, figure, caption, files, cmds, link):
+    """A section led by a drawing of how the product decides, then files and commands."""
+    files_html = f'<div class="pair-files">{"".join(files)}</div>' if files else ""
+    return f'''
+    <section id="{sid}" class="section" aria-labelledby="{sid}-title">
+      <div class="section-heading"><p class="eyebrow">{eyebrow}</p><h2 id="{sid}-title">{title}</h2><p>{text}</p></div>
+      <figure class="diagram-figure">{figure}<figcaption><span class="chip chip-parts">Drawing</span> {caption}</figcaption></figure>
+      <div class="pair">{files_html}{cmds}</div>
+      {link}
+    </section>
+'''
+
 HOW = "".join([
     pair("gates", "A gate", "A gate is a check that leaves a receipt",
          "This gate runs the unit tests. Its receipt is tied to the files in <code>scope</code>: edit one of them, and the gate is owed again.",
@@ -305,6 +318,23 @@ plan complete-with-exceptions 4 steps: 1 passed, 1 attested, 0 waived, 2 skipped
          commands(("Ask what each rule would decide right now.", "writfold kb guard status"),
                   ("A denial names what is owed and the command that meets it. For example:", "writfold kb gate run unit")),
          more(guide("hooks", "the hooks guide"), lead="Every key and requirement")),
+    drawn("sessions", "Several sessions", "Each agent session works in its own run",
+          "Run two agents on one machine, in two repositories, and each one&rsquo;s commits are judged against its own run. A session reads its own pointer first, then its work tree&rsquo;s, then the clone&rsquo;s shared one. Nothing to set up: the plugin hands the session its ID.",
+          diagrams.sessions(),
+          "How the current run is found. Which pointer decides is proved in Lean: a session with its own pointer reads the same whatever other sessions start, and a run that was closed is reported, never swapped for another session&rsquo;s.",
+          [],
+          commands(("Start a run. It becomes current for this session and this work tree, and for nobody else.", 'writfold kb checkpoint --new-run --task "batch writes" \\\n    --note "start"'),
+                   ("Hand a run to a reviewer or a second session: make it current here too.", "writfold kb resume run-… --here"),
+                   ("Several lookups in one call, for a hook that runs before each search.", 'writfold kb find --each "batch writes" ledger replay')),
+          more(guide("hooks", "the hooks guide"), guide("adopting", "adopting Writfold in an existing workflow"), lead="Sessions, worktrees and hand-overs")),
+    drawn("store", "An attached store", "Disposable evidence, cited for good",
+          "Probe scripts, reproducers, data pulls and review notes are worth citing and not worth curating. Keep them in a Git repository of their own and declare it once. A citation into it is judged at the commit it names, so tidying the store never makes evidence stale.",
+          diagrams.store(),
+          "How a citation into a store is judged. The rule is proved in Lean: fresh exactly when the cited commit is still reachable and holds the cited bytes; a clone that is only behind is never read as a loss.",
+          [file_panel(".writfold/stores/scratch.toml", "scratch.toml", "toml")],
+          commands(("See where each machine finds the store, or the command to clone it.", "writfold kb repos"),
+                   ("Check every citation. Ones into the store are judged at their pin.", "writfold kb stale")),
+          more(guide("stores", "the stores guide"), lead="Declaring a store and laying it out")),
     pair("deliver", "A delivery mode", "A delivery mode checks a draft before you send it",
          "This mode checks a commit message. Writfold checks the exact text and sends nothing: posting stays with you or your agent.",
          [file_panel(".writfold/deliveries/commit-message.toml", "commit-message.toml", "toml")],
@@ -355,8 +385,8 @@ how = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="how-title">
       <p class="eyebrow">How it works</p>
       <h1 id="how-title">Small files.<br><span>A few commands.</span></h1>
-      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here is one short example, then seven files, each beside the commands that use it.</p>
-      <nav class="actions" aria-label="Page sections"><a href="#example">Example</a><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#policy">Policy</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
+      <p class="lede">You describe your checks, plans and rules in small files, kept in Git. The agent runs a few commands against them. Here is one short example, then the files, each beside the commands that use it.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#example">Example</a><a href="#gates">Gate</a><a href="#plan">Plan</a><a href="#policy">Policy</a><a href="#skill">Skill</a><a href="#guard">Guard rule</a><a href="#sessions">Sessions</a><a href="#store">Store</a><a href="#deliver">Delivery mode</a><a href="#resume">Checkpoint</a></nav>
     </section>
     <section id="example" class="section" aria-labelledby="example-title">
       <div class="section-heading"><p class="eyebrow">An example</p><h2 id="example-title">Stop on one machine, resume on another</h2><p>Six commands, run on a demo repository whose <code>unit</code> gate covers <code>src/**</code>. The output is real and trimmed: <code>…</code> stands for a run ID, a path or lines left out.</p></div>
@@ -379,10 +409,12 @@ def row(href, title, text):
 # The one list of what runs; the overview and How it works link here.
 TODAY = "".join([
     row(GUIDE + "kb-layout.md", "Questions with sourced answers", "<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs | repos</code>. Every row names its source"),
+    row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call"),
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
+    row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale"),
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass"),
-    row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip</code>. Templates, skills that add steps, and steps you require in every plan"),
+    row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip | repin</code>. Templates, skills that add steps, steps you require in every plan, and a recorded way to adopt a gate edited mid-run"),
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
     row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode is ready: every check met"),
@@ -403,7 +435,11 @@ ROAD = "".join([
     step("A delivery mode as a step&rsquo;s gate", "A plan step that owes a checked draft.", "Done"),
     step("Your policy", "Which outcomes meet a gate, steps that cannot be skipped, policy pinned per run, and a plan that says how it finished.", "Done"),
     step("Delivery modes for agents", "A mode says which checks may be waived; the guard reads the exact text being posted; citations are stripped from outward text; posts are recorded.", "Done"),
-    step("Re-pinning", "<code>plan repin</code> to accept an edited policy mid-run.", "Planned"),
+    step("Re-pinning", "<code>plan repin</code> to accept an edited policy mid-run, on the record.", "Done"),
+    step("Several agent sessions at once", "A current run per session and per work tree, and hand-overs with <code>resume --here</code>.", "Done"),
+    step("Attached stores", "A companion repository of evidence, declared once and cited at its pinned commit.", "Done"),
+    step("Stores that point back", "A store directory names the record it serves, <code>kb context</code> lists it, and a run keeps pointers to its working material.", "Next"),
+    step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Stemming, aliases on every record, acronyms and faster lookups for session-start hooks.", "Next"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
@@ -411,7 +447,9 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("17 Nov 2026", f'{rel(VERSION)}: <code>deliver match</code> shows the same draft on every run when several hold the same text.'),
+    ("18 Nov 2026", f'{rel(VERSION)}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),
+    ("18 Nov 2026", f'{rel("v0.6.0-dev.6")}: several agent sessions on one machine, each with its own current run; <code>resume --here</code> for hand-overs; <code>plan repin</code>; <code>find --each</code>; a guide for adopting Writfold in an existing workflow, and a page of behaviour changes by release.'),
+    ("17 Nov 2026", f'{rel("v0.6.0-dev.5")}: <code>deliver match</code> shows the same draft on every run when several hold the same text.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.4")}: delivery modes other agents can rely on: the guard reads the exact text being posted, a mode says which checks may be waived, citations never leave in outward text, and posts are recorded. More of the core proved in Lean, a fix for a wrong result across two clones, and faster lookups.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.3")}: your policy, applied the same way every time. A gate can say which outcomes meet it, a required step can refuse a skip, each run pins the policy it started under and says when it moved, and a finished plan says how it finished. <code>kb init</code> starts a knowledge base. More of the core is proved in Lean.'),
     ("16 Nov 2026", f'{rel("v0.6.0-dev.2")}: errors point at the exact place: every file you write reports the file, line and column, shows the line, and suggests a fix; <code>kb lint</code> checks them all at once.'),
@@ -434,7 +472,7 @@ FAQ = "".join([
     faq("Does it need a server or a database?", "No. One static binary and files in Git. Writfold keeps a local index for speed and can always rebuild it from Git."),
     faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. Writfold runs no model and posts nothing."),
     faq("Can an agent skip a gate or a step?", "Yes, and it shows. A gate never run shows as open; a skipped step shows as skipped, with a reason and a name. Your policy can narrow this: a gate can refuse a waiver, and a required step can refuse a skip. A guard rule you add can deny a command such as <code>git commit</code> until the gates are met. It is a guard, not a lock: it only sees the commands Claude Code shows it."),
-    faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules and your policy, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
+    faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules, your policy, which run is current for a session and how a store&rsquo;s citations are judged, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
     faq("Other harnesses?", "The CLI works wherever an agent has a shell. The session-start brief and the guard rules come with the Claude Code plugin."),
     faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a> is public, and this website is under the MIT license.'),
 ])

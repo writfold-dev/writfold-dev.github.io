@@ -1,0 +1,6 @@
+schema = "writfold-store/1"
+name = "scratch"
+url = "git@example.org:me/scratch.git"
+role = "attached"
+paths = ["~/src/scratch"]
+description = "probes, reproducers and review notes"
