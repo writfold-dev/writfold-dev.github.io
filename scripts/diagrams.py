@@ -74,14 +74,14 @@ def sessions():
             + _svg("sessions", "fd-tall", 420, 404, SESSIONS_LABEL, tall))
 
 
-STORE_LABEL = ("A decision in the knowledge base cites a reproducer in an attached store at the commit where it "
+STORE_LABEL = ("A decision in the knowledge base, or a run recording its artifacts, cites a reproducer in an attached store at the commit where it "
                "was written. The store was tidied later and the file moved; the citation is still judged at its "
                "pinned commit, so it stays fresh. The store's declaration says where every machine finds the clone.")
 
 
 def store():
     wide = "".join([
-        _box(16, 20, 300, 112, "Decision: batch size 250", [
+        _box(16, 20, 300, 112, "A decision, or a run&#8217;s artifact", [
             ("cites repo=scratch rev=a1b2…", "fd-cmd"),
             ("path=work/fuzz/repro.py blob=…", "fd-cmd"),
             ("in the KB, tracked", None),
@@ -100,7 +100,7 @@ def store():
         '<text class="fd-note" x="16" y="312">Each machine finds the clone: its own map, then a search root or path hint whose origin is the declared URL.</text>',
     ])
     tall = "".join([
-        _box(10, 10, 400, 100, "Decision: batch size 250", [
+        _box(10, 10, 400, 100, "A decision, or a run&#8217;s artifact", [
             ("cites repo=scratch rev=a1b2…", "fd-cmd"),
             ("path=work/fuzz/repro.py", "fd-cmd"),
         ], cls="fd-kb"),

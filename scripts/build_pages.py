@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.7"
+VERSION = "v0.6.0-dev.8"
 RELEASED = "18 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -333,6 +333,7 @@ plan complete-with-exceptions 4 steps: 1 passed, 1 attested, 0 waived, 2 skipped
           "How a citation into a store is judged. The rule is proved in Lean: fresh exactly when the cited commit is still reachable and holds the cited bytes; a clone that is only behind is never read as a loss.",
           [file_panel(".writfold/stores/scratch.toml", "scratch.toml", "toml")],
           commands(("See where each machine finds the store, or the command to clone it.", "writfold kb repos"),
+                   ("Record what the run made in the store on its checkpoint. Refused unless it would read fresh: committed, reachable, a file.", 'writfold kb checkpoint --note "reproducer saved" \\\n    --artifact scratch@4f0c…:work/fuzz-parser/crash-01.bin'),
                    ("Check every citation. Ones into the store are judged at their pin.", "writfold kb stale")),
           more(guide("stores", "the stores guide"), lead="Declaring a store and laying it out")),
     pair("deliver", "A delivery mode", "A delivery mode checks a draft before you send it",
@@ -412,7 +413,7 @@ TODAY = "".join([
     row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call"),
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
-    row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale"),
+    row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing"),
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip | repin</code>. Templates, skills that add steps, steps you require in every plan, and a recorded way to adopt a gate edited mid-run"),
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
@@ -438,7 +439,9 @@ ROAD = "".join([
     step("Re-pinning", "<code>plan repin</code> to accept an edited policy mid-run, on the record.", "Done"),
     step("Several agent sessions at once", "A current run per session and per work tree, and hand-overs with <code>resume --here</code>.", "Done"),
     step("Attached stores", "A companion repository of evidence, declared once and cited at its pinned commit.", "Done"),
-    step("Stores that point back", "A store directory names the record it serves, <code>kb context</code> lists it, and a run keeps pointers to its working material.", "Next"),
+    step("Run artifacts", "<code>checkpoint --artifact</code>: a run keeps pinned pointers to what it made in a store, shown by <code>resume</code>.", "Done"),
+    step("Stores that point back", "A store directory names the record it serves, and <code>kb context</code> and <code>kb uses</code> list it.", "Next"),
+    step("Snapshots of a look", "<code>observe --snapshot</code> keeps the bytes an agent saw in a store, so a record shows what it relied on.", "Planned"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Stemming, aliases on every record, acronyms and faster lookups for session-start hooks.", "Next"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
@@ -447,7 +450,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("18 Nov 2026", f'{rel(VERSION)}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),
+    ("18 Nov 2026", f'{rel(VERSION)}: run artifacts: <code>checkpoint --artifact</code> records what a run made in an attached store (a test suite, a fuzz reproducer, review notes) as pinned citations, and <code>resume</code> shows each with its standing.'),
+    ("18 Nov 2026", f'{rel("v0.6.0-dev.7")}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.6")}: several agent sessions on one machine, each with its own current run; <code>resume --here</code> for hand-overs; <code>plan repin</code>; <code>find --each</code>; a guide for adopting Writfold in an existing workflow, and a page of behaviour changes by release.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.5")}: <code>deliver match</code> shows the same draft on every run when several hold the same text.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.4")}: delivery modes other agents can rely on: the guard reads the exact text being posted, a mode says which checks may be waived, citations never leave in outward text, and posts are recorded. More of the core proved in Lean, a fix for a wrong result across two clones, and faster lookups.'),
