@@ -16,8 +16,8 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.8"
-RELEASED = "18 November 2026"
+VERSION = "v0.6.0-dev.9"
+RELEASED = "19 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -414,7 +414,8 @@ TODAY = "".join([
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
     row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing"),
-    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass"),
+    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass. A scope can name paths in another repository (<code>repo:docs/adr/**</code>), and a gate about outside state can age (<code>ages_as</code>)"),
+    row(GUIDE + "gates.md#which-item-the-evidence-was-for-built-in-v060-dev9", "Evidence that answers its item", "A checklist item can require evidence of its own (<code>own_evidence</code>) or from named gates (<code>evidence_from</code>); <code>gate status</code> notes a look made for another item and evidence shared across items. A look that found nothing ages and can pin what it searched"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip | repin</code>. Templates, skills that add steps, steps you require in every plan, and a recorded way to adopt a gate edited mid-run"),
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
@@ -440,6 +441,7 @@ ROAD = "".join([
     step("Several agent sessions at once", "A current run per session and per work tree, and hand-overs with <code>resume --here</code>.", "Done"),
     step("Attached stores", "A companion repository of evidence, declared once and cited at its pinned commit.", "Done"),
     step("Run artifacts", "<code>checkpoint --artifact</code>: a run keeps pinned pointers to what it made in a store, shown by <code>resume</code>.", "Done"),
+    step("Evidence that answers its item", "Checklist items that need their own evidence, gates that age, scopes across repositories, and looks that found nothing pinned to what they searched. Proved in Lean.", "Done"),
     step("Stores that point back", "A store directory names the record it serves, and <code>kb context</code> and <code>kb uses</code> list it.", "Next"),
     step("Snapshots of a look", "<code>observe --snapshot</code> keeps the bytes an agent saw in a store, so a record shows what it relied on.", "Planned"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
@@ -450,7 +452,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("18 Nov 2026", f'{rel(VERSION)}: run artifacts: <code>checkpoint --artifact</code> records what a run made in an attached store (a test suite, a fuzz reproducer, review notes) as pinned citations, and <code>resume</code> shows each with its standing.'),
+    ("19 Nov 2026", f'{rel(VERSION)}: evidence that answers its item. A checklist item can require evidence recorded for it, or a receipt of a named gate; <code>gate status</code> notes evidence shared across items. A gate&rsquo;s scope can include paths in another repository, so a docs change there makes it stale; a gate about outside state can age by a catalog kind; a look that found nothing ages and can pin what it searched. The decisions are proved in Lean.'),
+    ("18 Nov 2026", f'{rel("v0.6.0-dev.8")}: run artifacts: <code>checkpoint --artifact</code> records what a run made in an attached store (a test suite, a fuzz reproducer, review notes) as pinned citations, and <code>resume</code> shows each with its standing.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.7")}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.6")}: several agent sessions on one machine, each with its own current run; <code>resume --here</code> for hand-overs; <code>plan repin</code>; <code>find --each</code>; a guide for adopting Writfold in an existing workflow, and a page of behaviour changes by release.'),
     ("17 Nov 2026", f'{rel("v0.6.0-dev.5")}: <code>deliver match</code> shows the same draft on every run when several hold the same text.'),
@@ -476,7 +479,7 @@ FAQ = "".join([
     faq("Does it need a server or a database?", "No. One static binary and files in Git. Writfold keeps a local index for speed and can always rebuild it from Git."),
     faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. Writfold runs no model and posts nothing."),
     faq("Can an agent skip a gate or a step?", "Yes, and it shows. A gate never run shows as open; a skipped step shows as skipped, with a reason and a name. Your policy can narrow this: a gate can refuse a waiver, and a required step can refuse a skip. A guard rule you add can deny a command such as <code>git commit</code> until the gates are met. It is a guard, not a lock: it only sees the commands Claude Code shows it."),
-    faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules, your policy, which run is current for a session and how a store&rsquo;s citations are judged, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
+    faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules, your policy, which run is current for a session, how a store&rsquo;s citations are judged and whether a checklist item&rsquo;s evidence answers it and still holds, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
     faq("Other harnesses?", "The CLI works wherever an agent has a shell. The session-start brief and the guard rules come with the Claude Code plugin."),
     faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a> is public, and this website is under the MIT license.'),
 ])
