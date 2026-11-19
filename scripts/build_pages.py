@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.9"
+VERSION = "v0.6.0-dev.10"
 RELEASED = "19 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -413,7 +413,7 @@ TODAY = "".join([
     row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call"),
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
-    row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing"),
+    row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing. A store directory that names a record in its README is listed by <code>context</code> and <code>uses</code>, and <code>observe --snapshot</code> keeps the bytes an agent looked at"),
     row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass. A scope can name paths in another repository (<code>repo:docs/adr/**</code>), and a gate about outside state can age (<code>ages_as</code>)"),
     row(GUIDE + "gates.md#which-item-the-evidence-was-for-built-in-v060-dev9", "Evidence that answers its item", "A checklist item can require evidence of its own (<code>own_evidence</code>) or from named gates (<code>evidence_from</code>); <code>gate status</code> notes a look made for another item and evidence shared across items. A look that found nothing ages and can pin what it searched"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip | repin</code>. Templates, skills that add steps, steps you require in every plan, and a recorded way to adopt a gate edited mid-run"),
@@ -442,8 +442,9 @@ ROAD = "".join([
     step("Attached stores", "A companion repository of evidence, declared once and cited at its pinned commit.", "Done"),
     step("Run artifacts", "<code>checkpoint --artifact</code>: a run keeps pinned pointers to what it made in a store, shown by <code>resume</code>.", "Done"),
     step("Evidence that answers its item", "Checklist items that need their own evidence, gates that age, scopes across repositories, and looks that found nothing pinned to what they searched. Proved in Lean.", "Done"),
-    step("Stores that point back", "A store directory names the record it serves, and <code>kb context</code> and <code>kb uses</code> list it.", "Next"),
-    step("Snapshots of a look", "<code>observe --snapshot</code> keeps the bytes an agent saw in a store, so a record shows what it relied on.", "Planned"),
+    step("Stores that point back", "A store directory names the record it serves, and <code>kb context</code> and <code>kb uses</code> list it.", "Done"),
+    step("Snapshots of a look", "<code>observe --snapshot</code> keeps the bytes an agent saw in a store, so a record shows what it relied on. Proved in Lean.", "Done"),
+    step("Store evidence on another machine", "A committed record of pinned store verdicts, so a clone without the store can still read them.", "Next"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Stemming, aliases on every record, acronyms and faster lookups for session-start hooks.", "Next"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
@@ -452,7 +453,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("19 Nov 2026", f'{rel(VERSION)}: evidence that answers its item. A checklist item can require evidence recorded for it, or a receipt of a named gate; <code>gate status</code> notes evidence shared across items. A gate&rsquo;s scope can include paths in another repository, so a docs change there makes it stale; a gate about outside state can age by a catalog kind; a look that found nothing ages and can pin what it searched. The decisions are proved in Lean.'),
+    ("19 Nov 2026", f'{rel(VERSION)}: stores that point back and snapshots. A store directory whose README names a record in <code>subject:</code> is listed by <code>kb context</code> and <code>kb uses</code> on that record, marked as the store&rsquo;s claim. <code>observe --snapshot</code> keeps the bytes an agent looked at in a pinned store, committed by you, and the look counts as evidence only while that snapshot holds. Both rules are proved in Lean.'),
+    ("19 Nov 2026", f'{rel("v0.6.0-dev.9")}: evidence that answers its item. A checklist item can require evidence recorded for it, or a receipt of a named gate; <code>gate status</code> notes evidence shared across items. A gate&rsquo;s scope can include paths in another repository, so a docs change there makes it stale; a gate about outside state can age by a catalog kind; a look that found nothing ages and can pin what it searched. The decisions are proved in Lean.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.8")}: run artifacts: <code>checkpoint --artifact</code> records what a run made in an attached store (a test suite, a fuzz reproducer, review notes) as pinned citations, and <code>resume</code> shows each with its standing.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.7")}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.6")}: several agent sessions on one machine, each with its own current run; <code>resume --here</code> for hand-overs; <code>plan repin</code>; <code>find --each</code>; a guide for adopting Writfold in an existing workflow, and a page of behaviour changes by release.'),
