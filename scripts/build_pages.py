@@ -16,8 +16,8 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.10"
-RELEASED = "19 November 2026"
+VERSION = "v0.6.0-dev.11"
+RELEASED = "20 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -410,7 +410,7 @@ def row(href, title, text):
 # The one list of what runs; the overview and How it works link here.
 TODAY = "".join([
     row(GUIDE + "kb-layout.md", "Questions with sourced answers", "<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs | repos</code>. Every row names its source"),
-    row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call"),
+    row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call, and <code>find --limit N</code> stops after an exact ID"),
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
     row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing. A store directory that names a record in its README is listed by <code>context</code> and <code>uses</code>, and <code>observe --snapshot</code> keeps the bytes an agent looked at"),
@@ -423,7 +423,7 @@ TODAY = "".join([
     row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting; the guard holds the posting command until the exact text is ready. Nothing is sent"),
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
-    row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, checkpoint drafts, and two skills"),
+    row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, with the records the branch, the run&rsquo;s task and the repository name; checkpoint drafts, and two skills"),
     row(GUIDE + "watch.md", "<code>writfold watch</code>", "A read-only terminal view of the run&rsquo;s plan, gates and guard rules, and of the project&rsquo;s decisions, tracker and stale citations"),
 ])
 def step(title, text, chip):
@@ -444,16 +444,18 @@ ROAD = "".join([
     step("Evidence that answers its item", "Checklist items that need their own evidence, gates that age, scopes across repositories, and looks that found nothing pinned to what they searched. Proved in Lean.", "Done"),
     step("Stores that point back", "A store directory names the record it serves, and <code>kb context</code> and <code>kb uses</code> list it.", "Done"),
     step("Snapshots of a look", "<code>observe --snapshot</code> keeps the bytes an agent saw in a store, so a record shows what it relied on. Proved in Lean.", "Done"),
+    step("Stemming and exact lookups", "<code>find</code> stems English words, stops after an exact ID under <code>--limit</code>, and session start shows the records the branch names. Which hits become rows is proved in Lean.", "Done"),
     step("Store evidence on another machine", "A committed record of pinned store verdicts, so a clone without the store can still read them.", "Next"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
-    step("Finding records by what people call them", "Stemming, aliases on every record, acronyms and faster lookups for session-start hooks.", "Next"),
+    step("Finding records by what people call them", "Aliases on every record, acronyms, kind words and typos in the body.", "Next"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("19 Nov 2026", f'{rel(VERSION)}: stores that point back and snapshots. A store directory whose README names a record in <code>subject:</code> is listed by <code>kb context</code> and <code>kb uses</code> on that record, marked as the store&rsquo;s claim. <code>observe --snapshot</code> keeps the bytes an agent looked at in a pinned store, committed by you, and the look counts as evidence only while that snapshot holds. Both rules are proved in Lean.'),
+    ("20 Nov 2026", f'{rel(VERSION)}: finding records. <code>find</code> stems English words, so <code>migrating</code> finds &ldquo;migrations&rdquo; (the index is rebuilt once); <code>find --limit N</code> stops after a record&rsquo;s own ID; session start lists the records the branch, the run&rsquo;s task and the repository name. A checklist can require that an item&rsquo;s cover cite a look that kept a snapshot. Which hits become rows, what a decision&rsquo;s state change needs and the snapshot rule are proved in Lean.'),
+    ("19 Nov 2026", f'{rel("v0.6.0-dev.10")}: stores that point back and snapshots. A store directory whose README names a record in <code>subject:</code> is listed by <code>kb context</code> and <code>kb uses</code> on that record, marked as the store&rsquo;s claim. <code>observe --snapshot</code> keeps the bytes an agent looked at in a pinned store, committed by you, and the look counts as evidence only while that snapshot holds. Both rules are proved in Lean.'),
     ("19 Nov 2026", f'{rel("v0.6.0-dev.9")}: evidence that answers its item. A checklist item can require evidence recorded for it, or a receipt of a named gate; <code>gate status</code> notes evidence shared across items. A gate&rsquo;s scope can include paths in another repository, so a docs change there makes it stale; a gate about outside state can age by a catalog kind; a look that found nothing ages and can pin what it searched. The decisions are proved in Lean.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.8")}: run artifacts: <code>checkpoint --artifact</code> records what a run made in an attached store (a test suite, a fuzz reproducer, review notes) as pinned citations, and <code>resume</code> shows each with its standing.'),
     ("18 Nov 2026", f'{rel("v0.6.0-dev.7")}: attached stores: a Git repository of disposable evidence, declared once, found on every machine and cited at its pinned commit, so tidying it never makes evidence stale.'),

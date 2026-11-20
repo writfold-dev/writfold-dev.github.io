@@ -40,8 +40,8 @@ def main():
         manifest = {
             "schema_version": 1,
             "canonical_origin": "https://writfold.dev",
-            "product_release": "v0.6.0-dev.10",
-            "product_source_commit": "533f281a3967ea7aafc724cf64cb22662e576348",
+            "product_release": "v0.6.0-dev.11",
+            "product_source_commit": "9e1839867c331549d1297bbc33b2546950c54df6",
             "product_source_visibility": "public",
             "files": actual,
         }
