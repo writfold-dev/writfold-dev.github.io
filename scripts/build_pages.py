@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.12"
+VERSION = "v0.6.0-dev.13"
 RELEASED = "21 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -447,6 +447,10 @@ ROAD = "".join([
     step("Stemming and exact lookups", "<code>find</code> stems English words, stops after an exact ID under <code>--limit</code>, and session start shows the records the branch names. Which hits become rows is proved in Lean.", "Done"),
     step("Store evidence on another machine", "A committed record of pinned store verdicts, so a clone without the store can still read them. Proved in Lean.", "Done"),
     step("Aliases", "A Markdown record lists the other names people call it; <code>find</code> answers them and a reference to one links to the record.", "Done"),
+    step("The same warning on every clone", "<code>brief</code>, <code>context</code>, <code>why</code> and session start show a committed checker verdict as the gates do, before any local check.", "Done"),
+    step("Help for each command", "<code>writfold kb &lt;verb&gt; --help</code>, suggestions for a mistyped verb or flag, and <code>--color</code>.", "Done"),
+    step("Gate checks a receiver can trust", "An unreadable gate directory is never read as empty, and a receiver judges the gates it requires on the candidate, whatever the agent&rsquo;s plan said.", "Next"),
+    step("Large knowledge bases", "Rebuild and verification in constant memory, and refreshes that rewrite only the links an edit affects.", "Next"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Acronyms, kind words and typos in the body.", "Planned"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
@@ -455,7 +459,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("21 Nov 2026", f'{rel(VERSION)}: evidence across machines. A store can let its pinned verdicts be recorded, so a clone without the store reads the recorded verdict instead of &ldquo;unverifiable&rdquo; and a gate needing that evidence can be met there. A Markdown record can list <code>aliases</code> that <code>find</code> answers. Attestations and waivers carry a sequence number, so the later one stands even if the clock moved backwards. The recorded-verdict rule and which statement stands are proved in Lean.'),
+    ("21 Nov 2026", f'{rel(VERSION)}: the same warning on every clone. <code>brief</code>, <code>context</code>, <code>why</code> and the session-start count read committed check receipts the way the gates do, so a <code>gone</code> citation checked on one machine shows on another before any local check, with the receipt it came from. Each <code>kb</code> command has its own <code>--help</code>, a mistyped verb or flag gets a suggestion, and <code>--color</code> is new. Tuft, the assessed gate and <code>kb edit apply</code> are removed.'),
+    ("21 Nov 2026", f'{rel("v0.6.0-dev.12")}: evidence across machines. A store can let its pinned verdicts be recorded, so a clone without the store reads the recorded verdict instead of &ldquo;unverifiable&rdquo; and a gate needing that evidence can be met there. A Markdown record can list <code>aliases</code> that <code>find</code> answers. Attestations and waivers carry a sequence number, so the later one stands even if the clock moved backwards. The recorded-verdict rule and which statement stands are proved in Lean.'),
     ("20 Nov 2026", f'{rel("v0.6.0-dev.11")}: finding records. <code>find</code> stems English words, so <code>migrating</code> finds &ldquo;migrations&rdquo; (the index is rebuilt once); <code>find --limit N</code> stops after a record&rsquo;s own ID; session start lists the records the branch, the run&rsquo;s task and the repository name. A checklist can require that an item&rsquo;s cover cite a look that kept a snapshot. Which hits become rows, what a decision&rsquo;s state change needs and the snapshot rule are proved in Lean.'),
     ("19 Nov 2026", f'{rel("v0.6.0-dev.10")}: stores that point back and snapshots. A store directory whose README names a record in <code>subject:</code> is listed by <code>kb context</code> and <code>kb uses</code> on that record, marked as the store&rsquo;s claim. <code>observe --snapshot</code> keeps the bytes an agent looked at in a pinned store, committed by you, and the look counts as evidence only while that snapshot holds. Both rules are proved in Lean.'),
     ("19 Nov 2026", f'{rel("v0.6.0-dev.9")}: evidence that answers its item. A checklist item can require evidence recorded for it, or a receipt of a named gate; <code>gate status</code> notes evidence shared across items. A gate&rsquo;s scope can include paths in another repository, so a docs change there makes it stale; a gate about outside state can age by a catalog kind; a look that found nothing ages and can pin what it searched. The decisions are proved in Lean.'),
