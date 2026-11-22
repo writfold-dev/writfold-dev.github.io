@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.16"
+VERSION = "v0.6.0-dev.17"
 RELEASED = "22 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -462,7 +462,8 @@ ROAD = "".join([
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("22 Nov 2026", f'{rel(VERSION)}: faster releases, same answers. Proof claims now re-check only what a change can reach, the Lean translation is split per kernel module, so a mutant rebuilds only the theorems it can affect, and the unit tests run four binaries at a time. Every proof stage and gate still runs before each tag.'),
+    ("22 Nov 2026", f'{rel(VERSION)}: missing history is no longer read as change. A shallow or single-branch clone, or a commit this machine never fetched, now leaves a citation <code>unverifiable</code> (<code>history-not-local</code>) instead of calling it changed or gone; what the bytes on disk can decide still reads the same, and the rule is proved in Lean. Three recipes, each run in the test suite: planning which clones a handoff needs, reconciling run counts by ID, and rehearsing a cutover in which the receiver refuses the author&rsquo;s evidence and accepts its own.'),
+    ("22 Nov 2026", f'{rel("v0.6.0-dev.16")}: faster releases, same answers. Proof claims now re-check only what a change can reach, the Lean translation is split per kernel module, so a mutant rebuilds only the theorems it can affect, and the unit tests run four binaries at a time. Every proof stage and gate still runs before each tag.'),
     ("21 Nov 2026", f'{rel("v0.6.0-dev.15")}: loops and asset catalogs. A plan step can repeat a template until its gates pass, <code>loop=attempt max=5</code>: each round is recorded by <code>plan again</code>, the cap is required, and a spent loop says stop and report. <code>kb catalog diff</code> turns a project&rsquo;s JSON inventory into a Git patch of asset records to review and apply; a broken or conflicting input prints no patch. A rename refreshes the index in 3&nbsp;s instead of 32 on a 50,000-file knowledge base, and <code>handoff check</code> refuses while any evidence cannot be read.'),
     ("21 Nov 2026", f'{rel("v0.6.0-dev.14")}: gates a receiver can trust, and large knowledge bases. A gate directory that cannot be listed is reported and never read as empty. <code>writfold kb handoff check</code> judges the gates an operator requires, read at a policy commit, on the candidate commit: only a current mechanical pass counts, never a waiver, a skipped step or a changed definition. <code>index verify</code> runs in constant memory (2.5&nbsp;GB to 19&nbsp;MB on a generated two-million-link knowledge base) and repairs only the index it compared; a one-file edit refreshes in under a second instead of 22; <code>impact</code>, <code>uses</code> and <code>context</code> stop at a work limit and say so.'),
     ("21 Nov 2026", f'{rel("v0.6.0-dev.13")}: the same warning on every clone. <code>brief</code>, <code>context</code>, <code>why</code> and the session-start count read committed check receipts the way the gates do, so a <code>gone</code> citation checked on one machine shows on another before any local check, with the receipt it came from. Each <code>kb</code> command has its own <code>--help</code>, a mistyped verb or flag gets a suggestion, and <code>--color</code> is new. Tuft, the assessed gate and <code>kb edit apply</code> are removed.'),
