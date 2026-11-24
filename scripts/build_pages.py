@@ -16,8 +16,8 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.19"
-RELEASED = "24 November 2026"
+VERSION = "v0.6.0-dev.20"
+RELEASED = "25 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -341,9 +341,9 @@ plan complete-with-exceptions 4 steps: 1 passed, 1 attested, 0 waived, 2 skipped
          "This mode checks a commit message. Writfold checks the exact text and sends nothing: posting stays with you or your agent.",
          [file_panel(".writfold/deliveries/commit-message.toml", "commit-message.toml", "toml")],
          commands(("Keep the exact text as a draft in the run.", "writfold kb deliver prepare \\\n    --mode commit-message \\\n    --audience external --from msg.txt"),
-                  ("Run the mode&rsquo;s checks on that text. The draft is ready only when every check is met.", "writfold kb deliver check"),
+                  ("Run the mode&rsquo;s checks on that text. The draft is ready only when every check is met. A mode can also check prose rules you keep in the repository: advice is shown and recorded and never holds the draft back; a blocking match does.", "writfold kb deliver check"),
                   ("A plan step can owe this mode: <code>commit: deliver:commit-message</code>. It advances only once the draft is ready.", "writfold kb plan advance")),
-         more(guide("delivery-modes", "the delivery guide"), lead="PR comments, Slack summaries and your own modes")),
+         more(guide("delivery-modes", "the delivery guide"), lead="PR comments, Slack summaries, prose rules and your own modes")),
     pair("resume", "A checkpoint", "A checkpoint is a note for the next session",
          "Each run keeps its notes in one Markdown file. The next session reads the last ones instead of the whole history.",
          [file_panel("runs/&lt;run&gt;/checkpoint.md", "checkpoint.md", "md")],
@@ -421,7 +421,7 @@ TODAY = "".join([
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met. A guard, not a lock"),
     row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode is ready: every check met"),
-    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting; the guard holds the posting command until the exact text is ready. Nothing is sent"),
+    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting, including prose rules you keep as data, with advice kept separate from blocking; the guard holds the posting command until the exact text is ready. Nothing is sent"),
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, with the records the branch, the run&rsquo;s task and the repository name; checkpoint drafts, and two skills"),
@@ -457,6 +457,7 @@ ROAD = "".join([
     step("Retained gate evidence", "A gate keeps the report its checker wrote, committed with the run and bound to the receipt; missing or edited evidence never passes. Proved in Lean.", "Done"),
     step("An optional Plyrune check", "An external checker as an ordinary gate, through a small wrapper; nothing needs Plyrune unless you configure it. Exercised on stand-in reports: Plyrune is unreleased, and checking report fields waits for the agreed profile.", "Done"),
     step("The handover packet", "<code>resume --packet</code>: required rows first, cut to a budget, complete only when nothing required was cut. Proved in Lean.", "Done"),
+    step("Prose rules for drafts", "Phrase and pattern rules kept as data in the repository; advice is shown and recorded and never decides, a blocking match fails, and an empty rule set is never a pass. A script check&rsquo;s findings are kept as advice when it passes. Proved in Lean.", "Done"),
     step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
     step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
@@ -474,14 +475,15 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(127, "Prose rules for delivery drafts", "A mode can check a draft against phrase and pattern rules you keep in the repository. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back. An empty rule set is never a pass."),
-    wip(115, "Advice kept on a pass", "A script check&rsquo;s findings are kept when it passes, so an external linter can give advice without blocking."),
     wip(100, "The strictness lint as a gate step", "The pinned tauten lint runs in the quality gate as a ratchet: no new error-level finding."),
+    wip(123, "Session start uses the packet", "The context injected at session start says when a required part was cut, with the same proved selection as <code>resume --packet</code>."),
+    wip(111, "Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one, from the receipts it already has."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("24 Nov 2026", f'{rel(VERSION)}: work that survives a new session. <code>resume --packet</code> gives a fresh session the run, its plan step, what is still owed and its drafts first, cut to a token budget, and reads <code>unknown</code> when something required did not fit. A gate can keep its checker&rsquo;s own report with the receipt (<code>retain</code>); a missing or edited report never passes, on any clone. An optional recipe runs a Plyrune check as an ordinary gate, exercised on stand-in reports. Receipts from the tools removed on 21 November are no longer read. The new decisions are proved in Lean.'),
+    ("25 Nov 2026", f'{rel(VERSION)}: prose rules for delivery drafts. A mode can check a draft against your own phrase and pattern rules, kept as data beside the deny lists. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back, a blocking match fails, and editing a rule makes earlier checks stale. Code, inline code and URLs are skipped. A script check&rsquo;s findings are now kept when it passes, so an external linter can give advice. The rules count matches; they do not judge tone or truth. The decision is proved in Lean.'),
+    ("24 Nov 2026", f'{rel("v0.6.0-dev.19")}: work that survives a new session. <code>resume --packet</code> gives a fresh session the run, its plan step, what is still owed and its drafts first, cut to a token budget, and reads <code>unknown</code> when something required did not fit. A gate can keep its checker&rsquo;s own report with the receipt (<code>retain</code>); a missing or edited report never passes, on any clone. An optional recipe runs a Plyrune check as an ordinary gate, exercised on stand-in reports. Receipts from the tools removed on 21 November are no longer read. The new decisions are proved in Lean.'),
     ("23 Nov 2026", f'{rel("v0.6.0-dev.18")}: the run list says what it cannot list. A directory under <code>runs/</code> without a manifest now makes <code>kb runs</code> read partial and is named, a manifest outside <code>runs/&lt;id&gt;/</code> is named as not a run, and a run in a state other than open or closed is flagged; <code>--open</code> still lists it, leaving out only closed runs. Both rules are proved in Lean.'),
     ("22 Nov 2026", f'{rel("v0.6.0-dev.17")}: missing history is no longer read as change. A shallow or single-branch clone, or a commit this machine never fetched, now leaves a citation <code>unverifiable</code> (<code>history-not-local</code>) instead of calling it changed or gone; what the bytes on disk can decide still reads the same, and the rule is proved in Lean. Three recipes, each run in the test suite: planning which clones a handoff needs, reconciling run counts by ID, and rehearsing a cutover in which the receiver refuses the author&rsquo;s evidence and accepts its own.'),
     ("22 Nov 2026", f'{rel("v0.6.0-dev.16")}: faster releases, same answers. Proof claims now re-check only what a change can reach, the Lean translation is split per kernel module, so a mutant rebuilds only the theorems it can affect, and the unit tests run four binaries at a time. Every proof stage and gate still runs before each tag.'),
@@ -536,7 +538,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Being built for v0.6.0-dev.20</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Candidates for v0.6.0-dev.21</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
