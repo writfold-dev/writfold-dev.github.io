@@ -24,8 +24,8 @@ set -eu
 
 # The release installed by default. The website's release step rewrites
 # these two lines together (see the release notes for the site).
-WRITFOLD_DEFAULT_VERSION="0.6.0-dev.18"
-WRITFOLD_DEFAULT_SHA256="ec14296ff1cb615aa4df734df9e3cb6f114d2177cac6261a4fc462c020c6b846"
+WRITFOLD_DEFAULT_VERSION="0.6.0-dev.19"
+WRITFOLD_DEFAULT_SHA256="c75027bab4d02fc058e832bf54b4444fbf4c16fc4b2a69a77759095396d15e71"
 
 REPO="writfold-dev/writfold"
 ASSET="writfold-x86_64-linux-musl"

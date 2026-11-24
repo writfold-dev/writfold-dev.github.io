@@ -16,8 +16,8 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.18"
-RELEASED = "22 November 2026"
+VERSION = "v0.6.0-dev.19"
+RELEASED = "24 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -411,11 +411,11 @@ def row(href, title, text):
 # The one list of what runs; the overview and How it works link here.
 TODAY = "".join([
     row(GUIDE + "kb-layout.md", "Questions with sourced answers", "<code>brief | context | why | status | find | match | impact | uses | timeline | resume | runs | repos</code>. Every row names its source"),
-    row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session; <code>find --each</code> answers several lookups in one call, <code>find --limit N</code> stops after an exact ID, and a record&rsquo;s <code>aliases</code> are names <code>find</code> answers"),
+    row(GUIDE + "hooks.md#the-current-run-per-session-and-per-work-tree", "Several agent sessions at once", "Each session and each work tree has its own current run, so two agents on one machine never judge each other&rsquo;s commits. <code>resume &lt;run&gt; --here</code> hands a run to a reviewer or a second session, and <code>resume --packet</code> gives a fresh session what it must not miss within a token budget, saying when something required did not fit; <code>find --each</code> answers several lookups in one call, <code>find --limit N</code> stops after an exact ID, and a record&rsquo;s <code>aliases</code> are names <code>find</code> answers"),
     row(GUIDE + "feeding-back.md", "Writing records", "<code>checkpoint</code>, <code>record</code>, <code>status --set</code>, <code>cite make</code>, <code>observe</code>. <code>propose</code> queues a record until you accept or drop it"),
     row(GUIDE + "validation.md", "Citations that say when they moved", "<code>stale</code> reports each citation as fresh, moved, changed or gone. <code>check</code> adds the index, gates, plan and guard rules in one summary"),
     row(GUIDE + "stores.md", "Attached stores", "A Git repository of probes, reproducers and review notes, declared once and found on every machine. Citations into it are judged at the commit they name, so tidying it never makes evidence stale. <code>checkpoint --artifact</code> records what a run made there; <code>resume</code> shows each with its standing. A store directory that names a record in its README is listed by <code>context</code> and <code>uses</code>, and <code>observe --snapshot</code> keeps the bytes an agent looked at. A store can let its pinned verdicts be recorded (<code>recorded_max_age</code>), so a clone without it reads them instead of &ldquo;unverifiable&rdquo;"),
-    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass. A scope can name paths in another repository (<code>repo:docs/adr/**</code>), and a gate about outside state can age (<code>ages_as</code>)"),
+    row(GUIDE + "gates.md", "Gates", "<code>gate run | status | verify | lines | attest | waive | cover</code>. Receipts tied to exact bytes; a timeout or crash is never a pass. A gate can keep the report its checker wrote with its receipt (<code>retain</code>), and a clone without that report never reads the gate as met A scope can name paths in another repository (<code>repo:docs/adr/**</code>), and a gate about outside state can age (<code>ages_as</code>)"),
     row(GUIDE + "gates.md#which-item-the-evidence-was-for-built-in-v060-dev9", "Evidence that answers its item", "A checklist item can require evidence of its own (<code>own_evidence</code>) or from named gates (<code>evidence_from</code>); <code>gate status</code> notes a look made for another item and evidence shared across items. A look that found nothing ages and can pin what it searched"),
     row(GUIDE + "run-graph.md", "Plans", "<code>plan set | use | status | advance | skip | repin</code>. Templates, skills that add steps, steps you require in every plan, and a recorded way to adopt a gate edited mid-run"),
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
@@ -454,6 +454,9 @@ ROAD = "".join([
     step("Large knowledge bases", "Rebuild and verification in constant memory, refreshes that rewrite only the links an edit affects, and graph answers that read a bounded number of links. Proved in Lean; the index repair is model-checked.", "Done"),
     step("Loops", "A plan step repeats a template until its gates pass: a script, a checklist, a reviewer&rsquo;s word or a count, with a required cap. <code>plan again</code> records each round; running out is never shown as passing, and a Stop rule can go quiet on a spent loop. Proved in Lean and model-checked.", "Done"),
     step("Asset catalogs", "A project&rsquo;s JSON inventory becomes a reviewable Git patch of ordinary asset records; incomplete or conflicting input never patches. Proved in Lean.", "Done"),
+    step("Retained gate evidence", "A gate keeps the report its checker wrote, committed with the run and bound to the receipt; missing or edited evidence never passes. Proved in Lean.", "Done"),
+    step("An optional Plyrune check", "An external checker as an ordinary gate, through a small wrapper; nothing needs Plyrune unless you configure it. Exercised on stand-in reports: Plyrune is unreleased, and checking report fields waits for the agreed profile.", "Done"),
+    step("The handover packet", "<code>resume --packet</code>: required rows first, cut to a budget, complete only when nothing required was cut. Proved in Lean.", "Done"),
     step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
     step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
@@ -471,15 +474,15 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(105, "Pre-alpha cleanup", "Receipts from the removed tools are no longer read; formats may break between previews, with no migrations.", built=True),
-    wip(121, "Retained gate evidence", "A gate can keep the report its checker wrote, committed with the run and bound to the receipt; missing evidence is never a pass.", built=True),
-    wip(106, "An optional Plyrune check as a gate", "An external checker&rsquo;s report, kept and bound like any other gate&rsquo;s evidence. Nothing needs Plyrune unless you configure the gate. Exercised on stand-in fixture reports; Plyrune itself is unreleased.", built=True),
-    wip(109, "A handover packet", "<code>resume --packet</code> gives a fresh session the run, its plan step, what is owed and the next commands, within a budget, and says when something required did not fit.", built=True),
+    wip(123, "Session start uses the packet", "The context injected at session start says when a required part was cut, with the same proved selection as <code>resume --packet</code>."),
+    wip(111, "Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one, from the receipts it already has."),
+    wip(116, "Gate inputs", "Bind declared checker configuration files into a gate&rsquo;s definition, so changing them makes earlier receipts stale."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("23 Nov 2026", f'{rel(VERSION)}: the run list says what it cannot list. A directory under <code>runs/</code> without a manifest now makes <code>kb runs</code> read partial and is named, a manifest outside <code>runs/&lt;id&gt;/</code> is named as not a run, and a run in a state other than open or closed is flagged; <code>--open</code> still lists it, leaving out only closed runs. Both rules are proved in Lean.'),
+    ("24 Nov 2026", f'{rel(VERSION)}: work that survives a new session. <code>resume --packet</code> gives a fresh session the run, its plan step, what is still owed and its drafts first, cut to a token budget, and reads <code>unknown</code> when something required did not fit. A gate can keep its checker&rsquo;s own report with the receipt (<code>retain</code>); a missing or edited report never passes, on any clone. An optional recipe runs a Plyrune check as an ordinary gate, exercised on stand-in reports. Receipts from the tools removed on 21 November are no longer read. The new decisions are proved in Lean.'),
+    ("23 Nov 2026", f'{rel("v0.6.0-dev.18")}: the run list says what it cannot list. A directory under <code>runs/</code> without a manifest now makes <code>kb runs</code> read partial and is named, a manifest outside <code>runs/&lt;id&gt;/</code> is named as not a run, and a run in a state other than open or closed is flagged; <code>--open</code> still lists it, leaving out only closed runs. Both rules are proved in Lean.'),
     ("22 Nov 2026", f'{rel("v0.6.0-dev.17")}: missing history is no longer read as change. A shallow or single-branch clone, or a commit this machine never fetched, now leaves a citation <code>unverifiable</code> (<code>history-not-local</code>) instead of calling it changed or gone; what the bytes on disk can decide still reads the same, and the rule is proved in Lean. Three recipes, each run in the test suite: planning which clones a handoff needs, reconciling run counts by ID, and rehearsing a cutover in which the receiver refuses the author&rsquo;s evidence and accepts its own.'),
     ("22 Nov 2026", f'{rel("v0.6.0-dev.16")}: faster releases, same answers. Proof claims now re-check only what a change can reach, the Lean translation is split per kernel module, so a mutant rebuilds only the theorems it can affect, and the unit tests run four binaries at a time. Every proof stage and gate still runs before each tag.'),
     ("21 Nov 2026", f'{rel("v0.6.0-dev.15")}: loops and asset catalogs. A plan step can repeat a template until its gates pass, <code>loop=attempt max=5</code>: each round is recorded by <code>plan again</code>, the cap is required, and a spent loop says stop and report. <code>kb catalog diff</code> turns a project&rsquo;s JSON inventory into a Git patch of asset records to review and apply; a broken or conflicting input prints no patch. A rename refreshes the index in 3&nbsp;s instead of 32 on a 50,000-file knowledge base, and <code>handoff check</code> refuses while any evidence cannot be read.'),
@@ -533,7 +536,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Being built for v0.6.0-dev.19</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Candidates for v0.6.0-dev.20</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
