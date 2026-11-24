@@ -461,7 +461,7 @@ ROAD = "".join([
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
     step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
     step("Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one.", "Planned"),
-    step("Prose checks with Vale", "An optional, advisory Vale recipe for delivery drafts.", "Planned"),
+    step("External prose linters", "A recipe that runs a pinned linter such as Vale on a draft and keeps its report with the check.", "Planned"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Acronyms, kind words and typos in the body.", "Planned"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
@@ -474,9 +474,9 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(123, "Session start uses the packet", "The context injected at session start says when a required part was cut, with the same proved selection as <code>resume --packet</code>."),
-    wip(111, "Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one, from the receipts it already has."),
-    wip(116, "Gate inputs", "Bind declared checker configuration files into a gate&rsquo;s definition, so changing them makes earlier receipts stale."),
+    wip(127, "Prose rules for delivery drafts", "A mode can check a draft against phrase and pattern rules you keep in the repository. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back. An empty rule set is never a pass."),
+    wip(115, "Advice kept on a pass", "A script check&rsquo;s findings are kept when it passes, so an external linter can give advice without blocking."),
+    wip(100, "The strictness lint as a gate step", "The pinned tauten lint runs in the quality gate as a ratchet: no new error-level finding."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
@@ -536,7 +536,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Candidates for v0.6.0-dev.20</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Being built for v0.6.0-dev.20</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
