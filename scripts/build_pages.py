@@ -161,16 +161,17 @@ claude plugin marketplace add writfold-dev/writfold
 claude plugin install writfold@writfold'''
 
 # ---------------------------------------------------------------- index
-DESC_HOME = ("Writfold keeps a coding agent's plan, checks and decisions as plain files in Git, "
-             f"so the work can be checked and picked up where it stopped. Preview: {VERSION}.")
+DESC_HOME = ("Writfold keeps a coding agent's memory, plans, checks and reflections as plain files in Git, "
+             f"so a fresh session can pick the work up, see what is owed and recheck it. Preview: {VERSION}.")
 index = f'''  <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
-      <h1 id="hero-title">Deterministic agent work<br><span>that resumes where it stopped.</span></h1>
-      <p class="lede">Writfold keeps a coding agent&rsquo;s plan, checks and decisions as plain files in Git.</p>
-      <div class="two-up">
-        <div class="capability"><h2>Deterministic</h2><p>Not the model: the process around it. The agent follows a plan; each check leaves a receipt tied to the exact bytes it checked; and what is done, what is owed and whether a step may close are computed from files in Git, the same on every machine.</p></div>
-        <div class="capability"><h2>Resumable</h2><p>A new session reads a short brief and the last checkpoint, not the whole project. Commit and push the run&rsquo;s files, and it resumes on any machine.</p></div>
+      <h1 id="hero-title">Keep agent work moving<br><span>across sessions.</span></h1>
+      <p class="lede">Writfold keeps project memory, plans, checks and reflections as plain files in Git. A fresh session can recover the work, see what is still owed, and recheck evidence when its inputs change.</p>
+      <div class="two-up cols-3">
+        <div class="capability"><h2>Remember</h2><p>A new session reads a short brief and the run&rsquo;s last checkpoint, not the whole project, and asks why something was decided. Every answer names its source and says when that source has moved. Commit and push the run&rsquo;s files, and it resumes on any machine.</p></div>
+        <div class="capability"><h2>Verify</h2><p>Not the model: the process around it. Each check leaves a receipt tied to the exact bytes it checked, and what is done, owed or stale is computed from files in Git, the same on every machine. A receiver can re-judge the required gates itself with <code>handoff check</code>.</p></div>
+        <div class="capability"><h2>Improve</h2><p>A run can end with a recorded reflection and up to three cited proposals for you to accept or drop. That is feedback through records you review: no model is trained, and reuse of past lessons is <a href="/status.html#in-progress">in progress</a>, not claimed.</p></div>
       </div>
       <div class="hero-install">
         {copy_line(ONE_LINER, "Install command")}
@@ -453,11 +454,26 @@ ROAD = "".join([
     step("Large knowledge bases", "Rebuild and verification in constant memory, refreshes that rewrite only the links an edit affects, and graph answers that read a bounded number of links. Proved in Lean; the index repair is model-checked.", "Done"),
     step("Loops", "A plan step repeats a template until its gates pass: a script, a checklist, a reviewer&rsquo;s word or a count, with a required cap. <code>plan again</code> records each round; running out is never shown as passing, and a Stop rule can go quiet on a spent loop. Proved in Lean and model-checked.", "Done"),
     step("Asset catalogs", "A project&rsquo;s JSON inventory becomes a reviewable Git patch of ordinary asset records; incomplete or conflicting input never patches. Proved in Lean.", "Done"),
-    step("Pages past the work limit", "Resumable pages over a large graph answer.", "Next"),
+    step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
+    step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
+    step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
+    step("Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one.", "Planned"),
+    step("Prose checks with Vale", "An optional, advisory Vale recipe for delivery drafts.", "Planned"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Acronyms, kind words and typos in the body.", "Planned"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
+])
+ISSUES = "https://github.com/writfold-dev/writfold/issues/"
+def wip(n, title, text):
+    return step(f'{title} <a href="{ISSUES}{n}">#{n}</a>', text, "Next")
+# Being built for the next preview. A row moves to the roadmap as Done, and to the list
+# above, only once its commit is on main with gate receipts.
+WIP = "".join([
+    wip(105, "Pre-alpha cleanup", "Receipts from the removed tools are no longer read; formats may break between previews, with no migrations."),
+    wip(121, "Retained gate evidence", "A gate can keep the report its checker wrote, committed with the run and bound to the receipt; missing evidence is never a pass."),
+    wip(106, "An optional Plyrune check as a gate", "An external checker&rsquo;s report, kept and bound like any other gate&rsquo;s evidence. Nothing needs Plyrune unless you configure the gate. To be exercised on fixture reports; Plyrune itself is unreleased."),
+    wip(109, "A handover packet", "<code>resume --packet</code> gives a fresh session the run, its plan step, what is owed and the next commands, within a budget, and says when something required did not fit."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
@@ -514,6 +530,10 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <div class="section-heading"><p class="eyebrow">01 / Runs today</p><h2 id="today-title">In the preview</h2><p>Each entry links to its guide. <a href="/#try">Install it</a>, or read the <a href="{README}">README</a>.</p></div>
       <div class="doc-links">{TODAY}</div>
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
+    </section>
+    <section id="in-progress" class="section" aria-labelledby="in-progress-title">
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Being built for v0.6.0-dev.19</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
       <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, planned, and not planned</h2></div>

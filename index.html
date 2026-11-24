@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>Writfold — Git-native project continuity for coding agents</title>
-  <meta name="description" content="Writfold keeps a coding agent's plan, checks and decisions as plain files in Git, so the work can be checked and picked up where it stopped. Preview: v0.6.0-dev.18.">
+  <meta name="description" content="Writfold keeps a coding agent's memory, plans, checks and reflections as plain files in Git, so a fresh session can pick the work up, see what is owed and recheck it. Preview: v0.6.0-dev.18.">
   <link rel="canonical" href="https://writfold.dev/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Writfold">
   <meta property="og:title" content="Writfold — Git-native project continuity for coding agents">
-  <meta property="og:description" content="Writfold keeps a coding agent's plan, checks and decisions as plain files in Git, so the work can be checked and picked up where it stopped. Preview: v0.6.0-dev.18.">
+  <meta property="og:description" content="Writfold keeps a coding agent's memory, plans, checks and reflections as plain files in Git, so a fresh session can pick the work up, see what is owed and recheck it. Preview: v0.6.0-dev.18.">
   <meta property="og:url" content="https://writfold.dev/">
   <meta property="og:image" content="https://writfold.dev/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -35,11 +35,12 @@
   <main id="main" class="wrap" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <p class="eyebrow">Git-native project continuity for coding agents</p>
-      <h1 id="hero-title">Deterministic agent work<br><span>that resumes where it stopped.</span></h1>
-      <p class="lede">Writfold keeps a coding agent&rsquo;s plan, checks and decisions as plain files in Git.</p>
-      <div class="two-up">
-        <div class="capability"><h2>Deterministic</h2><p>Not the model: the process around it. The agent follows a plan; each check leaves a receipt tied to the exact bytes it checked; and what is done, what is owed and whether a step may close are computed from files in Git, the same on every machine.</p></div>
-        <div class="capability"><h2>Resumable</h2><p>A new session reads a short brief and the last checkpoint, not the whole project. Commit and push the run&rsquo;s files, and it resumes on any machine.</p></div>
+      <h1 id="hero-title">Keep agent work moving<br><span>across sessions.</span></h1>
+      <p class="lede">Writfold keeps project memory, plans, checks and reflections as plain files in Git. A fresh session can recover the work, see what is still owed, and recheck evidence when its inputs change.</p>
+      <div class="two-up cols-3">
+        <div class="capability"><h2>Remember</h2><p>A new session reads a short brief and the run&rsquo;s last checkpoint, not the whole project, and asks why something was decided. Every answer names its source and says when that source has moved. Commit and push the run&rsquo;s files, and it resumes on any machine.</p></div>
+        <div class="capability"><h2>Verify</h2><p>Not the model: the process around it. Each check leaves a receipt tied to the exact bytes it checked, and what is done, owed or stale is computed from files in Git, the same on every machine. A receiver can re-judge the required gates itself with <code>handoff check</code>.</p></div>
+        <div class="capability"><h2>Improve</h2><p>A run can end with a recorded reflection and up to three cited proposals for you to accept or drop. That is feedback through records you review: no model is trained, and reuse of past lessons is <a href="/status.html#in-progress">in progress</a>, not claimed.</p></div>
       </div>
       <div class="hero-install">
         <div class="copy-line"><code aria-label="Install command"><span class="syntax-prompt">$ </span>curl -fsSL https://writfold.dev/install.sh | sh</code><button type="button" class="copy" data-copy="curl -fsSL https://writfold.dev/install.sh | sh" hidden>Copy</button></div>
