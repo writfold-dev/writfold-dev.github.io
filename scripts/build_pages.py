@@ -465,15 +465,16 @@ ROAD = "".join([
     step("Access control and signing", "Writfold stays a tool for one person and their agents.", "Not planned"),
 ])
 ISSUES = "https://github.com/writfold-dev/writfold/issues/"
-def wip(n, title, text):
-    return step(f'{title} <a href="{ISSUES}{n}">#{n}</a>', text, "Next")
+def wip(n, title, text, built=False):
+    note = " <em>Built and tested; waiting on the release gates.</em>" if built else ""
+    return step(f'{title} <a href="{ISSUES}{n}">#{n}</a>', text + note, "Next")
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(105, "Pre-alpha cleanup", "Receipts from the removed tools are no longer read; formats may break between previews, with no migrations."),
-    wip(121, "Retained gate evidence", "A gate can keep the report its checker wrote, committed with the run and bound to the receipt; missing evidence is never a pass."),
-    wip(106, "An optional Plyrune check as a gate", "An external checker&rsquo;s report, kept and bound like any other gate&rsquo;s evidence. Nothing needs Plyrune unless you configure the gate. To be exercised on fixture reports; Plyrune itself is unreleased."),
-    wip(109, "A handover packet", "<code>resume --packet</code> gives a fresh session the run, its plan step, what is owed and the next commands, within a budget, and says when something required did not fit."),
+    wip(105, "Pre-alpha cleanup", "Receipts from the removed tools are no longer read; formats may break between previews, with no migrations.", built=True),
+    wip(121, "Retained gate evidence", "A gate can keep the report its checker wrote, committed with the run and bound to the receipt; missing evidence is never a pass.", built=True),
+    wip(106, "An optional Plyrune check as a gate", "An external checker&rsquo;s report, kept and bound like any other gate&rsquo;s evidence. Nothing needs Plyrune unless you configure the gate. Exercised on stand-in fixture reports; Plyrune itself is unreleased.", built=True),
+    wip(109, "A handover packet", "<code>resume --packet</code> gives a fresh session the run, its plan step, what is owed and the next commands, within a budget, and says when something required did not fit.", built=True),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
