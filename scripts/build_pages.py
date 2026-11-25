@@ -475,9 +475,9 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
+    wip(117, "Vale for documents", "A delivery can be a document: an RFC, a design doc, a guide. A mode runs your own Vale styles on it, with the Vale release pinned and every style file bound, so editing a rule makes earlier checks stale. Errors block by default and the rest is advice. A missing or different Vale, a config that matches nothing, or a report Writfold cannot read is <code>unknown</code>, never a pass. Built and tested against a stand-in; the test against the real Vale comes next."),
+    wip(131, "Proved meaning of a Vale run", "When a Vale run counts, and which alerts block, is a kernel proved in Lean, with nine mutants the proofs must catch.", built=True),
     wip(100, "The strictness lint as a gate step", "The pinned tauten lint runs in the quality gate as a ratchet: no new error-level finding."),
-    wip(123, "Session start uses the packet", "The context injected at session start says when a required part was cut, with the same proved selection as <code>resume --packet</code>."),
-    wip(111, "Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one, from the receipts it already has."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
@@ -538,7 +538,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Candidates for v0.6.0-dev.21</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.21: Vale for documents</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
