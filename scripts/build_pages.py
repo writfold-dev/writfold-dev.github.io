@@ -16,8 +16,8 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.20"
-RELEASED = "25 November 2026"
+VERSION = "v0.6.0-dev.26"
+RELEASED = "27 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
 ALT = ("The folded-W Writfold mark on navy with the headline: Deterministic agent work that resumes where it stopped. "
@@ -425,6 +425,10 @@ TODAY = "".join([
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, with the records the branch, the run&rsquo;s task and the repository name; checkpoint drafts, and two skills"),
+    row(GUIDE + "agents.md", "Agent profiles and bound reports", "Tool, skill and agent profiles as files; <code>agent prepare</code> packages a worker&rsquo;s task, and its report counts only when bound to that invocation. A research scope keeps its manifest and generates review units covered by those reports"),
+    row(GUIDE + "receiver.md", "Receiving work", "A pre-receive hook that runs your policy&rsquo;s gates on a push and lands it only when <code>handoff check</code> accepts. A Claude Code adapter runs a prepared package and delivers the report"),
+    row(GUIDE + "delivery-modes.md#documents-and-vale", "Documents and Vale", "A delivery can be a document checked with your own Vale styles, the release pinned and every style file bound; a missing Vale or a config that matches nothing is <code>unknown</code>, never a pass"),
+    row(GUIDE + "validation.md", "Fork clones", "A citation is judged at the remote that names the cited repository, chosen by a proved rule; a clone that cannot say which reads <code>unverifiable</code>, never <code>gone</code>"),
     row(GUIDE + "watch.md", "<code>writfold watch</code>", "A read-only terminal view of the run&rsquo;s plan, gates and guard rules, and of the project&rsquo;s decisions, tracker and stale citations"),
 ])
 def step(title, text, chip):
@@ -458,11 +462,17 @@ ROAD = "".join([
     step("An optional Plyrune check", "An external checker as an ordinary gate, through a small wrapper; nothing needs Plyrune unless you configure it. Exercised on stand-in reports: Plyrune is unreleased, and checking report fields waits for the agreed profile.", "Done"),
     step("The handover packet", "<code>resume --packet</code>: required rows first, cut to a budget, complete only when nothing required was cut. Proved in Lean.", "Done"),
     step("Prose rules for drafts", "Phrase and pattern rules kept as data in the repository; advice is shown and recorded and never decides, a blocking match fails, and an empty rule set is never a pass. A script check&rsquo;s findings are kept as advice when it passes. Proved in Lean.", "Done"),
+    step("Documents and Vale", "A delivery mode runs your own Vale styles on a document, pinned and bound, tested against the real Vale. Proved in Lean.", "Done"),
+    step("Agent profiles and bound reports", "Profiles as files, packaged worker tasks, reports that count only for the invocation they answer, research scopes with generated review units, a Claude Code adapter and a receiver hook. Proved in Lean.", "Done"),
+    step("Fork clones judged at the cited repository", "Which commit a citation is judged at is a proved rule, not <code>origin</code>; a clone that cannot say is <code>unverifiable</code>. Proved in Lean.", "Done"),
+    step("The calculus in Lean", "The words of a judgment and the rule that &ldquo;complete&rdquo; needs the whole universe, stated once in Lean; next, every kernel shown to implement them.", "Done"),
+    step("Every kernel linked to the calculus", "Each proved function shown to implement an operation of the calculus, with a gate step that refuses an unlinked kernel.", "Planned"),
+    step("Declared repositories and partial clones", "A knowledge base names each cited repository&rsquo;s URL and branch; blobless clones decided by blob identity, offline.", "Planned"),
+    step("A guard any harness can ask", "<code>kb guard check</code> for any agent harness, with a declared posture for what an unreadable rule means.", "Planned"),
     step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
     step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
     step("Comparing loop rounds", "Say whether a round checked the same thing with the same result as the last one.", "Planned"),
-    step("External prose linters", "A recipe that runs a pinned linter such as Vale on a draft and keeps its report with the check.", "Planned"),
     step("Citations as links", "Posted text with each citation rendered as a pinned link, instead of removed.", "Planned"),
     step("Finding records by what people call them", "Acronyms, kind words and typos in the body.", "Planned"),
     step("Links from commits and trackers, and <code>--at</code>", "Links read from commit trailers and tracker references, and answers as of a given commit.", "Planned"),
@@ -475,13 +485,15 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(117, "Vale for documents", "A delivery can be a document: an RFC, a design doc, a guide. A mode runs your own Vale styles on it, with the Vale release pinned and every style file bound, so editing a rule makes earlier checks stale. Errors block by default and the rest is advice. A missing or different Vale, a config that matches nothing, or a report Writfold cannot read is <code>unknown</code>, never a pass. Built and tested against a stand-in; the test against the real Vale comes next."),
-    wip(131, "Proved meaning of a Vale run", "When a Vale run counts, and which alerts block, is a kernel proved in Lean, with nine mutants the proofs must catch.", built=True),
-    wip(100, "The strictness lint as a gate step", "The pinned tauten lint runs in the quality gate as a ratchet: no new error-level finding."),
+    wip(206, "Kernels linked to the calculus", "Each proved function is shown to implement an operation of the calculus in Lean, and a gate step refuses a kernel that is neither linked nor declared out."),
+    wip(207, "Evidence and sites in the calculus", "Evidence classes, policy and the sites that decide pass, ask or deny, stated once in Lean."),
+    wip(208, "Referents in the calculus", "What a citation is judged against, as a calculus operation that the fork rule implements."),
+    wip(181, "A handover that counts every file", "<code>resume --packet</code> reads <code>unknown</code>, never complete, while a file in the run was not read."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
+    ("27 Nov 2026", f'{rel(VERSION)}: fork clones and a calculus in Lean. A clone whose <code>origin</code> is your fork is now judged at the remote that names the cited repository, so live evidence no longer reads <code>gone</code>; a clone that cannot say which reads <code>unverifiable</code>, and <code>kb repos</code> shows the remote it judged. The rule is proved in Lean, as is the calculus it rests on. Also in this preview, built since v0.6.0-dev.20: documents checked with your own Vale styles, agent profiles whose reports count only for the task they answer, research scopes with generated review units, a Claude Code adapter and a receiver hook.'),
     ("25 Nov 2026", f'{rel(VERSION)}: prose rules for delivery drafts. A mode can check a draft against your own phrase and pattern rules, kept as data beside the deny lists. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back, a blocking match fails, and editing a rule makes earlier checks stale. Code, inline code and URLs are skipped. A script check&rsquo;s findings are now kept when it passes, so an external linter can give advice. The rules count matches; they do not judge tone or truth. The decision is proved in Lean.'),
     ("24 Nov 2026", f'{rel("v0.6.0-dev.19")}: work that survives a new session. <code>resume --packet</code> gives a fresh session the run, its plan step, what is still owed and its drafts first, cut to a token budget, and reads <code>unknown</code> when something required did not fit. A gate can keep its checker&rsquo;s own report with the receipt (<code>retain</code>); a missing or edited report never passes, on any clone. An optional recipe runs a Plyrune check as an ordinary gate, exercised on stand-in reports. Receipts from the tools removed on 21 November are no longer read. The new decisions are proved in Lean.'),
     ("23 Nov 2026", f'{rel("v0.6.0-dev.18")}: the run list says what it cannot list. A directory under <code>runs/</code> without a manifest now makes <code>kb runs</code> read partial and is named, a manifest outside <code>runs/&lt;id&gt;/</code> is named as not a run, and a run in a state other than open or closed is flagged; <code>--open</code> still lists it, leaving out only closed runs. Both rules are proved in Lean.'),
@@ -521,7 +533,7 @@ FAQ = "".join([
     faq("Does Writfold run or schedule my agent?", "No. It records the plan and what met each gate. The agent reads the current step, does the work its own way and asks to advance. Writfold runs no model and posts nothing."),
     faq("Can an agent skip a gate or a step?", "Yes, and it shows. A gate never run shows as open; a skipped step shows as skipped, with a reason and a name. Your policy can narrow this: a gate can refuse a waiver, and a required step can refuse a skip. A guard rule you add can deny a command such as <code>git commit</code> until the gates are met. It is a guard, not a lock: it only sees the commands Claude Code shows it."),
     faq("Is it formally verified?", f'In part. The decisions about plans, gates, checklists, delivery drafts, guard rules, your policy, which run is current for a session, how a store&rsquo;s citations are judged and whether a checklist item&rsquo;s evidence answers it and still holds, such as whether a step may be recorded as done and whether a receipt is still about the present bytes, are proved in Lean for every input, against the Rust that ships. The code that reads files into those decisions is tested, not proved. {guide("assurance", "The assurance guide")} has the details and the limits.'),
-    faq("Other harnesses?", "The CLI works wherever an agent has a shell. The session-start brief and the guard rules come with the Claude Code plugin."),
+    faq("Other harnesses?", "The CLI works wherever an agent has a shell, and a receiver hook checks a push whatever produced it. The session-start brief and the guard rules come with the Claude Code plugin; a guard check any harness can call is planned."),
     faq("Is the source available?", 'Yes: <a href="https://github.com/writfold-dev/writfold">Writfold</a> is public, and this website is under the MIT license.'),
 ])
 status = f'''  <main id="main" class="wrap" tabindex="-1">
@@ -538,7 +550,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.21: Vale for documents</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.27: the calculus, linked</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
