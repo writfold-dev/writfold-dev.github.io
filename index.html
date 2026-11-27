@@ -44,7 +44,7 @@
       </div>
       <div class="hero-install">
         <div class="copy-line"><code aria-label="Install command"><span class="syntax-prompt">$ </span>curl -fsSL https://writfold.dev/install.sh | sh</code><button type="button" class="copy" data-copy="curl -fsSL https://writfold.dev/install.sh | sh" hidden>Copy</button></div>
-        <p class="fine-print">Prints its plan first; asks before touching <code>~/.claude</code>. <a href="#try">What it does <span aria-hidden="true">→</span></a></p>
+        <p class="fine-print">Prints its plan first; asks before touching Claude Code&rsquo;s configuration directory. <a href="#try">What it does <span aria-hidden="true">→</span></a></p>
       </div>
       <p class="maturity"><span class="badge badge-today">Preview</span> <span><a href="https://github.com/writfold-dev/writfold/releases/tag/v0.6.0-dev.20">v0.6.0-dev.20</a>, 25 November 2026. Linux x86_64 or WSL2. <a href="/how.html">How it works</a> · <a href="/status.html">Status</a></span></p>
     </section>
@@ -131,7 +131,7 @@
         <li>downloads <code>writfold-x86_64-linux-musl</code> and its <code>.sha256</code> from the GitHub release into a temporary directory;</li>
         <li>checks the SHA-256 before installing anything;</li>
         <li>writes one file, <code>~/.local/bin/writfold</code>;</li>
-        <li>asks before adding the Claude Code plugin. That step runs the <code>claude</code> CLI, which writes under <code>~/.claude</code>. With no terminal to ask on, it is skipped and the two commands are printed.</li>
+        <li>asks before adding the Claude Code plugin. That step runs the <code>claude</code> CLI, which writes under Claude Code&rsquo;s configuration directory (<code>$CLAUDE_CONFIG_DIR</code>, else <code>~/.claude</code>); when <code>CLAUDE_CONFIG_DIR</code> is set it runs only with <code>--plugin</code>. With no terminal to ask on, it is skipped and the two commands are printed.</li>
       </ul>
       <p>It does not use sudo and does not edit your shell startup files. <a href="/install.sh">Read the script</a>, or see the plan without installing:</p>
       <div class="copy-line"><code aria-label="Dry-run command"><span class="syntax-prompt">$ </span>curl -fsSL https://writfold.dev/install.sh | sh -s -- --dry-run</code><button type="button" class="copy" data-copy="curl -fsSL https://writfold.dev/install.sh | sh -s -- --dry-run" hidden>Copy</button></div>

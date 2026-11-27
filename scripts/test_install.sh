@@ -5,6 +5,11 @@
 # Nothing here touches the real ~/.claude or ~/.local/bin.
 #
 #   bash scripts/test_install.sh            # all shells found among: dash bash busybox
+#
+# Checked by hand on 27 November 2026 with Claude Code 2.1.332 (#185):
+# `claude plugin marketplace add` and `claude plugin install` with
+# CLAUDE_CONFIG_DIR set write only under that directory (plugins/,
+# settings.json, .claude.json, backups/); ~/.claude was not touched.
 set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -189,6 +194,16 @@ suite() {
     fresh; run --version 1.2.3
     check "missing release: non-zero exit" [ "$RC" != 0 ]
     check "missing release: nothing installed" [ ! -e "$PREFIX" ]
+
+    # The plugin directory and where it came from (#185).
+    fresh; run --dry-run
+    check "plan: default plugin dir and its source" out_has "/.claude (the default; CLAUDE_CONFIG_DIR is not set)"
+    fresh; EXTRA_ENV=(CLAUDE_CONFIG_DIR=/opt/claude-x); run --dry-run
+    check "plan: CLAUDE_CONFIG_DIR named with its source" out_has "/opt/claude-x (from CLAUDE_CONFIG_DIR)"
+    check "plan: CLAUDE_CONFIG_DIR skips the plugin step" out_has "skipped, because CLAUDE_CONFIG_DIR is set"
+    fresh; EXTRA_ENV=(CLAUDE_CONFIG_DIR=/opt/claude-x); run --dry-run --plugin
+    check "plan: --plugin still runs it under CLAUDE_CONFIG_DIR" out_has "will run, because --plugin was given"
+    EXTRA_ENV=()
 
     # --dry-run: prints the plan, fetches nothing, writes nothing.
     fresh; before="$(requests)"; run --dry-run --plugin

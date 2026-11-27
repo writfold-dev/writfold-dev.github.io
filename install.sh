@@ -11,8 +11,10 @@
 #   3. writes the binary to ~/.local/bin/writfold (temporary file in that
 #      directory, then an atomic rename);
 #   4. optionally registers the Claude Code plugin by running the `claude`
-#      CLI, which writes into ~/.claude. This step is never run unless you
-#      answer "y" on the terminal or pass --plugin.
+#      CLI, which writes into Claude Code's configuration directory
+#      ($CLAUDE_CONFIG_DIR, else ~/.claude). This step is never run unless
+#      you answer "y" on the terminal or pass --plugin; when CLAUDE_CONFIG_DIR
+#      is set it is not even offered, only run with --plugin.
 #
 # It never uses sudo and never edits shell startup files.
 # Run with --help for the options. Linux x86_64 (including WSL2) only.
@@ -89,7 +91,9 @@ Environment:
                           (a mirror, or a local server for testing).
 
 With no terminal to ask on (CI, a pipe with no tty), the binary is installed
-and the plugin step is skipped unless --plugin is given.
+and the plugin step is skipped unless --plugin is given. The plugin step makes
+Claude Code write under its configuration directory ($CLAUDE_CONFIG_DIR, else
+~/.claude); when CLAUDE_CONFIG_DIR is set, the step runs only with --plugin.
 EOF
 }
 
@@ -265,7 +269,13 @@ main() {
         [ -n "$old_version" ] || old_version="an existing file that does not report a version"
     fi
 
-    claude_dir="${CLAUDE_CONFIG_DIR:-${HOME:-}/.claude}"
+    if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+        claude_dir="$CLAUDE_CONFIG_DIR"
+        claude_from="from CLAUDE_CONFIG_DIR"
+    else
+        claude_dir="${HOME:-}/.claude"
+        claude_from="the default; CLAUDE_CONFIG_DIR is not set"
+    fi
     claude_path="$(command -v claude 2>/dev/null || true)"
     tty=no
     if have_tty; then
@@ -278,6 +288,9 @@ main() {
         plugin_action=skip; plugin_why="the claude CLI is not on PATH"
     elif [ "$plugin" = yes ]; then
         plugin_action=run; plugin_why="--plugin was given"
+    elif [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+        plugin_action=skip
+        plugin_why="CLAUDE_CONFIG_DIR is set, so that directory is one something else may manage; add --plugin to run it there anyway"
     elif [ "$assume_yes" = yes ]; then
         plugin_action=skip; plugin_why="--yes installs the binary only; add --plugin to include it"
     elif [ "$tty" = yes ]; then
@@ -329,7 +342,8 @@ main() {
     row "" "$MARKETPLACE_CMD"
     row "" "$PLUGIN_CMD"
     row "" "these make Claude Code write its marketplace and plugin records under"
-    row "" "$claude_dir; this installer writes nothing there itself"
+    row "" "$claude_dir ($claude_from);"
+    row "" "this installer writes nothing there itself"
     row "untouched" "shell startup files, PATH, and every path not listed above. No sudo."
     say ""
 
@@ -428,7 +442,7 @@ main() {
     if [ "$plugin_action" = ask ]; then
         detail "This would run, with $claude_path:"
         print_plugin_commands
-        detail "Claude Code then writes its marketplace and plugin records under $claude_dir."
+        detail "Claude Code then writes its marketplace and plugin records under $claude_dir ($claude_from)."
         if ask "      Run these two commands now? [y/N]" n; then
             plugin_action=run
         else
