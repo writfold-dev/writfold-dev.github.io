@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.26"
+VERSION = "v0.6.0-dev.28"
 RELEASED = "27 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -466,8 +466,10 @@ ROAD = "".join([
     step("Agent profiles and bound reports", "Profiles as files, packaged worker tasks, reports that count only for the invocation they answer, research scopes with generated review units, a Claude Code adapter and a receiver hook. Proved in Lean.", "Done"),
     step("Fork clones judged at the cited repository", "Which commit a citation is judged at is a proved rule, not <code>origin</code>; a clone that cannot say is <code>unverifiable</code>. Proved in Lean.", "Done"),
     step("The calculus in Lean", "The words of a judgment and the rule that &ldquo;complete&rdquo; needs the whole universe, stated once in Lean; next, every kernel shown to implement them.", "Done"),
-    step("Every kernel linked to the calculus", "Each proved function shown to implement an operation of the calculus, with a gate step that refuses an unlinked kernel.", "Planned"),
-    step("Declared repositories and partial clones", "A knowledge base names each cited repository&rsquo;s URL and branch; blobless clones decided by blob identity, offline.", "Planned"),
+    step("The laws, linked", "Each law of the calculus listed on one generated page; kernels shown to implement them, and a gate step that refuses an unlinked new kernel. The rest of the kernels are being linked.", "Done"),
+    step("Every file of a run accounted for", "<code>resume</code> and the handover packet count the files no Writfold reader takes and never say complete while any remain.", "Done"),
+    step("Declared repositories and partial clones", "A knowledge base names each cited repository&rsquo;s URL and branch, so a fork never stands in for it; blobless clones are decided by blob identity, offline. Proved in Lean.", "Done"),
+    step("Every kernel linked to the calculus", "The remaining proved functions shown to implement the calculus, with nothing left on the backlog.", "Planned"),
     step("A guard any harness can ask", "<code>kb guard check</code> for any agent harness, with a declared posture for what an unreadable rule means.", "Planned"),
     step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
@@ -485,14 +487,14 @@ def wip(n, title, text, built=False):
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
 WIP = "".join([
-    wip(206, "Kernels linked to the calculus", "Each proved function is shown to implement an operation of the calculus in Lean, and a gate step refuses a kernel that is neither linked nor declared out."),
-    wip(207, "Evidence and sites in the calculus", "Evidence classes, policy and the sites that decide pass, ask or deny, stated once in Lean."),
-    wip(208, "Referents in the calculus", "What a citation is judged against, as a calculus operation that the fork rule implements."),
-    wip(181, "A handover that counts every file", "<code>resume --packet</code> reads <code>unknown</code>, never complete, while a file in the run was not read."),
+    wip(212, "Verdict kernels linked", "The citation verdicts shown to implement the calculus, with one monotonicity law: a clone that knows more never contradicts one that knows less."),
+    wip(209, "Admission kernels linked", "Plans, gates and deliveries shown to implement the calculus&rsquo;s admission rule."),
+    wip(213, "Nothing left unlinked", "The backlog of unlinked kernels empties, and the gate refuses any remainder."),
 ])
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
+    ("27 Nov 2026", f'{rel(VERSION)}: repositories you declare, and partial clones. A knowledge base can name each cited repository&rsquo;s URL and branch in Git text, so every machine judges citations at the same line and a fork never stands in for it. Blobless clones are decided by blob identity without fetching; what needs bytes the clone lacks says so instead of guessing. <code>resume</code> counts every file of a run and never calls a handover complete while files went unread. The laws of the calculus have their own page, and the kernels are being linked to them in Lean.'),
     ("27 Nov 2026", f'{rel(VERSION)}: fork clones and a calculus in Lean. A clone whose <code>origin</code> is your fork is now judged at the remote that names the cited repository, so live evidence no longer reads <code>gone</code>; a clone that cannot say which reads <code>unverifiable</code>, and <code>kb repos</code> shows the remote it judged. The rule is proved in Lean, as is the calculus it rests on. Also in this preview, built since v0.6.0-dev.20: documents checked with your own Vale styles, agent profiles whose reports count only for the task they answer, research scopes with generated review units, a Claude Code adapter and a receiver hook.'),
     ("25 Nov 2026", f'{rel(VERSION)}: prose rules for delivery drafts. A mode can check a draft against your own phrase and pattern rules, kept as data beside the deny lists. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back, a blocking match fails, and editing a rule makes earlier checks stale. Code, inline code and URLs are skipped. A script check&rsquo;s findings are now kept when it passes, so an external linter can give advice. The rules count matches; they do not judge tone or truth. The decision is proved in Lean.'),
     ("24 Nov 2026", f'{rel("v0.6.0-dev.19")}: work that survives a new session. <code>resume --packet</code> gives a fresh session the run, its plan step, what is still owed and its drafts first, cut to a token budget, and reads <code>unknown</code> when something required did not fit. A gate can keep its checker&rsquo;s own report with the receipt (<code>retain</code>); a missing or edited report never passes, on any clone. An optional recipe runs a Plyrune check as an ordinary gate, exercised on stand-in reports. Receipts from the tools removed on 21 November are no longer read. The new decisions are proved in Lean.'),
@@ -550,7 +552,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
     <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.27: the calculus, linked</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.29: every kernel linked</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
       <ol class="workflow">{WIP}</ol>
     </section>
     <section id="next" class="section" aria-labelledby="next-title">
