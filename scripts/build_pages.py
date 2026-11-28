@@ -16,7 +16,7 @@ from term_glyphs import uncovered
 import diagrams
 
 SITE = Path(__file__).resolve().parent.parent
-VERSION = "v0.6.0-dev.30"
+VERSION = "v0.6.0-dev.31"
 RELEASED = "28 November 2026"
 RELEASES = "https://github.com/writfold-dev/writfold/releases/"
 REL = RELEASES + "tag/" + VERSION
@@ -421,7 +421,7 @@ TODAY = "".join([
     row(GUIDE + "policy.md", "Your policy", "A gate&rsquo;s <code>accept</code> says which outcomes meet it; a checklist says which items may be <code>not-applicable</code> or <code>none-found</code>; a required step can be <code>unskippable</code>. Each run pins the policy it started under and says when it moved. <code>init</code> starts a knowledge base; <code>policy</code> shows the policy"),
     row(GUIDE + "hooks.md#guard-rules", "Guard rules", "A rule denies or asks about a command or tool until the run&rsquo;s gates are met; a Stop rule can hold the end of a turn a stated number of times. <code>guard check</code> gives the same decision to any harness or wrapper, and a declared posture says what a call the guard cannot decide gets. A guard, not a lock"),
     row(GUIDE + "run-graph.md#a-delivery-as-a-steps-gate", "A draft as a step&rsquo;s gate", "A step that owes <code>deliver:&lt;mode&gt;</code> advances only once a draft of that mode is ready: every check met"),
-    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting, including prose rules you keep as data, with advice kept separate from blocking; the guard holds the posting command until the exact text is ready. Nothing is sent"),
+    row(GUIDE + "delivery-modes.md", "Delivery drafts", "<code>deliver prepare | check | status | payload | posted | withdraw</code>. PR comments, Slack summaries, commit messages and your own modes, checked before posting, including prose rules you keep as data and a check that every paragraph is cited or tagged; the guard holds the posting command until the exact text is ready, and under a policy says what an unlisted outbound call gets. Nothing is sent"),
     row(GUIDE + "errors.md", "Errors that point at the line", "Every file you write reports the file, line and column, the line itself and a suggested fix. <code>kb lint</code> checks them all, for CI"),
     row(GUIDE + "checkers.md", "External checkers", "Programs on your <code>PATH</code> that <code>kb stale</code> asks about citation kinds Git cannot check. <code>--record</code> writes their answers to tracked files for you to commit, so a clone without the checker can read them"),
     row(GUIDE + "hooks.md", "Claude Code plugin", "The brief and the plan position at session start and after compaction, with the records the branch, the run&rsquo;s task and the repository name; checkpoint drafts, and two skills"),
@@ -471,6 +471,9 @@ ROAD = "".join([
     step("Declared repositories and partial clones", "A knowledge base names each cited repository&rsquo;s URL and branch, so a fork never stands in for it; blobless clones are decided by blob identity, offline. Proved in Lean.", "Done"),
     step("Every kernel linked to the calculus", "Every proved function shown to implement a law of the calculus or declared out with a reason; both gates refuse a remainder.", "Done"),
     step("A guard any harness can ask", "<code>kb guard check</code> for any agent harness through a binding file, a declared posture for what a call the guard cannot decide gets, and a Stop rule that blocks a stated number of times. Proved in Lean.", "Done"),
+    step("A register of universal words", "Every word that claims all, none or change is listed with what it is about, what was looked at, where the rest is printed and its theorem; convention literals such as <code>origin</code> are refused outside named resolvers.", "Done"),
+    step("Outbound calls nobody listed", "Under a policy the delivery guard classifies every command and tool call: routed, local, opaque or unclassified, and an unclassified one passes, is logged, asks or is denied. Proved in Lean.", "Done"),
+    step("Claims inside text", "A minimum number of citations, and a check that every paragraph of a draft is cited or tagged as inferred or open. Proved in Lean. A reviewer&rsquo;s excuse for a paragraph that makes no claim is next.", "Done"),
     step("Pages past the work limit", "Resumable pages over a large graph answer.", "Planned"),
     step("Lessons in the handover", "An accepted lesson, scoped to a project, shown to a fresh session with its source and freshness.", "Planned"),
     step("Revising a plan mid-run", "Replace the rest of a run&rsquo;s route without dropping a required step or gate.", "Planned"),
@@ -486,15 +489,17 @@ def wip(n, title, text, built=False):
     return step(f'{title} <a href="{ISSUES}{n}">#{n}</a>', text + note, "Next")
 # Being built for the next preview. A row moves to the roadmap as Done, and to the list
 # above, only once its commit is on main with gate receipts.
-WIP = "".join([
-    wip(190, "A register of universal words", "Every word that claims all, none or change listed with what it is about, what was looked at and its theorem; convention literals refused outside named resolvers."),
-    wip(187, "Outbound calls nobody listed", "Under a policy, every command and tool call the delivery guard sees is routed, local or unclassified, and an unclassified one passes, is logged, asks or is denied."),
-    wip(189, "Claims inside text", "A minimum number of citations, and a check that every paragraph of a draft is cited or says it is inferred or open."),
-])
+WIP = ""
+IN_PROGRESS = (f'''    <section id="in-progress" class="section" aria-labelledby="in-progress-title">
+      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Being built for the next preview</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
+      <ol class="workflow">{WIP}</ol>
+    </section>
+''' if WIP else "")
 def rel(version):
     return f'Preview <a href="{RELEASES}tag/{version}">{version}</a>'
 LOG = "".join(f"<li><time>{d}</time><p>{t}</p></li>" for d, t in [
-    ("28 Nov 2026", f'{rel(VERSION)}: a guard any harness can ask. <code>kb guard check</code> gives the guard&rsquo;s decision for a call from any agent harness or wrapper, with the same reasons the Claude Code hook gives, and its exit code is the decision; a binding file says how another harness reports its calls. A declared posture says what a call the guard cannot decide gets (a broken rule file, a missing required rule, no knowledge base): it passes by default, or asks, or is denied. A Stop rule can hold the end of a turn a stated number of times. Every proved kernel is now linked to the calculus or declared out, the quality gate runs tauten, and partial clones list the blobs their verdicts still need.'),
+    ("28 Nov 2026", f'{rel(VERSION)}: outbound calls nobody listed, and claims inside text. Under an <code>unclassified</code> policy the delivery guard classifies every command and tool call, not only the posting commands it names: a call no list covers passes, is logged, asks or is denied, and a program that runs its arguments (<code>bash -c</code>, <code>eval</code>) counts as unclassified. A route can read the body from a positional file. A delivery mode can require a minimum number of citations, and <code>claims.accounted</code> requires every paragraph to be cited or tagged as inferred or open. Every universal word now has a row in a register with its theorem, and convention literals such as <code>origin</code> are refused outside named resolvers.'),
+    ("28 Nov 2026", f'{rel("v0.6.0-dev.30")}: a guard any harness can ask. <code>kb guard check</code> gives the guard&rsquo;s decision for a call from any agent harness or wrapper, with the same reasons the Claude Code hook gives, and its exit code is the decision; a binding file says how another harness reports its calls. A declared posture says what a call the guard cannot decide gets (a broken rule file, a missing required rule, no knowledge base): it passes by default, or asks, or is denied. A Stop rule can hold the end of a turn a stated number of times. Every proved kernel is now linked to the calculus or declared out, the quality gate runs tauten, and partial clones list the blobs their verdicts still need.'),
     ("27 Nov 2026", f'{rel("v0.6.0-dev.28")}: repositories you declare, and partial clones. A knowledge base can name each cited repository&rsquo;s URL and branch in Git text, so every machine judges citations at the same line and a fork never stands in for it. Blobless clones are decided by blob identity without fetching; what needs bytes the clone lacks says so instead of guessing. <code>resume</code> counts every file of a run and never calls a handover complete while files went unread. The laws of the calculus have their own page, and the kernels are being linked to them in Lean.'),
     ("27 Nov 2026", f'{rel("v0.6.0-dev.26")}: fork clones and a calculus in Lean. A clone whose <code>origin</code> is your fork is now judged at the remote that names the cited repository, so live evidence no longer reads <code>gone</code>; a clone that cannot say which reads <code>unverifiable</code>, and <code>kb repos</code> shows the remote it judged. The rule is proved in Lean, as is the calculus it rests on. Also in this preview, built since v0.6.0-dev.20: documents checked with your own Vale styles, agent profiles whose reports count only for the task they answer, research scopes with generated review units, a Claude Code adapter and a receiver hook.'),
     ("25 Nov 2026", f'{rel("v0.6.0-dev.20")}: prose rules for delivery drafts. A mode can check a draft against your own phrase and pattern rules, kept as data beside the deny lists. Each rule is advice or blocking: advice is shown and recorded and never holds the draft back, a blocking match fails, and editing a rule makes earlier checks stale. Code, inline code and URLs are skipped. A script check&rsquo;s findings are now kept when it passes, so an external linter can give advice. The rules count matches; they do not judge tone or truth. The decision is proved in Lean.'),
@@ -552,11 +557,7 @@ status = f'''  <main id="main" class="wrap" tabindex="-1">
       <div class="doc-links">{TODAY}</div>
       <p class="fine-print">Limits: one person and their agents, on local clones. Plans, policy, guard rules and external checkers are new: built and tested, with little real use behind them yet.</p>
     </section>
-    <section id="in-progress" class="section" aria-labelledby="in-progress-title">
-      <div class="section-heading"><p class="eyebrow">In progress</p><h2 id="in-progress-title">Building v0.6.0-dev.29: every kernel linked</h2><p>Not in any release yet. Each row links to its issue and moves to the roadmap as Done only once it is on <code>main</code> and gated.</p></div>
-      <ol class="workflow">{WIP}</ol>
-    </section>
-    <section id="next" class="section" aria-labelledby="next-title">
+{IN_PROGRESS}    <section id="next" class="section" aria-labelledby="next-title">
       <div class="section-heading"><p class="eyebrow">02 / Roadmap</p><h2 id="next-title">Done, planned, and not planned</h2></div>
       <ol class="workflow">{ROAD}</ol>
     </section>
